@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+ruby "2.3.1"
 
 gem 'rails', '4.2.5.1'
 
@@ -27,3 +27,6 @@ gem 'active_model_serializers', '~> 0.10.0'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+
+# Heroku gems
+gem 'rails_12factor', group: :production
