@@ -16,6 +16,3 @@
 !/log/.keep
 /tmp
 
-# Ignore broadbandmap data
-/public/Read-Me-CAI-June-2014.txt
-/public/All-NBM-CAI-June-2014.csv
