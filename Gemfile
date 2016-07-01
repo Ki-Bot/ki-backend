@@ -9,6 +9,8 @@ gem 'jbuilder'
 gem 'pg'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'jwt'
+gem 'jbuilder'
+gem 'declarative_authorization', github: 'zeiv/declarative_authorization'
 
 # Algoila search
 gem "algoliasearch-rails"

@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/zeiv/declarative_authorization.git
+  revision: 2f82d16d1ffeed26d5c0e8384e96036b050001bd
+  specs:
+    declarative_authorization (1.0.0.pre)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -137,8 +143,9 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
   algoliasearch-rails
-  dotenv-rails
   annotate
+  declarative_authorization!
+  dotenv-rails
   jbuilder
   jwt
   pg

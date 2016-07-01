@@ -10,6 +10,7 @@
 #  oauth_expires_at :datetime
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  roles            :string           default([]), is an Array
 #
 
 require 'test_helper'
