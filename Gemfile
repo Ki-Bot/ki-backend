@@ -30,3 +30,8 @@ gem 'active_model_serializers', '~> 0.10.0'
 
 # Heroku gems
 gem 'rails_12factor', group: :production
+
+# Algoila search
+gem "algoliasearch-rails"
+
+gem 'dotenv-rails', :groups => [:development, :test]
