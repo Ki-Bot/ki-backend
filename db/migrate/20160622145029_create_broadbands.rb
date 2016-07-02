@@ -1,6 +1,6 @@
 class CreateBroadbands < ActiveRecord::Migration
   def change
-    create_table :broadbands, id: false do |t|
+    create_table :broadbands do |t|
       t.string :anchorname
       t.string :address
       t.string :bldgnbr

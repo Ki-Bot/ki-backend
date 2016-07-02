@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20160624163441) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "broadbands", id: false, force: :cascade do |t|
+  create_table "broadbands", force: :cascade do |t|
     t.string   "anchorname"
     t.string   "address"
     t.string   "bldgnbr"
