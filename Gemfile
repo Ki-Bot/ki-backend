@@ -11,6 +11,7 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem 'jwt'
 gem 'jbuilder'
 gem 'declarative_authorization', github: 'zeiv/declarative_authorization'
+gem 'rack-cors', :require => 'rack/cors'
 
 # Algoila search
 gem "algoliasearch-rails"
