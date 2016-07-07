@@ -24,12 +24,12 @@ class Broadband < ActiveRecord::Base
   include AlgoliaSearch
 
   algoliasearch do
-    attribute :address, :city, :state_code, :id
+    attribute :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :id
     attribute :_geoloc do
       { lat: self.latitude, lng: self.longitude }
     end
 
 
-    attributesToIndex ['address', 'city', 'state_code']
+    attributesToIndex ['address', 'city', 'state_code', 'anchorname']
   end
 end
