@@ -45,7 +45,7 @@ namespace :broadband_data do
   end
 
   desc "Impord ONLY for IL state, data from broadband file 'IL-TEST-NBM-CAI-June-2014.csv' --- NOT TO USE IN PRODUCTION"
-  task TESTimport: :environment do
+  task IL_TESTimport: :environment do
     keepers = %w(anchorname address bldgnbr predir streetname streettype suffdir city state_code zip5 latitude longitude publicwifi url)
 
     puts '#######'
