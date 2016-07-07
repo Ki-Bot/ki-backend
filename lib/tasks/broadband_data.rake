@@ -10,11 +10,13 @@ namespace :broadband_data do
     puts '#######'
     puts 'This action will take some time to execute. Please wait ... '
 
-    csv_text = File.read(File.join(Rails.root, 'public', 'All-NBM-CAI-June-2014.csv'))
-    csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
-    csv.each do |row|
-      r_hash = row.to_hash.keep_if {|k,_| keepers.include? k }
-      Broadband.create!(r_hash)
+    Broadband.without_auto_index do
+      csv_text = File.read(File.join(Rails.root, 'public', 'All-NBM-CAI-June-2014.csv'))
+      csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
+      csv.each do |row|
+        r_hash = row.to_hash.keep_if {|k,_| keepers.include? k }
+        Broadband.create!(r_hash)
+      end
     end
 
     puts '#######'
@@ -32,11 +34,13 @@ namespace :broadband_data do
     puts '#######'
     puts 'This action will take some time to execute. Please wait ... '
 
-    csv_text = File.read(File.join(Rails.root, 'public', 'TEST-NBM-CAI-June-2014.csv'))
-    csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
-    csv.each do |row|
-      r_hash = row.to_hash.keep_if {|k,_| keepers.include? k }
-      Broadband.create!(r_hash)
+    Broadband.without_auto_index do
+      csv_text = File.read(File.join(Rails.root, 'public', 'TEST-NBM-CAI-June-2014.csv'))
+      csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
+      csv.each do |row|
+        r_hash = row.to_hash.keep_if {|k,_| keepers.include? k }
+        Broadband.create!(r_hash)
+      end
     end
 
     puts '#######'
@@ -54,11 +58,13 @@ namespace :broadband_data do
     puts '#######'
     puts 'This action will take some time to execute. Please wait ... '
 
-    csv_text = File.read(File.join(Rails.root, 'public', 'IL-TEST-NBM-CAI-June-2014.csv'))
-    csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
-    csv.each do |row|
-      r_hash = row.to_hash.keep_if {|k,_| keepers.include? k }
-      Broadband.create!(r_hash)
+    Broadband.without_auto_index do
+      csv_text = File.read(File.join(Rails.root, 'public', 'IL-TEST-NBM-CAI-June-2014.csv'))
+      csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
+      csv.each do |row|
+        r_hash = row.to_hash.keep_if {|k,_| keepers.include? k }
+        Broadband.create!(r_hash)
+      end
     end
 
     puts '#######'
