@@ -4,7 +4,6 @@ ruby "2.2.4"
 gem 'puma'
 gem 'rails', '4.2.5.1'
 gem 'rails-api'
-gem 'jbuilder'
 
 gem 'pg'
 gem 'active_model_serializers', '~> 0.10.0'
