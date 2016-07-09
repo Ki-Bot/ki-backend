@@ -23,6 +23,8 @@
 class Broadband < ActiveRecord::Base
   include AlgoliaSearch
 
+  has_many :points
+
   algoliasearch do
     attribute :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :id
     attribute :_geoloc do

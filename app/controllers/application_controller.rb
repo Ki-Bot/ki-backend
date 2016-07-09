@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   include Authorization::AuthorizationInController
 
   attr_reader :current_user
-  before_filter :set_headers
+  # before_filter :set_headers
 
   protected #######################################
 

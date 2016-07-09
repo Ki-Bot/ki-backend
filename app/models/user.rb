@@ -15,6 +15,9 @@
 
 class User < ActiveRecord::Base
 
+  has_many :points
+  has_many :favorites, through: :points, source: :broadband
+
   before_save :set_default_role
 
   validates :provider, presence: true
@@ -24,6 +27,21 @@ class User < ActiveRecord::Base
 
   def role_symbols
     self[:roles].map(&:to_sym)
+  end
+
+  def set_favorite_point(point)
+    unless self.favorites.include? point
+      self.favorites << point
+    end
+  end
+
+  def has_favorite?(point)
+    return true if self.favorites.include? point
+    return false
+  end
+
+  def remove_favorite_point(point)
+    self.favorites.delete(point)
   end
 
   private ####################

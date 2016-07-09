@@ -9,7 +9,7 @@ end
 authorization do
 
   role :super_user do
-    has_permission_on :users,  to: [:rest]
+    has_permission_on :users, :points, to: [:rest]
   end
 
 end
