@@ -15,7 +15,12 @@
 /log/*
 !/log/.keep
 /tmp
+
 # Ignore app secrets
 .env
 .env.development
 .idea/
+
+# Ignore rvm versions
+.ruby-gemset
+.ruby-version
