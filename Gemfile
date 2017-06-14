@@ -15,6 +15,8 @@ gem 'rack-cors', :require => 'rack/cors'
 # Algoila search
 gem "algoliasearch-rails"
 
+gem "devise"
+
 group :development do
   gem 'annotate'
   gem 'spring'

@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
 
-  post 'auth' => "auth#authenticate_user"
+  devise_for :users
 
   resources :users, param: :uid do
-    resources :locations, only: :index, controller: 'points' do
-      match 'favorite', to: 'points#create', via: [:post]
-      match 'favorite', to: 'points#destroy', via: [:delete]
+    resources :locations, only: :index, controller: :points do
+      post 'favorite', to: 'points#create'
+      delete 'favorite', to: 'points#destroy'
     end
   end
 end
