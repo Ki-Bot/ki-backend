@@ -5,7 +5,7 @@ gem 'puma'
 gem 'rails', '4.2.5.1'
 gem 'rails-api'
 
-gem 'pg'
+gem 'pg', '~> 0.20.0'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'jwt'
 gem 'jbuilder'
@@ -14,6 +14,12 @@ gem 'rack-cors', :require => 'rack/cors'
 
 # Algoila search
 gem "algoliasearch-rails"
+
+# Active Admin
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'activeadmin'
+gem 'devise'
 
 group :development do
   gem 'annotate'

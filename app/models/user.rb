@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable#, :validatable
 
   has_many :points
   has_many :favorites, through: :points, source: :broadband
@@ -52,7 +52,8 @@ class User < ActiveRecord::Base
   private ####################
 
   def set_default_role
-    self.roles = (self.roles << Role::DEFAULT_ROLE).uniq
+    self.roles = roles.delete_if(&:empty?)
+    self.roles = (roles << Role::DEFAULT_ROLE).uniq
   end
 
 end

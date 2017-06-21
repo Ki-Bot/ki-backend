@@ -1,4 +1,4 @@
-class PointsController < ApplicationController
+class PointsController < ApiController
   before_action :authenticate_request!
   before_action :find_user
   before_action :find_point, only: [:create, :destroy]

@@ -1,4 +1,4 @@
-class AuthController < ApplicationController
+class AuthController < ApiController
 
   def authenticate_user
     user = User.find_by(provider: params[:provider], uid: params[:uid], name: params[:name])

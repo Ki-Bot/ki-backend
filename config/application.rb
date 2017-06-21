@@ -33,5 +33,12 @@ module Ki
                  :max_age => 0
       end
     end
+
+    #Added for Active Admin
+    config.middleware.use ActionDispatch::Flash
+
+    #Added for 
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
   end
 end

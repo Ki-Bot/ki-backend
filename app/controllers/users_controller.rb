@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class UsersController < ApiController
   before_action :authenticate_request!
   before_action :find_user, only: [:show]
   filter_access_to :all
