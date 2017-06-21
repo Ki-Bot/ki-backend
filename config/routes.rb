@@ -8,16 +8,18 @@ Rails.application.routes.draw do
   namespace :api, defaults: {fromat: :json} do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
 
-      scope module: :users do
+      namespace :users do
 
-        post 'users/password', to: 'passwords#create'
-        match 'users/password', to: 'passwords#update', via: [:patch, :put]
+        post 'password', to: 'passwords#create'
+        match 'password', to: 'passwords#update', via: [:patch, :put]
 
         # match 'users', to: 'registrations#update', via: [:patch, :put]
 
-        post 'users/login', to: 'sessions#create'
-        delete 'users/logout', to: 'sessions#destroy'
+        post 'login', to: 'sessions#create'
+        delete 'logout', to: 'sessions#destroy'
       end
+
+      get 'users/me', to: 'users#me'
 
     end
   end
