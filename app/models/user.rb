@@ -17,16 +17,16 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable#, :validatable
+         :recoverable, :rememberable, :trackable, :validatable
 
   has_many :points
   has_many :favorites, through: :points, source: :broadband
 
   before_save :set_default_role
 
-  validates :provider, presence: true
-  validates :uid, presence: true
-  validates :name, presence: true
+  # validates :provider, presence: true
+  # validates :uid, presence: true
+  # validates :name, presence: true
 
 
   def role_symbols

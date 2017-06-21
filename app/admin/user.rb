@@ -14,15 +14,18 @@ ActiveAdmin.register User do
 
   menu priority: 3
 
-  permit_params :provider, :uid, :name, roles: []
+  # permit_params :provider, :uid, :name, roles: []
 
   index do
     id_column
 
-    column :provider
-    column :uid
     column :name
+    column :email
     column :roles
+    # column :provider
+    # column :uid
+    # column :name
+    # column :roles
     # column :oauth_expires_at
     # column :oauth_token
     # column :created_at
@@ -32,16 +35,15 @@ ActiveAdmin.register User do
   end
 
   filter :id
-  filter :provider
-  filter :uid
   filter :name
+  filter :email
   filter :roles, as: :check_boxes, collection: [Role::SUPER_USER_ROLE, Role::USER_ROLE]
 
   form do |f|
     f.inputs 'New User' do
-      f.input :provider
-      f.input :uid
-      f.input :name
+      f.input :email
+      f.input :password
+      f.input :password_confirmation
       f.input :roles, as: :check_boxes, collection: [Role::SUPER_USER_ROLE]
       # f.collection_select :roles, [Role::SUPER_USER_ROLE, Role::USER_ROLE],:id, :name, include_blank: true
     end
@@ -58,7 +60,8 @@ ActiveAdmin.register User do
     end
 
     def update
-      update! do |format|
+      @user = User.find(params[:id])
+      if @user.update(user_params)
         return render json: { url: admin_users_path }
       end
     end
@@ -71,7 +74,7 @@ ActiveAdmin.register User do
 
     private
     def user_params
-      params.require(:user).permit(:provider, :uid, :name, roles: [])
+      params.require(:user).permit(:email, :password, :password_confirmation, roles: [])
     end
   end
 end
