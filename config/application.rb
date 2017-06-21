@@ -20,6 +20,7 @@ module KIProjectApi
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
       g.stylesheets = false
       g.javascripts = false
+      g.helper = false
     end
 
     config.autoload_paths += %W(\#{config.root}/lib)
