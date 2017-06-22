@@ -6,10 +6,6 @@ class Api::ApplicationController < ActionController::API
 
   private
 
-  def user_json(resource)
-    resource.as_json(except: :auth_token)
-  end
-
   def render_resource_errors(resource)
     render json: {errors: resource.errors.full_messages}, status: :unprocessable_entity if resource.errors.any?
   end
