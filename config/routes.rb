@@ -1,7 +1,7 @@
 require 'api_constraints'
 
 Rails.application.routes.draw do
-  root to: "home#index"
+  apipie
 
   devise_for :users
 
