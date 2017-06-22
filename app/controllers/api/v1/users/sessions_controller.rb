@@ -1,6 +1,19 @@
 class Api::V1::Users::SessionsController < Api::ApplicationController
   skip_before_action :authenticate_with_token, only: [:create]
 
+  resource_description do
+    resource_id 'authentication'
+    short 'Authentication endpoints'
+    description 'Endpoints used for user token authentication'
+  end
+
+  api! 'Log in'
+  param :user, Hash, required: true do
+    param :email, String, required: true
+    param :password, String, required: true
+  end
+  formats [:json]
+  # POST /resource
   def create
     user_password = params[:user][:password]
     user_email = params[:user][:email]
@@ -16,6 +29,10 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     end
   end
 
+  api! 'Log out'
+  error :code => 401, desc: 'Unauthorized'
+  formats [:json]
+  # DELETE /resource
   def destroy
     user = current_user
     user.generate_authentication_token!

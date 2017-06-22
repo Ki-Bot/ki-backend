@@ -1,15 +1,21 @@
 class Api::V1::Users::RegistrationsController < Api::ApplicationController
   skip_before_action :authenticate_with_token, only: :create
 
+  resource_description do
+    name 'Registration'
+    short 'Registration endpoints'
+    description 'Endpoints used for user registration'
+  end
+
   def_param_group :user do
     param :name, String, 'Name of the user'
-    param :password, String, 'Password', required: true
-    param :password_confirmation, String, 'Password confirmation', required: true
+    param :password, String, required: true
+    param :password_confirmation, String, required: true
   end
 
   def_param_group :user_signup do
     param :user, Hash, required: true, action_aware: true do
-      param :email, String, 'Users email address', required: true
+      param :email, String, required: true
       param_group :user
     end
   end
@@ -20,8 +26,9 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
     end
   end
 
-  api!
+  api! 'Sign up'
   param_group :user_signup
+  formats [:json]
   # POST /resource
   def create
     user = User.create sign_up_params
@@ -31,11 +38,11 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
     end
   end
 
-  api :PATCH, '/users'
-  api :PUT, '/users'
-  error :code => 401, desc: 'Unauthorized'
+  api :PATCH, '/users', 'Update currently authenticated user'
+  api :PUT, '/users', 'Update currently authenticated user'
+  error code: 401, desc: 'Unauthorized'
   param_group :user_update
-  description 'Update the user'
+  formats [:json]
   # PUT /resource
   # We need to use a copy of the resource because we don't want to change
   # the current user in place.
