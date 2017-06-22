@@ -13,6 +13,10 @@ RSpec.describe Api::V1::Users::SessionsController, type: :controller do
         post :create, params: {user: credentials}
       end
 
+      it 'contains the users auth token' do
+        expect(json_response).to include :auth_token
+      end
+
       it 'returns the users record corresponding to the given credentials' do
         @user.reload
         expect(json_response[:auth_token]).to eql @user.auth_token

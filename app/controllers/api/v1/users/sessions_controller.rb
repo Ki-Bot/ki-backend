@@ -10,9 +10,9 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
       sign_in :user, user, store: false
       user.generate_authentication_token!
       user.save
-      render json: user, status: :ok
+      render json: user.to_json, status: :ok
     else
-      render json: { errors: 'Invalid email or password' }, status: :unprocessable_entity
+      render json: {errors: 'Invalid email or password'}, status: :unprocessable_entity
     end
   end
 
