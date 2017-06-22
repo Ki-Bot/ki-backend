@@ -1,5 +1,4 @@
-class Api::V1::Users::PasswordsController < ActionController::Base
-  respond_to :json
+class Api::V1::Users::PasswordsController < Api::ApplicationController
 
   # POST /resource/password
   def create
@@ -21,7 +20,7 @@ class Api::V1::Users::PasswordsController < ActionController::Base
         head 200, :location => root_path
       end
     else
-      render json: {errors: user.errors.full_messages}, status: 422
+      render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
     end
   end
 

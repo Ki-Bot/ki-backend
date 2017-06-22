@@ -17,7 +17,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(json_response).not_to include :auth_token
       end
 
-      it {is_expected.to respond_with 200}
+      it {is_expected.to respond_with :ok}
     end
 
     context 'user is not authenticated' do
@@ -25,7 +25,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         get :me
       end
 
-      it {is_expected.to respond_with 401}
+      it {is_expected.to respond_with :unauthorized}
     end
   end
 
