@@ -1,4 +1,14 @@
 class Api::V1::Users::RegistrationsController < Api::ApplicationController
+  skip_before_action :authenticate_with_token, only: :create
+
+  # POST /resource
+  def create
+    user = User.create sign_up_params
+
+    render_updated_resource user do |u|
+      sign_in u, store: false
+    end
+  end
 
   # PUT /resource
   # We need to use a copy of the resource because we don't want to change
@@ -16,7 +26,7 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
   private
 
   def sign_up_params
-    params.require(:user).permit(:email, :password, :name)
+    params.require(:user).permit(:email, :password, :password_confirmation, :name)
   end
 
   def account_update_params

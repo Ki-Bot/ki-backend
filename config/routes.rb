@@ -10,10 +10,11 @@ Rails.application.routes.draw do
 
       namespace :users do
 
+        post '/', to: 'registrations#create'
+        match '/', to: 'registrations#update', via: [:patch, :put]
+
         post 'password', to: 'passwords#create'
         match 'password', to: 'passwords#update', via: [:patch, :put]
-
-        match 'users', to: 'registrations#update', via: [:patch, :put]
 
         post 'login', to: 'sessions#create'
         delete 'logout', to: 'sessions#destroy'
