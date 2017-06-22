@@ -17,7 +17,7 @@ RSpec.describe Api::V1::Users::RegistrationsController, type: :controller do
 
         it 'updates the current user password and returns current user' do
           user.reload
-          expect(json_response[:auth_token]).to eql user.auth_token
+          expect(json_response[:email]).to eql user.email
         end
 
         it {is_expected.to respond_with 200}
@@ -38,14 +38,17 @@ RSpec.describe Api::V1::Users::RegistrationsController, type: :controller do
 
       context 'updated user credentials' do
         before(:each) do
-          params = {first_name: 'name', last_name: 'lastname'}
+          params = {name: FFaker::Name.name}
           patch :update, params: {user: params}
         end
 
         it 'updates the current user and returns updated user' do
           user.reload
-          expect(json_response[:first_name]).to eql user.first_name
-          expect(json_response[:last_name]).to eql user.last_name
+          expect(json_response[:name]).to eql user.name
+        end
+
+        it "doesn't include user's auth token" do
+          expect(json_response).not_to include :auth_token
         end
 
         it {is_expected.to respond_with 200}
@@ -54,7 +57,7 @@ RSpec.describe Api::V1::Users::RegistrationsController, type: :controller do
 
     context 'when user is not authenticated' do
       before(:each) do
-        params = {first_name: 'name', last_name: 'lastname'}
+        params = {name: 'name'}
         patch :update, params: {user: params}
       end
 
