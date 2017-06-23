@@ -18,6 +18,8 @@ RSpec.describe User, type: :model do
 
   it {is_expected.to be_valid}
 
+  it {is_expected.to have_many :points}
+
   describe '#generate_authentication_token!' do
     it 'generates an unique token' do
       allow(Devise).to receive(:friendly_token).and_return('anuniquetoken123anuniquetoken123')
