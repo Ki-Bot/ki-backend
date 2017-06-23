@@ -15,10 +15,12 @@ RSpec.describe User, type: :model do
   it {is_expected.to validate_confirmation_of(:password)}
   it {is_expected.to allow_value('example@domain.com').for(:email)}
   it {is_expected.to validate_uniqueness_of(:auth_token)}
+  it {is_expected.to validate_presence_of(:name)}
 
   it {is_expected.to be_valid}
 
   it {is_expected.to have_many :points}
+  it {is_expected.to have_many :favorites}
 
   describe '#generate_authentication_token!' do
     it 'generates an unique token' do

@@ -5,8 +5,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :auth_token, uniqueness: true
+  validates :name, presence: true
 
   has_many :points
+  has_many :favorites, through: :points, source: :broadband
 
   before_create :generate_authentication_token!
 
