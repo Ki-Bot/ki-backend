@@ -1,0 +1,2 @@
+class Broadband < ApplicationRecord
+end
