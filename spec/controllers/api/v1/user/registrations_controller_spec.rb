@@ -19,6 +19,10 @@ RSpec.describe Api::V1::Users::RegistrationsController, type: :controller do
         expect(json_response).to include :auth_token
       end
 
+      it 'does not include users id' do
+        expect(json_response).not_to include :id
+      end
+
       it {is_expected.to respond_with :ok}
     end
 
@@ -84,6 +88,10 @@ RSpec.describe Api::V1::Users::RegistrationsController, type: :controller do
 
         it "doesn't include user's auth token" do
           expect(json_response).not_to include :auth_token
+        end
+
+        it 'does not include users id' do
+          expect(json_response).not_to include :id
         end
 
         it {is_expected.to respond_with :ok}
