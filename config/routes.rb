@@ -23,6 +23,8 @@ Rails.application.routes.draw do
       get 'users/me', to: 'users#me'
 
     end
+
+    resources :points, only: [:index, :create, :destroy]
   end
 
 end
