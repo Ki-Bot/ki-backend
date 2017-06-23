@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   let(:user) {FactoryGirl.build(:user)}
+  let (:point) {FactoryGirl.create :broadband}
 
   subject {user}
 
@@ -38,6 +39,56 @@ RSpec.describe User, type: :model do
     it 'generates 32 character GUID' do
       user.generate_authentication_token!
       expect(user.auth_token.length).to eql 32
+    end
+  end
+
+  describe '#set favorite point!' do
+    before(:each) do
+      user.save
+      user.set_favorite_point! point
+      user.reload
+    end
+
+    it 'saves the point' do
+      expect(user.favorites.count).to eql 1
+    end
+
+    it "doesn't save the same point twice" do
+      user.set_favorite_point! point
+      user.reload
+      expect(user.favorites.count).to eql 1
+    end
+  end
+
+  describe '#has favorite?' do
+    before(:each) {user.save}
+
+    it 'has the point' do
+      user.set_favorite_point! point
+      expect(user.has_favorite? point).to be true
+    end
+
+    it "doesn't have the point" do
+      expect(user.has_favorite? point).to be false
+    end
+  end
+
+  describe '#remove_favorite_point!' do
+    before(:each) do
+      user.save
+      user.set_favorite_point! point
+    end
+
+    it 'removes the point' do
+      user.remove_favorite_point! point
+      user.reload
+      expect(user.favorites.count).to eql 0
+    end
+
+    it "doesn't remove incorrect points" do
+      user.remove_favorite_point! FactoryGirl.create(:broadband)
+      user.reload
+      expect(user.favorites.count).to eql 1
     end
   end
 end

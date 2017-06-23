@@ -18,4 +18,18 @@ class User < ApplicationRecord
     end while self.class.exists?(auth_token: auth_token)
   end
 
+  def set_favorite_point!(point)
+    unless self.favorites.include? point
+      self.favorites << point
+    end
+  end
+
+  def has_favorite?(point)
+    self.favorites.include? point
+  end
+
+  def remove_favorite_point!(point)
+    self.favorites.delete point
+  end
+
 end
