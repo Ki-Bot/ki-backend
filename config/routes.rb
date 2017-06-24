@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  namespace :api, defaults: {fromat: :json} do
+  namespace :api, defaults: { format: :json } do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
 
       namespace :users do
@@ -22,9 +22,9 @@ Rails.application.routes.draw do
 
       get 'users/me', to: 'users#me'
 
+      resources :points, only: [:index, :create, :destroy]
+      get 'broadbands/search', to: 'broadbands#search'
     end
-
-    resources :points, only: [:index, :create, :destroy]
   end
 
 end

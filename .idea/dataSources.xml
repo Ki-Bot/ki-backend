@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="Rails KI-project-api: test" uuid="c1207f29-744b-4878-84ac-413db7d954f5">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/config/database.yml</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql:ki_test</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="Rails KI-project-api: development" uuid="d5bf7b48-fdfb-4484-a6d7-71c8fc848025">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/config/database.yml</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql:ki_development</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="Rails KI-project-api: production" uuid="002fbc04-5e64-4b29-9b34-3b322615f91b">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>$PROJECT_DIR$/config/database.yml</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql:ki_production</jdbc-url>
+    </data-source>
+  </component>
+</project>

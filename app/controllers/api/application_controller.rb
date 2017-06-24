@@ -1,5 +1,7 @@
 class Api::ApplicationController < ActionController::API
   include Authenticable
+  include ActionController::Serialization
+
   before_action :authenticate_with_token
 
   respond_to :json
@@ -7,7 +9,7 @@ class Api::ApplicationController < ActionController::API
   private
 
   def render_resource_errors(resource)
-    render json: {errors: resource.errors.full_messages}, status: :unprocessable_entity if resource.errors.any?
+    render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity if resource.errors.any?
   end
 
   def render_updated_resource(resource, except = nil)
