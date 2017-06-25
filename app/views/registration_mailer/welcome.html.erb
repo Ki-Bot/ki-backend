@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<h3>Hi <%= @user.name %>,</h3>
+<p>Your registration to the KI platform is complete! Your password is: <b><%= @user.password %></b></p>
+<p>Follow the link for more details: </p>
+<a href="<%= @link %>"><%= @link %></a>
+<br />
+<p>Best regards,</p>
+<p>KI</p>
+</body>
+</html>

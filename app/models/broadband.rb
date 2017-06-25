@@ -6,7 +6,7 @@ class Broadband < ApplicationRecord
   algoliasearch do
     attribute :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :id, :_geoloc
     # attribute :_geoloc do
-    #   _geoloc
+    #   geolocation
     # end
 
     searchableAttributes ['address', 'city', 'state_code', 'anchorname']
@@ -17,6 +17,6 @@ class Broadband < ApplicationRecord
   end
 
   def _geoloc
-    { lat: latitude, lng: longitude }
+    { lat: latitude.to_f, lng: longitude.to_f }
   end
 end

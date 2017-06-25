@@ -7,3 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 # Broadband.algolia_reindex!
+
+puts User.first.inspect
+#Admin1User.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
