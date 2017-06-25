@@ -8,5 +8,4 @@
 
 # Broadband.algolia_reindex!
 
-puts User.first.inspect
-#Admin1User.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
+#AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')

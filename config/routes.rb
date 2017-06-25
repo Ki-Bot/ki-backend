@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  root to: 'admin/dashboard#index'
+
   namespace :api, defaults: { format: :json } do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
 
