@@ -9,4 +9,4 @@
 # Broadband.algolia_reindex!
 
 AdminUser.destroy_all
-AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
+puts AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
