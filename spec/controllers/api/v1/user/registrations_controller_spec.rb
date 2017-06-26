@@ -41,7 +41,7 @@ RSpec.describe Api::V1::Users::RegistrationsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let(:user) {FactoryGirl.create :user}
+    let(:user) { FactoryGirl.create :user }
 
     context 'when user is authenticated' do
       before(:each) do

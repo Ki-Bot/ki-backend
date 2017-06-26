@@ -20,30 +20,30 @@ class Api::V1::PointsController < Api::ApplicationController
       current_user.set_favorite_point!(@point)
       render json: @point
     else
-      render text: '', status: :not_found
+      render json: '', status: :not_found
     end
   end
 
   api! 'Remove the specified point from the logged-in user\'s favorite points'
-  param :location_id, String, 'Point\'s id', required: true
+  param :id, String, 'Point\'s id', required: true
   formats [:json]
   def destroy
     if @point.present? && current_user.has_favorite?(@point)
       current_user.remove_favorite_point!(@point)
       render json: @point
     else
-      render text: '', status: :not_found
+      render json: '', status: :not_found
     end
   end
 
   private
 
   def get_point
-    @point = Broadband.find(location_params[:location_id])
+    @point = Broadband.find_by_id(location_params[:id])
   end
 
   def location_params
-    params.permit(:location_id)
+    params.permit(:id)
   end
 
 end

@@ -15,6 +15,8 @@ ActiveAdmin.register Point do
   menu priority: 4
   permit_params :id, :broadband_id, :user_id
 
+  actions :all, except: [:edit]
+
   index do
     id_column
     column :broadband_id

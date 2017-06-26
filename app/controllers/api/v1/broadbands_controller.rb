@@ -10,7 +10,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   formats [:json]
   def search
     q = params[:q]
-    return render json: { error: 'No query was provided!' } if q.blank?
+    return render json: { error: 'No query was provided!' }, status: :unprocessable_entity if q.blank?
     hits = Broadband.search(q)
     render json: { hits: hits }
   end
