@@ -5,8 +5,8 @@ RSpec.describe Point, type: :model do
 
   subject {point}
 
-  it {is_expected.to be_valid}
+  it { is_expected.to be_valid }
 
-  it {is_expected.to belong_to :user}
-  it {is_expected.to belong_to :broadband}
+  it { is_expected.to belong_to :user }
+  it { is_expected.to belong_to :broadband }
 end
