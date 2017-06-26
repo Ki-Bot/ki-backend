@@ -1,0 +1,99 @@
+National Broadband Map Community Anchor Institution Data (CAI Data)
+
+Note: If you have any questions about this data please e-mail sbdd@ntia.doc.gov. 
+
+
+This folder contains broadband availability data submitted to the National Telecommunications and Information  Administration (NTIA) on April 1, 2014 from State Broadband Initiative grantees in every state, Territory and the District of Columbia. This data is current as of December 31, 2011. For more information regarding the Grantees please visit http://www2.ntia.doc.gov/SBDD  
+
+When citing data, it should read, "US Dept of Commerce, National Telecommunications and Information Administration, State Broadband Initiative (CSV format June 30, 2014)."
+
+Please consult the following information for each CSV file
+
+###########Community Anchor Institution###########
+
+ID  - Internal record identifier,
+ANCHORNAME - The name of the CAI,
+ADDRESS - The street address,
+BLDGNBR - Building number,
+PREDIR - Street direction (ex. North, N, S),
+STREETNAME - The name of the street,
+STREETTYPE - The street type (ex. ST, RD, AVE),
+SUFFDIR - Direction (ex. NW, W, SE),
+CITY - City where the CAI is located,
+STATE_CODE - Two character State Abbreviation,
+ZIP5 - zip code,
+ZIP4 zip code + 4,
+CAICAT -these are the unique federal ID's associated with the CAICAT (please see code lookup below),
+BBSERVICE - Does institution subscribe to broadband service at location (ex. Y=Yes; N=No; U=Unknown),
+PUBLICWIFI - Whether or not they offer free wifi to the public (ex. Y=Yes; N=No; I or U=Unknown),
+URL - The URL of the CAI's web address,
+TRANSTECH - The technology use to provide broadband to the CAI (please see code lookup below),
+FULLFIPSID - 2010 US Census Block 15 character identifier,
+LATITUDE - Latitude of CAI location (WGS84),
+LONGITUDE - Longitude of CAI location (WGS84),
+CAIID - Unique federal ID's associated with the CAICAT (please see explanation below),
+MAXADDOWN - Maximum Advertised Download Speed subscribed to at this CAI (please see code lookup below),
+MAXADUP - Maximum Advertised Upload Speed subscribed to at this CAI (please see code lookup below)
+
+
+
+###########Data_Dictionary###########
+
+###########CAI Category Codes###########
+1 SchoolóK through 12
+2 Library
+3 Medical/healthcare
+4 Public safety
+5 University, college, other postsecondary
+6 Other community supportógovernment
+7 Other community supportónongovernmental
+
+###########CAIID###########
+K-12 institutions (type 1) may have the NCES ID CCD value
+Libraries (type 2) may have the IMLS ID value
+Higher Education (type 5) may have the NCES IPEDS
+
+###########TransTech###########
+Code	Description
+10	Asymmetric xDSL
+20	Symmetric xDSL
+30	Other Copper Wire
+40	Cable Modem - DOCSIS 3.0 Down
+41	Cable Model - Other
+50	Optical Carrier/Fiber to the End User
+60	Satellite
+70	Terrestrial Fixed - Unlicensed
+71	Terrestrial Fixed - Licensed
+80	Terrestrial Mobile Wireless
+90	Electric Power Line
+0	All Other
+
+###########MaxAdDown###########
+Code	Description
+2	Greater than 200 kbps and less than 768 kbps
+3	Greater than 768 kbps and less than 1.5 mbps
+4	Greater than 1.5 mbps and less than 3 mbps
+5	Greater than 3 mbps and less than 6 mbps
+6	Greater than 6 mbps and less than 10 mbps
+7	Greater than 10 mbps and less than 25 mbps
+8	Greater than 25 mbps and less than 50 mbps
+9	Greater than 50 mbps and less than 100 mbps
+10	Greater than 100 mbps and less than 1 gbps
+11	Greater than 1 gbps
+
+###########MaxAdUp###########
+Code	Description
+2	Greater than 200 kbps and less than 768 kbps
+3	Greater than 768 kbps and less than 1.5 mbps
+4	Greater than 1.5 mbps and less than 3 mbps
+5	Greater than 3 mbps and less than 6 mbps
+6	Greater than 6 mbps and less than 10 mbps
+7	Greater than 10 mbps and less than 25 mbps
+8	Greater than 25 mbps and less than 50 mbps
+9	Greater than 50 mbps and less than 100 mbps
+10	Greater than 100 mbps and less than 1 gbps
+11	Greater than 1 gbps
+
+
+
+<end>
