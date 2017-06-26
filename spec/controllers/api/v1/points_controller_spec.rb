@@ -58,13 +58,13 @@ RSpec.describe Api::V1::PointsController, type: :controller do
         api_authorization_header user.auth_token
       end
 
-      # context 'Point exists' do
-      #   before(:each) do
-      #     user.favorites << broadband
-      #     delete :destroy, params: { id: broadband.id }
-      #   end
-      #   it { is_expected.to respond_with :not_found }
-      # end
+      context 'Point exists' do
+        before(:each) do
+          user.favorites << broadband
+          delete :destroy, params: { id: broadband.id }
+        end
+        it { is_expected.to respond_with :ok }
+      end
 
       context 'Point doesn\'t exist' do
         before(:each) do
