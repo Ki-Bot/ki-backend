@@ -16,17 +16,21 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   formats [:json]
   # POST /resource
   def create
-    user_password = params[:user][:password]
-    user_email = params[:user][:email]
-    user = user_email.present? && User.find_by(email: user_email)
+    begin
+      user_password = params[:user][:password]
+      user_email = params[:user][:email]
+      user = user_email.present? && User.find_by(email: user_email)
 
-    if user&.valid_password?(user_password)
-      sign_in :user, user, store: false
-      user.generate_authentication_token!
-      user.save
-      render json: user.to_json, status: :ok
-    else
-      render json: {errors: 'Invalid email or password'}, status: :unprocessable_entity
+      if user&.valid_password?(user_password)
+        sign_in :user, user, store: false
+        user.generate_authentication_token!
+        user.save
+        render json: user.to_json, status: :ok
+      else
+        render json: {errors: 'Invalid email or password'}, status: :unprocessable_entity
+      end
+    rescue => e
+      render json: {error: e.message}
     end
   end
 
