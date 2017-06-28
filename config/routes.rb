@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   devise_for :users
 
   root to: 'admin/dashboard#index'
+  get 'test_facebook', to: 'application#test_facebook'
+
+  match 'auth/:provider/callback', to: 'api/v1/users/sessions#create_fb', via: [:get, :post]
+  match 'auth/failure', to: redirect('/'), via: [:get, :post]
+  # match 'signout', to: 'api/v1/users/sessions#destroy', via: [:get, :post]
 
   namespace :api, defaults: { format: :json } do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do

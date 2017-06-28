@@ -5,6 +5,8 @@ module Authenticable
     # regular auth method
     @current_user ||= User.find_by(auth_token: request.headers['Authorization']) if request.headers['Authorization'].present?
 
+    @current_user ||= User.find_by(oauth_token: request.headers['Authorization']) if request.headers['Authorization'].present?
+
     # impersonating users
     # check if session is defined to let authenticable tests pass since session is not available there
     @current_user ||= User.find_by(auth_token: session['Authorization']) if defined? session && session['Authorization'].present?

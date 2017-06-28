@@ -1,10 +1,11 @@
 class Api::V1::Users::SessionsController < Api::ApplicationController
-  skip_before_action :authenticate_with_token, only: [:create]
+  skip_before_action :authenticate_with_token, only: [:create, :create_fb]
 
   resource_description do
     resource_id 'authentication'
     short 'Authentication endpoints'
     description 'Endpoints used for user token authentication'
+    api_base_url ''
   end
 
   api! 'Log in'
@@ -27,6 +28,22 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     else
       render json: {errors: 'Invalid email or password'}, status: :unprocessable_entity
     end
+  end
+
+  # api! 'Log in with Facebook'
+  api :GET, "/auth/:provider/callback", "Log in with Facebook and Twitter"
+  # api :GET, "/auth/twitter/callback", "Log in with Twitter"
+  param :provider, ['facebook', 'twitter'], description: 'Provider of the authentication', required: true
+  # param :user, Hash, required: true do
+  #   param :email, String, required: true
+  #   param :password, String, required: true
+  # end
+  formats [:json]
+  def create_fb
+    user = User.from_omniauth(request.env["omniauth.auth"])
+    user.generate_authentication_token!
+    user.save
+    render json: user.to_json, status: :ok
   end
 
   api! 'Log out'
