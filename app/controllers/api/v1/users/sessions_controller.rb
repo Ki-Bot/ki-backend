@@ -38,6 +38,7 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   api :GET, "/auth/:provider/callback", "Log in with Facebook and Twitter"
   # api :GET, "/auth/twitter/callback", "Log in with Twitter"
   param :provider, ['facebook', 'twitter'], description: 'Provider of the authentication', required: true
+  param :signed_request, String, description: 'authResponse.signed_request returned from facebook login'
   # param :user, Hash, required: true do
   #   param :email, String, required: true
   #   param :password, String, required: true
