@@ -43,7 +43,7 @@
                 alert('Logged in successfully!');
                 if(response.authResponse){
                     $.ajax({
-                       url: 'auth/facebook/callback',
+                       url: 'https://ki-staging.herokuapp.com/auth/facebook/callback',
                         success: function(data){
                           $('#response').text(JSON.stringify(data));
                         }
