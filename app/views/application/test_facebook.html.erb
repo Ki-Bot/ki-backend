@@ -3,6 +3,8 @@
   <h2>Facebook login status</h2>
   <p id="user-fb-name" style="display: none;margin-left: 30px;"><%= session[:user_fb_name].nil? ? '' : ('Welcome, ' + session[:user_fb_name]) %></p>
   <div class="btn"><a id="btn-login" onclick="return login();" href="#" style="">Log In</a></div>
+
+  <div class="btn"><a id="btn-test" onclick="return test();" href="#" style="">Test CORS</a></div>
   <hr/>
   <p>Data from backend</p>
   <div id="response">
@@ -17,7 +19,7 @@
 <script>
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '446323952418743',
+            appId: <%= ENV['facebook_app_id'] %>,
             cookie: true,
             xfbml: true,
             version: 'v2.8'
@@ -42,12 +44,16 @@
             if (response.status === 'connected') {
                 alert('Logged in successfully!');
                 if(response.authResponse){
-                    $.ajax({
-                       url: 'https://ki-staging.herokuapp.com/auth/facebook/callback',
-                        success: function(data){
-                          $('#response').text(JSON.stringify(data));
-                        }
-                    });
+                    location.href =
+                        '/auth/facebook/callback?' +
+                        $.param({ signed_request: response.authResponse.signedRequest });
+//                    window.location = '/auth/facebook/callback?signed_request='+response.authResponse.signedRequest;
+//                    $.ajax({
+//                       url: '/auth/facebook/callback',
+//                        success: function(data){
+//                          $('#response').text(JSON.stringify(data));
+//                        }
+//                    });
                 }
             } else if (response.status === 'not_authorized') {
                 alert('The person is logged into Facebook, but not your app.');
@@ -58,5 +64,16 @@
             scope: 'public_profile, email,'
         });
         return false;
+    }
+
+    function test(){
+        $.ajax({
+          url: 'https://ki-staging.herokuapp.com/api/points',
+          headers: { 'Authorization': 'XM_AqgyhugzyoY4pm7mFQ2hdJWsD9V1A', 'Content-Type': 'application/json' },
+            success: function(data){
+              alert('success');
+              console.log('data: ', data);
+            }
+        });
     }
 </script>
