@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   root to: 'admin/dashboard#index'
   get 'test_facebook', to: 'application#test_facebook'
+  get 'social_login', to: 'application#social_login'
 
   match 'auth/:provider/callback', to: 'api/v1/users/sessions#create_fb', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
