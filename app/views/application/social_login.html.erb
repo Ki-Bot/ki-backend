@@ -1,3 +1,4 @@
+<input type="hidden" id="_fb_auth_key" />
 <div class="loginBtn loginBtn--facebook" onclick="return login();">Login with Facebook</div>
 <style>
   body { padding: 2em; }
@@ -87,7 +88,8 @@
                         url: '/auth/facebook/callback',
                         data: { signed_request: response.authResponse.signedRequest },
                         success: function(data){
-                            $('#response').text(JSON.stringify(data));
+                            console.log(JSON.stringify(data));
+                            $('#_fb_auth_key').val(data.auth_token);
                         }
                     });
                 }
