@@ -1,4 +1,5 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   skip_before_action :authenticate_with_token, only: [:search, :show]
   before_action :set_broadband, only: [:show, :update]
 
@@ -48,7 +49,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   formats [:json]
   def create
     @broadband = Broadband.new(broadband_params)
-    if @broadband.save
+    if @broadband.save!
       render json: @broadband
     else
       render json: @broadband.errors, status: :unprocessable_entity
@@ -60,7 +61,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param_group :broadband_params
   formats [:json]
   def update
-    if @broadband.update(broadband_params)
+    if @broadband.update!(broadband_params)
       render json: @broadband
     else
       render json: @broadband.errors, status: :unprocessable_entity
@@ -74,6 +75,10 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   def broadband_params
-      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url)
+      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, opening_hours_attributes: [:id, :day, :from, :to, :open])
+  end
+
+  def record_not_found
+    render json: { error: 'Record not found!' }, status: :unprocessable_entity
   end
 end

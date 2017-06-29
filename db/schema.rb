@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170628000436) do
+ActiveRecord::Schema.define(version: 20170629203317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,17 @@ ActiveRecord::Schema.define(version: 20170628000436) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "opening_hours", force: :cascade do |t|
+    t.bigint "broadband_id"
+    t.integer "day", null: false
+    t.time "from"
+    t.time "to"
+    t.boolean "open", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["broadband_id"], name: "index_opening_hours_on_broadband_id"
+  end
+
   create_table "points", id: :serial, force: :cascade do |t|
     t.integer "broadband_id"
     t.integer "user_id"
@@ -99,4 +110,5 @@ ActiveRecord::Schema.define(version: 20170628000436) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
   end
 
+  add_foreign_key "opening_hours", "broadbands"
 end
