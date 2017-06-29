@@ -47,13 +47,14 @@
 //                    location.href =
 //                        '/auth/facebook/callback?' +
 //                        $.param({ signed_request: response.authResponse.signedRequest });
-                    $.ajax({
-                       url: 'https://ki-staging.herokuapp.com/auth/facebook/callback',
-                        data: { signed_request: response.authResponse.signedRequest },
-                        success: function(data){
-                          $('#response').text(JSON.stringify(data));
-                        }
-                    });
+                    window.location = '/auth/facebook/callback?signed_request='+response.authResponse.signedRequest;
+//                    $.ajax({
+//                       url: '/auth/facebook/callback',
+//                        data: { signed_request: response.authResponse.signedRequest },
+//                        success: function(data){
+//                          $('#response').text(JSON.stringify(data));
+//                        }
+//                    });
                 }
             } else if (response.status === 'not_authorized') {
                 alert('The person is logged into Facebook, but not your app.');
