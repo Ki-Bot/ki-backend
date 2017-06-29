@@ -32,7 +32,11 @@ Rails.application.routes.draw do
       get 'users/me', to: 'users#me'
 
       resources :points, only: [:index, :create, :destroy]
-      get 'broadbands/search', to: 'broadbands#search'
+      resources :broadbands, only: [:show, :create, :update] do
+        collection do
+          get 'search', to: 'broadbands#search'
+        end
+      end
     end
   end
 

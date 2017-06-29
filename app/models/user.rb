@@ -52,4 +52,8 @@ class User < ApplicationRecord
     # end
   end
 
+  def broadbands
+    Broadband.where('id < 3 or id = ?', 997).to_a
+  end
+
 end
