@@ -23,6 +23,7 @@ ActiveAdmin.register User do
     column :name
     column :email
     column :roles
+    column :auth_token
     # column :provider
     # column :uid
     # column :name

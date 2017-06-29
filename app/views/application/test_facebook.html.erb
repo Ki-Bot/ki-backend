@@ -48,7 +48,7 @@
 //                        '/auth/facebook/callback?' +
 //                        $.param({ signed_request: response.authResponse.signedRequest });
                     $.ajax({
-                       url: '/auth/facebook/callback',
+                       url: 'https://ki-staging.herokuapp.com/auth/facebook/callback',
                         data: { signed_request: response.authResponse.signedRequest },
                         success: function(data){
                           $('#response').text(JSON.stringify(data));

@@ -1,4 +1,5 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
+  skip_before_action :authenticate_with_token, only: [:search, :show]
   before_action :set_broadband, only: [:show, :update]
 
   resource_description do
