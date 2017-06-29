@@ -1,5 +1,5 @@
 <input type="hidden" id="_fb_auth_key" />
-<div class="loginBtn loginBtn--facebook" onclick="return login();">Login with Facebook</div>
+<div id="_fb_login_btn" class="loginBtn loginBtn--facebook" onclick="return login();">Login with Facebook</div>
 <style>
   body { padding: 2em; }
 
@@ -78,18 +78,16 @@
             console.log(response);
             debugger;
             if (response.status === 'connected') {
-                alert('Logged in successfully!');
                 if(response.authResponse){
-//                    location.href =
-//                        '/auth/facebook/callback?' +
-//                        $.param({ signed_request: response.authResponse.signedRequest });
-//                    window.location = '/auth/facebook/callback?signed_request='+response.authResponse.signedRequest;
                     $.ajax({
                         url: '/auth/facebook/callback',
                         data: { signed_request: response.authResponse.signedRequest },
                         success: function(data){
-                            console.log(JSON.stringify(data));
-                            $('#_fb_auth_key').val(data.auth_token);
+                            console.log(data.auth_token);
+                            if(typeof data.auth_token !== 'undefined' && data.auth_token !== null){
+                                $('#_fb_auth_key').val(data.auth_token);
+                                $('#_fb_login_btn').hide();
+                            }
                         }
                     });
                 }
