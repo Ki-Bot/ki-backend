@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   end
 
   def social_login
-    render 'social_login', layout: false
+    render 'social_login'
   end
 
   private
