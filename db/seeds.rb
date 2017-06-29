@@ -8,6 +8,6 @@
 
 # Broadband.algolia_reindex!
 
-puts Broadband.find(347724).inspect
+# puts Broadband.find(347724).inspect
 # AdminUser.destroy_all
 # puts AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
