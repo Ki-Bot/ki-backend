@@ -46,6 +46,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
 gem 'rack-cors'
+gem 'paperclip'
 
 
 group :development, :test do

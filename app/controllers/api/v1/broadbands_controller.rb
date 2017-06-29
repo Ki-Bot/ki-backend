@@ -48,7 +48,10 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param_group :broadband_params
   formats [:json]
   def create
-    @broadband = Broadband.new(broadband_params)
+    request_params = broadband_params
+    request_params[:logo] = process_base64(broadband_params[:logo])
+    request_params[:banner] = process_base64(broadband_params[:banner])
+    @broadband = Broadband.new(request_params)
     if @broadband.save!
       render json: @broadband
     else
@@ -61,7 +64,10 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param_group :broadband_params
   formats [:json]
   def update
-    if @broadband.update!(broadband_params)
+    request_params = broadband_params
+    request_params[:logo] = process_base64(broadband_params[:logo])
+    request_params[:banner] = process_base64(broadband_params[:banner])
+    if @broadband.update!(request_params)
       render json: @broadband
     else
       render json: @broadband.errors, status: :unprocessable_entity
@@ -75,7 +81,20 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   def broadband_params
-      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, opening_hours_attributes: [:id, :day, :from, :to, :open])
+      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :banner, logo: [:data, :filename], banner: [:data, :filename], opening_hours_attributes: [:id, :day, :from, :to, :open])
+  end
+
+  def process_base64(string_info)
+    if string_info
+      image = Paperclip.io_adapters.for(string_info[:data])
+      image.original_filename = string_info[:filename]
+      image
+      # data = StringIO.new(Base64.decode64(string_info[:data]))
+      # data.class.class_eval { attr_accessor :original_filename, :content_type }
+      # data.original_filename = string_info[:filename]
+      # data.content_type = string_info[:content_type]
+      # data
+    end
   end
 
   def record_not_found

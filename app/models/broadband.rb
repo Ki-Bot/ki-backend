@@ -1,6 +1,14 @@
 class Broadband < ApplicationRecord
   include AlgoliaSearch
 
+  has_attached_file :banner, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing_banner.png', validate_media_type: false
+  # validates_attachment_content_type :banner, :content_type => ['image/jpeg', 'image/png']
+  do_not_validate_attachment_file_type :banner
+
+  has_attached_file :logo, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing_logo.png', validate_media_type: false
+  # validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png']
+  do_not_validate_attachment_file_type :logo
+
   has_many :points
   has_many :opening_hours
   accepts_nested_attributes_for :opening_hours, allow_destroy: true
