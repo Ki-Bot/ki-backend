@@ -3,7 +3,9 @@
 
 <script>
   $.ajax({
-    url: 'http://ki-staging.herokuapp.com/api/broadbands/2',
+    url: 'http://ki-staging.herokuapp.com/api/broadbands/1',
+    method: 'PUT',
+    data: { anchorname: 'test23' },
     success: function(data){
         alert('success');
         console.log(data);
