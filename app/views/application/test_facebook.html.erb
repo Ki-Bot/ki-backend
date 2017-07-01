@@ -1,2 +1,12 @@
 <iframe src="https://ki-staging.herokuapp.com/social_login">
 </iframe>
+
+<script>
+  $.ajax({
+    url: 'http://ki-staging.herokuapp.com/api/broadbands/2',
+    success: function(data){
+        alert('success');
+        console.log(data);
+    }
+  });
+</script>
