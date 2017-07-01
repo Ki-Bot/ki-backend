@@ -24,6 +24,20 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       param :longitude, BigDecimal
       param :publicwifi, String
       param :url, String
+      param :opening_hours_attributes, Array, of: Hash do
+        param :day, [1, 2, 3, 4, 5, 6, 7]
+        param :from, String, desc: 'Time format: hh:MM:ss'
+        param :to, String, desc: 'Time format: hh:MM:ss'
+        param :open, [true, false]
+      end
+      param :logo, Hash, required: false do
+        param :data, String, desc: 'Image content as Base64 string'
+        param :filename, String, desc: 'Name of the logo file'
+      end
+      param :banner, Hash, required: false do
+        param :data, String, desc: 'Image content as Base64 string'
+        param :filename, String, desc: 'Name of the banner file'
+      end
     end
   end
 
