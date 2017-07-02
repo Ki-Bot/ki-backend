@@ -11,6 +11,10 @@ namespace :broadband_data do
     puts 'This action will take some time to execute. Please wait ... '
 
     Broadband.without_auto_index do
+      Broadband.destroy_all
+    end
+
+    Broadband.without_auto_index do
       csv_text = File.read(File.join(Rails.root, 'public', 'All-NBM-CAI-June-2014.csv'))
       csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
       csv.each do |row|
