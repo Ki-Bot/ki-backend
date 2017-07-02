@@ -51,6 +51,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     render json: hits, each_serializer: BroadbandSerializer
   end
 
+
   api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
   param :q, String, 'Query to search. If blank the results will be purely location-based.', required: false
   formats [:json]
