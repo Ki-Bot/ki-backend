@@ -12,12 +12,12 @@
 # AdminUser.destroy_all
 # puts AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
 
-BroadbandType.create!(name: 'City and Village halls')
-BroadbandType.create!(name: 'Park Districts')
-BroadbandType.create!(name: 'Hospitals')
-BroadbandType.create!(name: 'Police Departments')
-BroadbandType.create!(name: 'Fire Departments')
-BroadbandType.create!(name: 'Schools')
+# BroadbandType.create!(name: 'City and Village halls')
+# BroadbandType.create!(name: 'Park Districts')
+# BroadbandType.create!(name: 'Hospitals')
+# BroadbandType.create!(name: 'Police Departments')
+# BroadbandType.create!(name: 'Fire Departments')
+# BroadbandType.create!(name: 'Schools')
 
 keywords = {
     'fire'=> 5, 'rescue' => 5, 'vfd'=> 5, 'battalion' => 5,
@@ -48,6 +48,6 @@ Parallel.each(all, in_threads: 4) { |broadband|
     end
   end
   i += 1
-  logger.info 'Processed item ' + i.to_s + ' from ' + total_count.to_s + '. ' + (found ? 'FOUND.' : '')
+  Rails.logger.info 'Processed item ' + i.to_s + ' from ' + total_count.to_s + '. ' + (found ? 'FOUND.' : '')
 }
-logger.info 'finished'
+Rails.logger.info 'finished'
