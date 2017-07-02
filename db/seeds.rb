@@ -19,7 +19,7 @@ BroadbandType.create!(name: 'Hospitals')
 BroadbandType.create!(name: 'Police Departments')
 BroadbandType.create!(name: 'Fire Departments')
 BroadbandType.create!(name: 'Schools')
-return
+
 keywords = {
     'fire'=> 5, 'rescue' => 5, 'vfd'=> 5, 'battalion' => 5,
 
