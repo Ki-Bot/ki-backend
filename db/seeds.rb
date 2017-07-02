@@ -12,13 +12,12 @@
 # AdminUser.destroy_all
 # puts AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
 
-# City and Village halls
-# Park Districts
-# Hospitals
-# Police Departments
-# Fire Departments
-# Schools
-# Other
+BroadbandType.create!(name: 'City and Village halls')
+BroadbandType.create!(name: 'Park Districts')
+BroadbandType.create!(name: 'Hospitals')
+BroadbandType.create!(name: 'Police Departments')
+BroadbandType.create!(name: 'Fire Departments')
+BroadbandType.create!(name: 'Schools')
 
 keywords = {
     'fire'=> 5, 'rescue' => 5, 'vfd'=> 5, 'battalion' => 5,
