@@ -10,19 +10,22 @@ namespace :broadband_data do
     puts '#######'
     puts 'This action will take some time to execute. Please wait ... '
 
-    Broadband.without_auto_index do
-      OpeningHour.destroy_all
-      Broadband.destroy_all
-    end
+    # Broadband.without_auto_index do
+    #   OpeningHour.destroy_all
+    #   Broadband.destroy_all
+    # end
 
     Broadband.without_auto_index do
       puts 'start'
       csv_text = File.read(File.join(Rails.root, 'public', 'All-NBM-CAI-June-2014.csv'))
       csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
+      puts 'Length: ' + csv.length
       csv.each do |row|
         r_hash = row.to_hash.keep_if {|k,_| keepers.include? k }
         r_hash[:broadband_type_id] = 7
-        Broadband.create!(r_hash)
+        if Broadband.where(anchorname: r_hash[:anchorname]).count.zero?
+          Broadband.create!(r_hash)
+        end
       end
     end
 
