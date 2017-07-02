@@ -19,7 +19,7 @@ namespace :broadband_data do
       puts 'start'
       csv_text = File.read(File.join(Rails.root, 'public', 'All-NBM-CAI-June-2014.csv'))
       csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
-      puts 'Length: ' + csv.length
+      puts 'Length: ' + csv.length.to_s
       csv.each do |row|
         r_hash = row.to_hash.keep_if {|k,_| keepers.include? k }
         r_hash[:broadband_type_id] = 7
