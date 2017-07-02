@@ -1,6 +1,8 @@
 <iframe src="https://ki-staging.herokuapp.com/social_login">
 </iframe>
 
+<%= "Environment: #{Rails.env.production?}" %>
+
 <script>
   $.ajax({
     url: 'https://ki-staging.herokuapp.com/api/broadbands/1',
