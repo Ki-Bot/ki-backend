@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
   after_action :allow_iframe, only: :social_login
 
   def test_facebook
+    open('testt.csv', 'wb') do |file|
+      file << open('http://example.com/image.png').read
+    end
     # Thread.start { parse_broadband_types }
     # Thread.start { Broadband.reindex }
     # count = Broadband.where('broadband_type_id IS NULL').count
