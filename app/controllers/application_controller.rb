@@ -50,8 +50,8 @@ class ApplicationController < ActionController::Base
         end
       end
       i += 1
-      puts 'Processed item ' + i.to_s + ' from ' + total_count.to_s + '. ' + (found ? 'FOUND.' : '')
+      logger.info 'Processed item ' + i.to_s + ' from ' + total_count.to_s + '. ' + (found ? 'FOUND.' : '')
     }
-    puts 'finished'
+    logger.info 'finished'
   end
 end
