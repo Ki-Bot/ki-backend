@@ -11,6 +11,7 @@ namespace :broadband_data do
     puts 'This action will take some time to execute. Please wait ... '
 
     Broadband.without_auto_index do
+      OpeningHour.destroy_all
       Broadband.destroy_all
     end
 
