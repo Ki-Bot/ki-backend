@@ -16,10 +16,12 @@ namespace :broadband_data do
     end
 
     Broadband.without_auto_index do
+      puts 'start'
       csv_text = File.read(File.join(Rails.root, 'public', 'All-NBM-CAI-June-2014.csv'))
       csv = CSV.parse(csv_text, :headers => true, :col_sep => '|')
       csv.each do |row|
         r_hash = row.to_hash.keep_if {|k,_| keepers.include? k }
+        r_hash[:broadband_type_id] = 7
         Broadband.create!(r_hash)
       end
     end

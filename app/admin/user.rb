@@ -24,8 +24,8 @@ ActiveAdmin.register User do
     column :email
     column :roles
     column :auth_token
-    # column :provider
-    # column :uid
+    column :provider
+    column :uid
     # column :name
     # column :roles
     # column :oauth_expires_at
