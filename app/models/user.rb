@@ -10,6 +10,9 @@ class User < ApplicationRecord
   has_many :points
   has_many :favorites, through: :points, source: :broadband
 
+  has_many :user_broadbands
+  has_many :broadbands, through: :user_broadbands
+
   before_create :generate_authentication_token!
 
   def generate_authentication_token!
@@ -52,8 +55,8 @@ class User < ApplicationRecord
     # end
   end
 
-  def broadbands
-    Broadband.where('id < 3 or id = ?', 997).to_a
+  def can_edit_broadband(broadband)
+    user.broadbands.include?(broadband)
   end
 
 end

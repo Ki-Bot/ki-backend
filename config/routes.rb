@@ -36,6 +36,9 @@ Rails.application.routes.draw do
       resources :broadbands, only: [:show, :create, :update] do
         collection do
           get 'search', to: 'broadbands#search'
+          get 'search_by_location', to: 'broadbands#search_by_location'
+          get 'filter', to: 'broadbands#filter'
+          get 'types', to: 'broadbands#types'
         end
       end
     end

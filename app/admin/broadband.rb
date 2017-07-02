@@ -15,7 +15,7 @@ ActiveAdmin.register Broadband do
   menu priority: 2
   config.per_page = 10
 
-  permit_params :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url
+  permit_params :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id
 
   index do
     id_column
@@ -33,6 +33,7 @@ ActiveAdmin.register Broadband do
     column :longitude
     column :publicwifi
     column :url
+    column :broadband_type
 
     actions
   end
@@ -51,6 +52,7 @@ ActiveAdmin.register Broadband do
   filter :longitude
   filter :publicwifi
   filter :url
+  filter :broadband_type
 
   # controller do
   #   def update

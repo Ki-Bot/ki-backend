@@ -1,3 +1,4 @@
+require 'browser'
 class Api::V1::Users::SessionsController < Api::ApplicationController
   skip_before_action :authenticate_with_token, only: [:create, :create_fb]
 
@@ -45,10 +46,16 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   # end
   formats [:json]
   def create_fb
-    user = User.from_omniauth(request.env["omniauth.auth"])
-    user.generate_authentication_token!
-    user.save
-    render json: user.to_json, status: :ok
+    browser = Browser.new(request.user_agent)
+    is_mobile = browser.device.mobile?
+    @user = User.from_omniauth(request.env["omniauth.auth"])
+    @user.generate_authentication_token!
+    @user.save
+    if !is_mobile && request.env["omniauth.auth"].provider == 'twitter'
+      render 'application/twitter'
+    else
+      render json: user.to_json, status: :ok
+    end
   end
 
   api! 'Log out'

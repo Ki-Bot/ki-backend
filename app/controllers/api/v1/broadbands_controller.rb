@@ -1,6 +1,6 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
-  skip_before_action :authenticate_with_token, only: [:search, :show]
+  skip_before_action :authenticate_with_token, only: [:search, :filter, :show, :types]
   before_action :set_broadband, only: [:show, :update]
 
   resource_description do
@@ -42,12 +42,36 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   api! 'Search broadbands'
-  param :q, String, 'Query to search', required: true
+  param :q, String, 'Query to search.', required: true
   formats [:json]
   def search
     q = params[:q]
     return render json: { error: 'No query was provided!' }, status: :unprocessable_entity if q.blank?
     hits = Broadband.search(q)
+    render json: hits, each_serializer: BroadbandSerializer
+  end
+
+  api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
+  param :q, String, 'Query to search. If blank the results will be purely location-based.', required: false
+  formats [:json]
+  def search_by_location
+    q = params[:q]
+    location = q.blank? ? request.headers['HTTP_USER_LOCATION'] : nil
+    hits = Broadband.search(q, location)
+    render json: hits, each_serializer: BroadbandSerializer
+  end
+
+  api! 'Filter broadband results by type'
+  param :q, String, 'Search query', required: true
+  param :types, String, 'Organization types', required: true
+  formats [:json]
+  def filter
+    q = params[:q]
+    types = params[:types]
+    if q.blank? || types.blank?
+      return render json: { error: 'No ' + (q.blank? ? 'query' : 'type') + ' was provided!' }, status: :unprocessable_entity
+    end
+    hits = Broadband.filter(q, types)
     render json: hits, each_serializer: BroadbandSerializer
   end
 
@@ -67,6 +91,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     request_params[:banner] = process_base64(broadband_params[:banner])
     @broadband = Broadband.new(request_params)
     if @broadband.save!
+      current_user.broadbands << @broadband
       render json: @broadband
     else
       render json: @broadband.errors, status: :unprocessable_entity
@@ -78,14 +103,24 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param_group :broadband_params
   formats [:json]
   def update
-    request_params = broadband_params
-    request_params[:logo] = process_base64(broadband_params[:logo])
-    request_params[:banner] = process_base64(broadband_params[:banner])
-    if @broadband.update!(request_params)
-      render json: @broadband
+    if current_user.can_edit_broadband(@broadband)
+      request_params = broadband_params
+      request_params[:logo] = process_base64(broadband_params[:logo])
+      request_params[:banner] = process_base64(broadband_params[:banner])
+      if @broadband.update!(request_params)
+        render json: @broadband
+      else
+        render json: @broadband.errors, status: :unprocessable_entity
+      end
     else
-      render json: @broadband.errors, status: :unprocessable_entity
+      render json: '', status: :unauthorized
     end
+  end
+
+  api! 'Broadband Types'
+  formats [:json]
+  def types
+    render json: BroadbandType.select(:id, :name)
   end
 
   private
@@ -95,7 +130,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   def broadband_params
-      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :banner, logo: [:data, :filename], banner: [:data, :filename], opening_hours_attributes: [:id, :day, :from, :to, :open])
+      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id, :banner, logo: [:data, :filename], banner: [:data, :filename], opening_hours_attributes: [:id, :day, :from, :to, :open])
   end
 
   def process_base64(string_info)

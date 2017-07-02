@@ -1,10 +1,10 @@
 class BroadbandSerializer < ActiveModel::Serializer
-  attributes :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :_geoloc, :is_editable, :logo, :logo_medium, :logo_thumb, :banner, :banner_medium, :banner_thumb
+  attributes :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :_geoloc, :is_editable, :type, :services, :notes, :logo, :banner
 
   has_many :opening_hours
 
   def is_editable
-    current_user.present? && current_user.broadbands.include?(object)
+    current_user.present? && current_user.can_edit_broadband(object)
   end
 
   def logo
@@ -29,5 +29,9 @@ class BroadbandSerializer < ActiveModel::Serializer
 
   def banner_thumb
     object.banner.url(:thumb) if object.banner.exists?
+  end
+
+  def type
+    object.broadband_type.name if object.broadband_type.present?
   end
 end

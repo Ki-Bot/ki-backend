@@ -47,6 +47,8 @@ gem 'omniauth-twitter'
 
 gem 'rack-cors'
 gem 'paperclip'
+gem 'parallel'
+gem "browser", require: "browser/browser"
 
 
 group :development, :test do

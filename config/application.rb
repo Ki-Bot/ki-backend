@@ -31,5 +31,7 @@ module KIProjectApi
         resource '*', :headers => :any, :methods => [:get, :post, :put, :patch, :delete, :options]
       end
     end
+
+    config.middleware.use ActionDispatch::Cookies
   end
 end

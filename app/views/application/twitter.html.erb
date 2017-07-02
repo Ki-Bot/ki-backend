@@ -1,0 +1,6 @@
+<p>You are now logged in as: <b><%= @user.name %></b>! Redirecting to the KI app...</p>
+<script>
+    window.setTimeout(function(){
+        window.location = "<%= ENV['twitter_endpoint'] %>?auth_token=<%= @user.auth_token %>";
+    }, 1000);
+</script>

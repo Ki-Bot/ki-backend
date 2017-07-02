@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170629222559) do
+ActiveRecord::Schema.define(version: 20170702204038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,13 @@ ActiveRecord::Schema.define(version: 20170629222559) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "broadband_types", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "broadbands", id: :serial, force: :cascade do |t|
     t.string "anchorname"
     t.string "address"
@@ -71,6 +78,10 @@ ActiveRecord::Schema.define(version: 20170629222559) do
     t.string "logo_content_type"
     t.integer "logo_file_size"
     t.datetime "logo_updated_at"
+    t.bigint "broadband_type_id"
+    t.string "services"
+    t.string "notes"
+    t.index ["broadband_type_id"], name: "index_broadbands_on_broadband_type_id"
   end
 
   create_table "opening_hours", force: :cascade do |t|
@@ -91,6 +102,15 @@ ActiveRecord::Schema.define(version: 20170629222559) do
     t.datetime "updated_at", null: false
     t.index ["broadband_id"], name: "index_points_on_broadband_id"
     t.index ["user_id"], name: "index_points_on_user_id"
+  end
+
+  create_table "user_broadbands", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "broadband_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["broadband_id"], name: "index_user_broadbands_on_broadband_id"
+    t.index ["user_id"], name: "index_user_broadbands_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -118,5 +138,8 @@ ActiveRecord::Schema.define(version: 20170629222559) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
   end
 
+  add_foreign_key "broadbands", "broadband_types"
   add_foreign_key "opening_hours", "broadbands"
+  add_foreign_key "user_broadbands", "broadbands"
+  add_foreign_key "user_broadbands", "users"
 end
