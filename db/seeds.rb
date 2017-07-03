@@ -16,7 +16,7 @@
 Broadband.without_auto_index do
   Broadband.destroy_all
   BroadbandType.destroy_all
-  ActiveRecord::Base.connection.execute("ALTER TABLE broadband_types AUTO_INCREMENT = 1;")
+  ActiveRecord::Base.connection.execute("ALTER SEQUENCE broadband_types_id_seq RESTART WITH 1;")
   BroadbandType.create!(name: 'City and Village halls')
   BroadbandType.create!(name: 'Park Districts')
   BroadbandType.create!(name: 'Hospitals')
