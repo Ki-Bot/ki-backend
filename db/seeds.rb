@@ -39,8 +39,8 @@ Broadband.without_auto_index do
         end
         begin
           Broadband.create!(hash)
-        rescue
-
+        rescue => e
+          puts 'error: ' + e.message
         end
       end
     end
