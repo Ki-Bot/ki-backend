@@ -27,11 +27,8 @@ namespace :broadband_data do
         r_hash[:broadband_type_id] = 7
         hashes << r_hash
         i += 1
-        if i == 1000
+        if i == 100
           Broadband.create!(hashes)
-          hashes = []
-          i = 0
-          sleep(1.0)
         end
       end
     end

@@ -3,9 +3,16 @@ class ApplicationController < ActionController::Base
   after_action :allow_iframe, only: :social_login
 
   def test_facebook
-    open('testt.csv', 'wb') do |file|
-      file << open('http://example.com/image.png').read
-    end
+    # array = Array(0..370)
+    # array.each do |i|
+    #   broadbands = Broadband.select('anchorname, address, bldgnbr, predir, streetname, streettype, suffdir, city, state_code, zip5, latitude, longitude, publicwifi, url, broadband_type_id').offset(i * 1000).limit(1000)
+    #   File.open('public/broadbands/testt_' + i.to_s + '.txt', "w+") do |f|
+    #     broadbands.each { |broadband| f.puts(broadband.to_json) }
+    #   end
+    #   broadbands = nil
+    # end
+
+
     # Thread.start { parse_broadband_types }
     # Thread.start { Broadband.reindex }
     # count = Broadband.where('broadband_type_id IS NULL').count
