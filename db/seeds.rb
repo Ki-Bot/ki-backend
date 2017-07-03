@@ -21,16 +21,18 @@
 # BroadbandType.create!(name: 'Schools')
 # BroadbandType.create!(name: 'Other')
 
-Broadband.destroy_all
-array = Array(0..370)
-idx = 0
-array.each do |i|
-  File.open('public/broadbands/testt_' + i.to_s + '.txt', 'r') do |f|
-    f.each_line do |line|
-      idx += 1
-      puts 'idx: ' + idx.to_s
-      hash = JSON.parse(line).except('id')
-      Broadband.create!(hash)
+Broadband.without_auto_index do
+  Broadband.destroy_all
+  array = Array(0..370)
+  idx = 0
+  array.each do |i|
+    File.open('public/broadbands/testt_' + i.to_s + '.txt', 'r') do |f|
+      f.each_line do |line|
+        idx += 1
+        puts 'idx: ' + idx.to_s
+        hash = JSON.parse(line).except('id')
+        Broadband.create!(hash)
+      end
     end
   end
 end
