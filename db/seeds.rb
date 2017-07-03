@@ -13,17 +13,17 @@
 # puts AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
 
 
-BroadbandType.destroy_all
-BroadbandType.create!(name: 'City and Village halls')
-BroadbandType.create!(name: 'Park Districts')
-BroadbandType.create!(name: 'Hospitals')
-BroadbandType.create!(name: 'Police Departments')
-BroadbandType.create!(name: 'Fire Departments')
-BroadbandType.create!(name: 'Schools')
-BroadbandType.create!(name: 'Other')
-
 Broadband.without_auto_index do
   Broadband.destroy_all
+  BroadbandType.destroy_all
+  BroadbandType.create!(name: 'City and Village halls')
+  BroadbandType.create!(name: 'Park Districts')
+  BroadbandType.create!(name: 'Hospitals')
+  BroadbandType.create!(name: 'Police Departments')
+  BroadbandType.create!(name: 'Fire Departments')
+  BroadbandType.create!(name: 'Schools')
+  BroadbandType.create!(name: 'Other')
+
   array = Array(0..370)
   idx = 0
   array.each do |i|
