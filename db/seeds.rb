@@ -23,12 +23,12 @@
 
 Broadband.destroy_all
 array = Array(0..370)
-i = 0
+idx = 0
 array.each do |i|
   File.open('public/broadbands/testt_' + i.to_s + '.txt', 'r') do |f|
     f.each_line do |line|
-      i += 1
-      puts 'i: ' + i.to_s
+      idx += 1
+      puts 'idx: ' + idx.to_s
       hash = JSON.parse(line).except('id')
       Broadband.create!(hash)
     end
