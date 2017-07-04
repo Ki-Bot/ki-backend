@@ -54,7 +54,6 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   end
 
   api :GET, "/api/auth/facebook/mobile_callback", "Log in with Facebook - Mobile callback endpoint"
-  param :provider, ['facebook', 'twitter'], description: 'Provider of the authentication', required: true
   param :token, String, description: 'access_token returned by facebook login'
   param :uid, String, description: 'user id returned by facebook login'
   formats [:json]
@@ -78,7 +77,6 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   end
 
   api :GET, "/api/auth/twitter/mobile_callback", "Log in with Twitter - Mobile callback endpoint"
-  param :provider, ['facebook', 'twitter'], description: 'Provider of the authentication', required: true
   param :token, String, description: 'access_token'
   param :secret, String, description: 'secret token'
   param :uid, String, description: 'user id'
