@@ -1,7 +1,7 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   skip_before_action :authenticate_with_token, only: [:search, :filter, :show, :types, :search_all]
-  before_action :set_broadband, only: [:show, :update]
+  before_action :set_broadband, only: [:show, :update, :acquire]
 
   resource_description do
     short 'Broadbands endpoints'
@@ -133,6 +133,18 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   formats [:json]
   def types
     render json: BroadbandType.select(:id, :name)
+  end
+
+  def acquire
+    if @broadband.present?
+      current_user.broadbands << @broadband unless current_user.broadbands.include?(@broadband)
+      return render json: { success: true }
+    end
+    render json: { error: 'Broadband not found!' }
+  end
+
+  def my_broadbands
+    render json: { my_broadbands: current_user.broadbands }
   end
 
   private

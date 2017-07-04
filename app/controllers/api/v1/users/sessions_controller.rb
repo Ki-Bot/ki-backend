@@ -62,8 +62,8 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   api :GET, "/api/auth/facebook/mobile_callback", "Log in with Facebook - Mobile callback endpoint"
   # api :GET, "/auth/twitter/callback", "Log in with Twitter"
   param :provider, ['facebook', 'twitter'], description: 'Provider of the authentication', required: true
-  param :token, String, description: 'access_token returned from facebook login'
-  param :uid, String, description: 'user id returned from facebook login'
+  param :token, String, description: 'access_token returned by facebook login'
+  param :uid, String, description: 'user id returned by facebook login'
   formats [:json]
   def create_fb_mobile
     token = params[:token]
@@ -87,10 +87,24 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   api :GET, "/api/auth/twitter/mobile_callback", "Log in with Twitter - Mobile callback endpoint"
   # api :GET, "/auth/twitter/callback", "Log in with Twitter"
   param :provider, ['facebook', 'twitter'], description: 'Provider of the authentication', required: true
-  param :token, String, description: 'access_token returned from twitter login'
-  param :uid, String, description: 'user id returned from twitter login'
+  param :token, String, description: 'access_token returned by twitter login'
+  param :secret, String, description: 'secret token returned by twitter login'
+  param :uid, String, description: 'user id returned by twitter login'
   formats [:json]
   def create_twitter_mobile
+    token = params[:token]
+    secret = params[:secret]
+    uid = params[:uid]
+    status = false
+    client = TwitterOAuth::Client.new(
+        consumer_key: APP_CONFIG["TWITTER_CUSTOMER_KEY"],
+        consumer_secret: APP_CONFIG["TWITTER_CUSTOMER_SECRET"],
+        token: token,
+        secret: secret
+    )
+    if client.authorized?
+      render json: { authorized: true }
+    end
     render json: '', status: :unauthorized
   end
 
