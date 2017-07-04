@@ -27,24 +27,30 @@ class Broadband < ApplicationRecord
     attributesForFaceting [:type]
   end
 
-  def self.search(q, location = nil)
+  def self.search(q, location = nil, offset, length)
+    offset = 0 if offset.nil?
+    length = 500 if length.nil?
     # algolia_search(q)
     index = Algolia::Index.new(name)
     hash = {}
     hash[:aroundLatLng] = location if q.blank?
+    hash[:offset] = offset
+    hash[:length] = length
     json = index.search(q, hash)
     hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
     Broadband.where('id IN (?)', hit_ids).sort_by { |x| hit_ids.index x.id }
   end
 
-  def self.filter(q, types)
+  def self.filter(q, types, offset, length)
+    offset = 0 if offset.nil?
+    length = 500 if length.nil?
     filters = []
     types.each do |type|
       filters << ('type:"' + type + '"')
     end
     filter_text = filters.join(' OR ')
     index = Algolia::Index.new(name)
-    json = index.search(q, filters: filter_text)
+    json = index.search(q, filters: filter_text, offset: offset, length: length)
     hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
     Broadband.where('id IN (?)', hit_ids).sort_by { |x| hit_ids.index x.id }
 
@@ -57,11 +63,9 @@ class Broadband < ApplicationRecord
     # results
   end
 
-  def _geoloc
-    { lat: latitude.to_f, lng: longitude.to_f }
-  end
-
-  def self.search_all(q, types, location)
+  def self.search_all(q, types, location, offset, length)
+    offset = 0 if offset.nil?
+    length = 500 if length.nil?
     filter_text = nil
     if types.present?
       filters = []
@@ -73,9 +77,15 @@ class Broadband < ApplicationRecord
     hash = {}
     hash[:aroundLatLng] = location unless location.nil?
     hash[:filters] = filter_text unless filter_text.nil?
+    hash[:offset] = offset
+    hash[:length] = length
     index = Algolia::Index.new(name)
     json = index.search(q, hash)
     hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
     Broadband.where('id IN (?)', hit_ids).sort_by { |x| hit_ids.index x.id }
+  end
+
+  def _geoloc
+    { lat: latitude.to_f, lng: longitude.to_f }
   end
 end

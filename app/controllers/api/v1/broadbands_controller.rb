@@ -53,37 +53,49 @@ class Api::V1::BroadbandsController < Api::ApplicationController
 
   api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
   param :q, String, 'Query to search. If blank the results will be purely location-based.', required: false
+  param :offset, Integer, 'Pagination Offset', default: 0
+  param :length, Integer, 'Pagination Length (Limit)', default: 500
   formats [:json]
   def search_by_location
     q = params[:q]
+    offset = params[:offset]
+    length = params[:length]
     location = q.blank? ? request.headers['HTTP_USER_LOCATION'] : nil
-    hits = Broadband.search(q, location)
+    hits = Broadband.search(q, location, offset, length)
     render json: hits, each_serializer: BroadbandSerializer
   end
 
   api! 'Filter broadband results by type'
   param :q, String, 'Search query', required: true
   param :types, String, 'Organization types', required: true
+  param :offset, Integer, 'Pagination Offset', default: 0
+  param :length, Integer, 'Pagination Length (Limit)', default: 500
   formats [:json]
   def filter
     q = params[:q]
     types = params[:types]
+    offset = params[:offset]
+    length = params[:length]
     if q.blank? || types.blank?
       return render json: { error: 'No ' + (q.blank? ? 'query' : 'type') + ' was provided!' }, status: :unprocessable_entity
     end
-    hits = Broadband.filter(q, types)
+    hits = Broadband.filter(q, types, offset, length)
     render json: hits, each_serializer: BroadbandSerializer
   end
 
   api! 'Search, filter, or search by location. To search by location add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
   param :q, String, 'Search query', required: true
   param :types, String, 'Organization types', required: true
+  param :offset, Integer, 'Pagination Offset', default: 0
+  param :length, Integer, 'Pagination Length (Limit)', default: 500
   formats [:json]
   def search_all
     q = params[:q]
     types = params[:types]
+    offset = params[:offset]
+    length = params[:length]
     location = request.headers['HTTP_USER_LOCATION']
-    hits = Broadband.search_all(q, types, location)
+    hits = Broadband.search_all(q, types, location, offset, length)
     render json: hits, each_serializer: BroadbandSerializer
   end
 
