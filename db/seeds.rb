@@ -14,37 +14,37 @@
 
 
 Broadband.without_auto_index do
-  Broadband.destroy_all
-  BroadbandType.destroy_all
-  ActiveRecord::Base.connection.execute("ALTER SEQUENCE broadband_types_id_seq RESTART WITH 1;")
-  ActiveRecord::Base.connection.execute("ALTER SEQUENCE broadbands_id_seq RESTART WITH 1;")
-  BroadbandType.create!(name: 'City and Village halls')
-  BroadbandType.create!(name: 'Park Districts')
-  BroadbandType.create!(name: 'Hospitals')
-  BroadbandType.create!(name: 'Police Departments')
-  BroadbandType.create!(name: 'Fire Departments')
-  BroadbandType.create!(name: 'Schools')
-  BroadbandType.create!(name: 'Other')
+  # Broadband.destroy_all
+  # BroadbandType.destroy_all
+  # ActiveRecord::Base.connection.execute("ALTER SEQUENCE broadband_types_id_seq RESTART WITH 1;")
+  # ActiveRecord::Base.connection.execute("ALTER SEQUENCE broadbands_id_seq RESTART WITH 1;")
+  # BroadbandType.create!(name: 'City and Village halls')
+  # BroadbandType.create!(name: 'Park Districts')
+  # BroadbandType.create!(name: 'Hospitals')
+  # BroadbandType.create!(name: 'Police Departments')
+  # BroadbandType.create!(name: 'Fire Departments')
+  # BroadbandType.create!(name: 'Schools')
+  # BroadbandType.create!(name: 'Other')
 
-  array = Array(0..370)
-  idx = 0
-  array.each do |i|
-    File.open('public/broadbands/testt_' + i.to_s + '.txt', 'r') do |f|
-      f.each_line do |line|
-        idx += 1
-        puts 'idx: ' + idx.to_s
-        hash = JSON.parse(line)
-        if !hash.key?(:broadband_type_id) || hash[:broadband_type_id].nil? || hash[:broadband_type_id] == ''
-          hash[:broadband_type_id] = 7
-        end
-        begin
-          Broadband.create!(hash)
-        rescue => e
-          puts 'error: ' + e.message
-        end
-      end
-    end
-  end
+  # array = Array(0..370)
+  # idx = 0
+  # array.each do |i|
+  #   File.open('public/broadbands/testt_' + i.to_s + '.txt', 'r') do |f|
+  #     f.each_line do |line|
+  #       idx += 1
+  #       puts 'idx: ' + idx.to_s
+  #       hash = JSON.parse(line)
+  #       if !hash.key?(:broadband_type_id) || hash[:broadband_type_id].nil? || hash[:broadband_type_id] == ''
+  #         hash[:broadband_type_id] = 7
+  #       end
+  #       begin
+  #         Broadband.create!(hash)
+  #       rescue => e
+  #         puts 'error: ' + e.message
+  #       end
+  #     end
+  #   end
+  # end
 
 
 

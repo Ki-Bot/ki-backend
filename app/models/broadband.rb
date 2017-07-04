@@ -60,4 +60,22 @@ class Broadband < ApplicationRecord
   def _geoloc
     { lat: latitude.to_f, lng: longitude.to_f }
   end
+
+  def self.search_all(q, types, location)
+    filter_text = nil
+    if types.present?
+      filters = []
+      types.each do |type|
+        filters << ('type:"' + type + '"')
+      end
+      filter_text = filters.join(' OR ')
+    end
+    hash = {}
+    hash[:aroundLatLng] = location unless location.nil?
+    hash[:filters] = filter_text unless filter_text.nil?
+    index = Algolia::Index.new(name)
+    json = index.search(q, hash)
+    hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
+    Broadband.where('id IN (?)', hit_ids).sort_by { |x| hit_ids.index x.id }
+  end
 end

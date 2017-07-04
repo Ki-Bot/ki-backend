@@ -49,6 +49,7 @@ gem 'rack-cors'
 gem 'paperclip'
 gem 'parallel'
 gem "browser", require: "browser/browser"
+gem 'koala'
 
 
 group :development, :test do

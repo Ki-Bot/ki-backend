@@ -1,6 +1,6 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
-  skip_before_action :authenticate_with_token, only: [:search, :filter, :show, :types]
+  skip_before_action :authenticate_with_token, only: [:search, :filter, :show, :types, :search_all]
   before_action :set_broadband, only: [:show, :update]
 
   resource_description do
@@ -51,7 +51,6 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     render json: hits, each_serializer: BroadbandSerializer
   end
 
-
   api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
   param :q, String, 'Query to search. If blank the results will be purely location-based.', required: false
   formats [:json]
@@ -73,6 +72,18 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       return render json: { error: 'No ' + (q.blank? ? 'query' : 'type') + ' was provided!' }, status: :unprocessable_entity
     end
     hits = Broadband.filter(q, types)
+    render json: hits, each_serializer: BroadbandSerializer
+  end
+
+  api! 'Search, filter, or search by location. To search by location add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
+  param :q, String, 'Search query', required: true
+  param :types, String, 'Organization types', required: true
+  formats [:json]
+  def search_all
+    q = params[:q]
+    types = params[:types]
+    location = request.headers['HTTP_USER_LOCATION']
+    hits = Broadband.search_all(q, types, location)
     render json: hits, each_serializer: BroadbandSerializer
   end
 

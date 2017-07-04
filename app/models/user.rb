@@ -35,6 +35,15 @@ class User < ApplicationRecord
     self.favorites.delete point
   end
 
+  def self.custom_oauth(provider, uid, token)
+    where(provider: provider, uid: uid).first_or_create do |user|
+      user.provider = provider
+      user.uid      = uid
+      user.oauth_token = token
+      user.save!
+    end
+  end
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.provider = auth.provider
@@ -45,18 +54,10 @@ class User < ApplicationRecord
       user.oauth_expires_at = auth.credentials.expires_at.present? ? Time.at(auth.credentials.expires_at) : ''
       user.save!
     end
-    # where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
-    #   user.provider = auth.provider
-    #   user.uid = auth.uid
-    #   user.name = auth.info.name
-    #   user.oauth_token = auth.credentials.token
-    #   user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-    #   user.save!
-    # end
   end
 
   def can_edit_broadband(broadband)
-    user.broadbands.include?(broadband)
+    broadbands.include?(broadband)
   end
 
 end

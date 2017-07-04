@@ -7,6 +7,10 @@ class BroadbandSerializer < ActiveModel::Serializer
     current_user.present? && current_user.can_edit_broadband(object)
   end
 
+  def is_favorite
+    current_user.present? && current_user.has_favorite?(object)
+  end
+
   def logo
     object.logo.url if object.logo.exists?
   end
