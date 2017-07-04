@@ -62,7 +62,7 @@ keywords = {
     'hall'=> 1, 'courthouse'=> 1, 'couthouse'=> 1, 'county commision' => 1, 'museum'=> 1, 'heritage' => 1, 'technology center'=>1, 'sports academy' => 1, 'technology' => 1, 'county' => 1, 'center for technology' => 1, 'government' => 1, 'village' => 1, 'city' => 1, 'airport' => 1, 'housing authority' => 1, 'chamber of commerce' => 1, 'community association' => 1, 'court' => 1, 'council' => 1, 'association' => 1, 'community' => 1, 'tribe' => 1, 'municipal' => 1, 'guidance center' => 1, 'state' => 1, 'economic security' => 1
 }
 
-all = Broadband.where('broadband_type_id IS NULL').to_a
+all = Broadband.where('broadband_type_id IS NULL || broadband_type_id = 7').to_a
 total_count = all.count
 i = 0
 Parallel.each(all, in_threads: 4) { |broadband|
