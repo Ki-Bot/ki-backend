@@ -58,7 +58,6 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     end
   end
 
-
   # api! 'Log in with Facebook'
   api :GET, "/auth/facebook/mobile_callback", "Log in with Facebook and Twitter - Mobile callback endpoint"
   # api :GET, "/auth/twitter/callback", "Log in with Twitter"

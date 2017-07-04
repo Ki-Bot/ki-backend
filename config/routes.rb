@@ -15,8 +15,8 @@ Rails.application.routes.draw do
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
   # match 'signout', to: 'api/v1/users/sessions#destroy', via: [:get, :post]
 
-  get 'auth/facebook/mobile_callback', to: 'api/v1/users/sessions#create_fb_mobile', via: [:get, :post]
-  get 'auth/twitter/mobile_callback', to: 'api/v1/users/sessions#create_twitter_mobile', via: [:get, :post]
+  get 'api/auth/facebook/mobile_callback', to: 'api/v1/users/sessions#create_fb_mobile', via: [:get, :post]
+  get 'api/auth/twitter/mobile_callback', to: 'api/v1/users/sessions#create_twitter_mobile', via: [:get, :post]
 
   namespace :api, defaults: { format: :json } do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
