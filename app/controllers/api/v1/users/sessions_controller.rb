@@ -59,7 +59,7 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   end
 
   # api! 'Log in with Facebook'
-  api :GET, "/auth/facebook/mobile_callback", "Log in with Facebook and Twitter - Mobile callback endpoint"
+  api :GET, "/api/auth/facebook/mobile_callback", "Log in with Facebook - Mobile callback endpoint"
   # api :GET, "/auth/twitter/callback", "Log in with Twitter"
   param :provider, ['facebook', 'twitter'], description: 'Provider of the authentication', required: true
   param :token, String, description: 'access_token returned from facebook login'
@@ -78,13 +78,13 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
         user = User.custom_oauth('facebook', user_id, token)
         user.generate_authentication_token!
         user.save
-        return render json: user.to_json
+        return render json: { auth_token: user.auth_token }
       end
     end
     render json: '', status: :unauthorized
   end
 
-  api :GET, "/auth/twitter/mobile_callback", "Log in with Facebook and Twitter - Mobile callback endpoint"
+  api :GET, "/api/auth/twitter/mobile_callback", "Log in with Twitter - Mobile callback endpoint"
   # api :GET, "/auth/twitter/callback", "Log in with Twitter"
   param :provider, ['facebook', 'twitter'], description: 'Provider of the authentication', required: true
   param :token, String, description: 'access_token returned from twitter login'

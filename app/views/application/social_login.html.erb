@@ -82,7 +82,7 @@
             if (response.status === 'connected') {
                 if(response.authResponse){
                     $.ajax({
-                        url: '/auth/facebook/callback',
+                        url: 'https://ki-staging.herokuapp.com/auth/facebook/callback',
                         data: { signed_request: response.authResponse.signedRequest },
                         success: function(data){
                             console.log(data.auth_token);
