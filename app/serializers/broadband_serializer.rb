@@ -12,7 +12,7 @@ class BroadbandSerializer < ActiveModel::Serializer
   end
 
   def logo
-    object.logo.url if object.logo.exists?
+    object.logo.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com' if object.logo.exists?
   end
 
   def logo_medium
