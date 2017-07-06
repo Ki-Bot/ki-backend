@@ -40,7 +40,7 @@ class Broadband < ApplicationRecord
     hash[:length] = length
     json = index.search(q, hash)
     hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).sort_by { |x| hit_ids.index x.id }
+    Broadband.where('id IN (?)', hit_ids).select(:id, :address).sort_by { |x| hit_ids.index x.id }
   end
 
   def self.filter(q, types, offset, length)
@@ -54,7 +54,7 @@ class Broadband < ApplicationRecord
     index = Algolia::Index.new(name)
     json = index.search(q, filters: filter_text, offset: offset, length: length)
     hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).sort_by { |x| hit_ids.index x.id }
+    Broadband.where('id IN (?)', hit_ids).select(:id, :address).sort_by { |x| hit_ids.index x.id }
 
     # algolia_search(q, filters: filter_text)
     # algolia_search_for_facet_values('type', 'Hospitals')
@@ -84,7 +84,7 @@ class Broadband < ApplicationRecord
     index = Algolia::Index.new(name)
     json = index.search(q, hash)
     hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).sort_by { |x| hit_ids.index x.id }
+    Broadband.where('id IN (?)', hit_ids).select(:id, :address).sort_by { |x| hit_ids.index x.id }
   end
 
   def _geoloc

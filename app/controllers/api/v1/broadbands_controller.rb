@@ -48,7 +48,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     q = params[:q]
     return render json: { error: 'No query was provided!' }, status: :unprocessable_entity if q.blank?
     hits = Broadband.search(q, offset, length)
-    render json: hits, each_serializer: BroadbandSerializer
+    render json: hits, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
@@ -62,7 +62,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     length = params[:length]
     location = q.blank? ? request.headers['HTTP_USER_LOCATION'] : nil
     hits = Broadband.search(q, offset, length, location)
-    render json: hits, each_serializer: BroadbandSerializer
+    render json: hits, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Filter broadband results by type'
@@ -80,7 +80,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       return render json: { error: 'No ' + (q.blank? ? 'query' : 'type') + ' was provided!' }, status: :unprocessable_entity
     end
     hits = Broadband.filter(q, types, offset, length)
-    render json: hits, each_serializer: BroadbandSerializer
+    render json: hits, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Search, filter, or search by location. To search by location add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
@@ -96,7 +96,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     length = params[:length]
     location = request.headers['HTTP_USER_LOCATION']
     hits = Broadband.search_all(q, types, location, offset, length)
-    render json: hits, each_serializer: BroadbandSerializer
+    render json: hits, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Broadband details'

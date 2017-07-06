@@ -11,7 +11,11 @@ class ApplicationController < ActionController::Base
     #   end
     #   broadbands = nil
     # end
-
+    # Broadband.reindex!
+    return render json: Algolia.list_indexes
+    index = Algolia::Index.new('Broadband')
+    settings = index.get_settings
+    return render json: settings.to_json
 
     # Thread.start { parse_broadband_types }
     # Thread.start { Broadband.reindex }
