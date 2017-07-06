@@ -129,8 +129,8 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   def update
     if current_user.can_edit_broadband(@broadband)
       request_params = broadband_params
-      request_params[:logo] = process_base64(request_params[:logo])
-      request_params[:banner] = process_base64(request_params[:banner])
+      request_params[:logo] = process_base64(request_params[:logo]) if request_params.key?(:logo)
+      request_params[:banner] = process_base64(request_params[:banner]) if request_params.key?(:banner)
       if @broadband.update!(request_params)
         render json: @broadband
       else

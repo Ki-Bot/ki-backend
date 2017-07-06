@@ -24,7 +24,7 @@ class BroadbandSerializer < ActiveModel::Serializer
   end
 
   def banner
-    object.banner.url if object.banner.exists?
+    object.banner.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com' if object.banner.exists?
   end
 
   def banner_medium
