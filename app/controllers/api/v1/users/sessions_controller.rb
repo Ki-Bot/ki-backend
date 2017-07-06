@@ -1,6 +1,6 @@
 require 'browser'
 class Api::V1::Users::SessionsController < Api::ApplicationController
-  skip_before_action :authenticate_with_token, only: [:create, :create_fb, :create_fb_mobile, :create_twitter_mobile]
+  skip_before_action :authenticate_with_token, only: [:create, :create_social, :create_fb_mobile, :create_twitter_mobile]
 
   resource_description do
     resource_id 'authentication'
@@ -40,7 +40,7 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   param :provider, ['facebook', 'twitter'], description: 'Provider of the authentication', required: true
   param :signed_request, String, description: 'authResponse.signed_request returned from facebook login'
   formats [:json]
-  def create_fb
+  def create_social
     browser = Browser.new(request.user_agent)
     is_mobile = browser.device.mobile?
     @user = User.from_omniauth(request.env["omniauth.auth"])
@@ -85,13 +85,17 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     token = params[:token]
     secret = params[:secret]
     uid = params[:uid]
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = ENV['twitter_app_id']
-      config.consumer_secret     = ENV['twitter_secret']
-      config.access_token        = token
-      config.access_token_secret = secret
+    res = nil
+    begin
+      client = Twitter::REST::Client.new do |config|
+        config.consumer_key        = ENV['twitter_app_id']
+        config.consumer_secret     = ENV['twitter_secret']
+        config.access_token        = token
+        config.access_token_secret = secret
+      end
+      res = client.verify_credentials
+    rescue
     end
-    res = client.verify_credentials
     if res.present? && res[:id].to_s == uid
       user = User.custom_oauth('twitter', uid, token)
       user.generate_authentication_token!

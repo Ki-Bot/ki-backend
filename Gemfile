@@ -47,6 +47,7 @@ gem 'omniauth-twitter'
 
 gem 'rack-cors'
 gem 'paperclip'
+gem 'aws-sdk'
 gem 'parallel'
 gem "browser", require: "browser/browser"
 gem 'koala'

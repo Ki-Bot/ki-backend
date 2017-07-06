@@ -18,7 +18,7 @@ class Api::V1::PointsController < Api::ApplicationController
   def create
     if @point.present?
       current_user.set_favorite_point!(@point)
-      render json: { favorites: current_user.favorites }
+      render json: { success: true }
     else
       render json: { error: 'The broadband was not found' }
     end
@@ -30,7 +30,7 @@ class Api::V1::PointsController < Api::ApplicationController
   def destroy
     if @point.present? && current_user.has_favorite?(@point)
       current_user.remove_favorite_point!(@point)
-      render json: current_user.favorites
+      render json: { success: true }
     else
       render json: { error: 'The broadband was not found' }
     end

@@ -47,7 +47,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   def search
     q = params[:q]
     return render json: { error: 'No query was provided!' }, status: :unprocessable_entity if q.blank?
-    hits = Broadband.search(q)
+    hits = Broadband.search(q, offset, length)
     render json: hits, each_serializer: BroadbandSerializer
   end
 
@@ -61,7 +61,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     offset = params[:offset]
     length = params[:length]
     location = q.blank? ? request.headers['HTTP_USER_LOCATION'] : nil
-    hits = Broadband.search(q, location, offset, length)
+    hits = Broadband.search(q, offset, length, location)
     render json: hits, each_serializer: BroadbandSerializer
   end
 
@@ -129,8 +129,8 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   def update
     if current_user.can_edit_broadband(@broadband)
       request_params = broadband_params
-      request_params[:logo] = process_base64(broadband_params[:logo])
-      request_params[:banner] = process_base64(broadband_params[:banner])
+      request_params[:logo] = process_base64(request_params[:logo])
+      request_params[:banner] = process_base64(request_params[:banner])
       if @broadband.update!(request_params)
         render json: @broadband
       else
@@ -166,7 +166,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   def broadband_params
-      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id, :banner, logo: [:data, :filename], banner: [:data, :filename], opening_hours_attributes: [:id, :day, :from, :to, :open])
+      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id, logo: [:data, :filename], banner: [:data, :filename], opening_hours_attributes: [:id, :day, :from, :to, :open])
   end
 
   def process_base64(string_info)

@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   get 'test_facebook', to: 'application#test_facebook'
   get 'social_login', to: 'application#social_login'
 
-  match 'auth/:provider/callback', to: 'api/v1/users/sessions#create_fb', via: [:get, :post]
+  match 'auth/:provider/callback', to: 'api/v1/users/sessions#create_social', via: [:get, :post]
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
   # match 'signout', to: 'api/v1/users/sessions#destroy', via: [:get, :post]
 

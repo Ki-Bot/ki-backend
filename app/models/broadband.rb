@@ -1,11 +1,13 @@
 class Broadband < ApplicationRecord
   include AlgoliaSearch
 
-  has_attached_file :banner, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing_banner.png', validate_media_type: false
+  has_attached_file :banner, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing_banner.png', validate_media_type: false, :storage => :s3,
+                    :s3_credentials => Proc.new{|a| a.instance.s3_credentials }
   # validates_attachment_content_type :banner, :content_type => ['image/jpeg', 'image/png']
   do_not_validate_attachment_file_type :banner
 
-  has_attached_file :logo, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing_logo.png', validate_media_type: false
+  has_attached_file :logo, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing_logo.png', validate_media_type: false, :storage => :s3,
+                    :s3_credentials => Proc.new{|a| a.instance.s3_credentials }
   # validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png']
   do_not_validate_attachment_file_type :logo
 
@@ -27,13 +29,13 @@ class Broadband < ApplicationRecord
     attributesForFaceting [:type]
   end
 
-  def self.search(q, location = nil, offset, length)
+  def self.search(q, offset, length, location = nil)
     offset = 0 if offset.nil?
     length = 500 if length.nil?
     # algolia_search(q)
     index = Algolia::Index.new(name)
     hash = {}
-    hash[:aroundLatLng] = location if q.blank?
+    hash[:aroundLatLng] = location unless location.nil?
     hash[:offset] = offset
     hash[:length] = length
     json = index.search(q, hash)
@@ -87,5 +89,9 @@ class Broadband < ApplicationRecord
 
   def _geoloc
     { lat: latitude.to_f, lng: longitude.to_f }
+  end
+
+  def s3_credentials
+    {:bucket => ENV['s3_bucket_name'], :access_key_id => ENV['aws_access_key_id'], :secret_access_key => ENV['secret_access_key'], s3_region: ENV['aws_region']}
   end
 end
