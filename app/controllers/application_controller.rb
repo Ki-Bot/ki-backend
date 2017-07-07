@@ -12,8 +12,11 @@ class ApplicationController < ActionController::Base
     #   broadbands = nil
     # end
 
-    # Broadband.reindex
+    return render json: Broadband.count
 
+    # puts 'here'
+    # Broadband.reindex!
+    # puts 'here 2'
     # parse_nonprofits
 
     return render json: Algolia.list_indexes
