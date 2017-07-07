@@ -12,6 +12,27 @@ class ApplicationController < ActionController::Base
     #   broadbands = nil
     # end
     # Broadband.reindex!
+    Broadband.where('broadband_type_id = ?', 7).destroy_all
+    new_broadbands = []
+    i = 0
+    File.open('public/nonprofits/data-download-pub78.txt', 'r') do |f|
+      f.each_line do |line|
+        next if line.length <= 2
+        i += 1
+        puts i.to_s
+        parts = line.split('|')
+        broadband = Broadband.new
+        broadband.anchorname = parts[1]
+        broadband.city = parts[2]
+        broadband.state_code = parts[3]
+        broadband.broadband_type_id = 7
+        new_broadbands << broadband
+        if (i % 1000).zero?
+          Broadband.import new_broadbands
+          new_broadbands.clear
+        end
+      end
+    end
     return render json: Algolia.list_indexes
     index = Algolia::Index.new('Broadband')
     settings = index.get_settings

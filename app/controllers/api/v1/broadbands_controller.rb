@@ -1,6 +1,6 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
-  skip_before_action :authenticate_with_token, only: [:search, :filter, :show, :types, :search_all]
+  skip_before_action :authenticate_with_token, only: [:search, :filter, :show, :types, :search_by_location, :search_all]
   before_action :set_broadband, only: [:show, :update, :acquire]
 
   resource_description do
@@ -46,6 +46,8 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   formats [:json]
   def search
     q = params[:q]
+    offset = params[:offset]
+    length = params[:length]
     return render json: { error: 'No query was provided!' }, status: :unprocessable_entity if q.blank?
     hits = Broadband.search(q, offset, length)
     render json: hits, each_serializer: SimpleBroadbandSerializer
@@ -55,13 +57,15 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param :q, String, 'Query to search. If blank the results will be purely location-based.', required: false
   param :offset, Integer, 'Pagination Offset', default: 0
   param :length, Integer, 'Pagination Length (Limit)', default: 500
+  param :radius, Integer, 'Radius in Meters', required: false
   formats [:json]
   def search_by_location
     q = params[:q]
     offset = params[:offset]
     length = params[:length]
     location = q.blank? ? request.headers['HTTP_USER_LOCATION'] : nil
-    hits = Broadband.search(q, offset, length, location)
+    radius = params[:radius]
+    hits = Broadband.search(q, offset, length, location, radius)
     render json: hits, each_serializer: SimpleBroadbandSerializer
   end
 
@@ -88,14 +92,16 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param :types, String, 'Organization types', required: true
   param :offset, Integer, 'Pagination Offset', default: 0
   param :length, Integer, 'Pagination Length (Limit)', default: 500
+  param :radius, Integer, 'Radius in Meters', required: false
   formats [:json]
   def search_all
     q = params[:q]
     types = params[:types]
     offset = params[:offset]
     length = params[:length]
+    radius = params[:radius]
     location = request.headers['HTTP_USER_LOCATION']
-    hits = Broadband.search_all(q, types, location, offset, length)
+    hits = Broadband.search_all(q, types, location, offset, length, radius)
     render json: hits, each_serializer: SimpleBroadbandSerializer
   end
 

@@ -133,6 +133,7 @@
     <orderEntry type="library" scope="PROVIDED" name="activejob (v5.1.1, rbenv: 2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activemodel (v5.1.1, rbenv: 2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activerecord (v5.1.1, rbenv: 2.3.4) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activerecord-import (v0.19.0, rbenv: 2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activesupport (v5.1.1, rbenv: 2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="addressable (v2.5.1, rbenv: 2.3.4) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="algoliasearch (v1.12.7, rbenv: 2.3.4) [gem]" level="application" />

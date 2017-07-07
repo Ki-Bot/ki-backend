@@ -29,18 +29,19 @@ class Broadband < ApplicationRecord
     attributesForFaceting [:type]
   end
 
-  def self.search(q, offset, length, location = nil)
+  def self.search(q, offset, length, location = nil, radius = nil)
     offset = 0 if offset.nil?
     length = 500 if length.nil?
     # algolia_search(q)
     index = Algolia::Index.new(name)
     hash = {}
     hash[:aroundLatLng] = location unless location.nil?
+    hash[:aroundRadius] = radius unless radius.nil?
     hash[:offset] = offset
     hash[:length] = length
     json = index.search(q, hash)
     hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).select(:id, :address).sort_by { |x| hit_ids.index x.id }
+    Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
   end
 
   def self.filter(q, types, offset, length)
@@ -54,7 +55,7 @@ class Broadband < ApplicationRecord
     index = Algolia::Index.new(name)
     json = index.search(q, filters: filter_text, offset: offset, length: length)
     hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).select(:id, :address).sort_by { |x| hit_ids.index x.id }
+    Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
 
     # algolia_search(q, filters: filter_text)
     # algolia_search_for_facet_values('type', 'Hospitals')
@@ -65,7 +66,7 @@ class Broadband < ApplicationRecord
     # results
   end
 
-  def self.search_all(q, types, location, offset, length)
+  def self.search_all(q, types, location, offset, length, radius)
     offset = 0 if offset.nil?
     length = 500 if length.nil?
     filter_text = nil
@@ -78,13 +79,14 @@ class Broadband < ApplicationRecord
     end
     hash = {}
     hash[:aroundLatLng] = location unless location.nil?
+    hash[:aroundRadius] = radius unless radius.nil?
     hash[:filters] = filter_text unless filter_text.nil?
     hash[:offset] = offset
     hash[:length] = length
     index = Algolia::Index.new(name)
     json = index.search(q, hash)
     hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).select(:id, :address).sort_by { |x| hit_ids.index x.id }
+    Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
   end
 
   def _geoloc
