@@ -17,10 +17,7 @@ class Broadband < ApplicationRecord
   belongs_to :broadband_type
 
   algoliasearch do
-    attribute :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :id, :_geoloc
-    # attribute :_geoloc do
-    #   geolocation
-    # end
+    attribute :anchorname, :address, :city, :state_code, :id, :_geoloc
     attribute :type do
       broadband_type.present? ? broadband_type.name : ''
     end

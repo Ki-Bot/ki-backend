@@ -11,7 +11,30 @@ class ApplicationController < ActionController::Base
     #   end
     #   broadbands = nil
     # end
-    # Broadband.reindex!
+
+    # Broadband.reindex
+
+    # parse_nonprofits
+
+    return render json: Algolia.list_indexes
+    index = Algolia::Index.new('Broadband')
+    settings = index.get_settings
+    return render json: settings.to_json
+
+    # Thread.start { parse_broadband_types }
+    # Thread.start { Broadband.reindex }
+    # count = Broadband.where('broadband_type_id IS NULL').count
+    # return render json: count
+    render 'test_facebook'
+  end
+
+  def social_login
+    render 'social_login'
+  end
+
+  private
+
+  def parse_nonprofits
     Broadband.where('broadband_type_id = ?', 7).destroy_all
     new_broadbands = []
     i = 0
@@ -33,23 +56,7 @@ class ApplicationController < ActionController::Base
         end
       end
     end
-    return render json: Algolia.list_indexes
-    index = Algolia::Index.new('Broadband')
-    settings = index.get_settings
-    return render json: settings.to_json
-
-    # Thread.start { parse_broadband_types }
-    # Thread.start { Broadband.reindex }
-    # count = Broadband.where('broadband_type_id IS NULL').count
-    # return render json: count
-    render 'test_facebook'
   end
-
-  def social_login
-    render 'social_login'
-  end
-
-  private
 
   def allow_iframe
     response.headers.except! 'X-Frame-Options'
@@ -89,4 +96,5 @@ class ApplicationController < ActionController::Base
     }
     logger.info 'finished'
   end
+
 end
