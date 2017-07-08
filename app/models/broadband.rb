@@ -41,11 +41,12 @@ class Broadband < ApplicationRecord
     end
     hash[:filters] = filter_text unless filter_text.nil?
     json = Broadband.raw_search(nil, hash)
+    json['hits'].map { |hit| Broadband.new(id: hit['objectID'].to_i, address: hit['address'], latitude: hit['_geoloc']['lat'], longitude: hit['_geoloc']['lng']) }
     # json = index.search({
     #     filters: '(type:Hospitals)'
     # })
-    hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
+    # hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
+    # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
   end
 
   def self.search(q, offset, length, location = nil, radius = nil)
@@ -59,8 +60,9 @@ class Broadband < ApplicationRecord
     hash[:offset] = offset
     hash[:length] = length
     json = Broadband.raw_search(q, hash)
-    hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
+    json['hits'].map { |hit| Broadband.new(id: hit['objectID'].to_i, address: hit['address'], latitude: hit['_geoloc']['lat'], longitude: hit['_geoloc']['lng']) }
+    # hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
+    # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
   end
 
   def self.filter(q, types, offset, length)
@@ -72,8 +74,9 @@ class Broadband < ApplicationRecord
     end
     filter_text = filters.join(' OR ')
     json = Broadband.raw_search(q, filters: filter_text, offset: offset, length: length)
-    hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
+    json['hits'].map { |hit| Broadband.new(id: hit['objectID'].to_i, address: hit['address'], latitude: hit['_geoloc']['lat'], longitude: hit['_geoloc']['lng']) }
+    # hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
+    # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
 
     # algolia_search(q, filters: filter_text)
     # algolia_search_for_facet_values('type', 'Hospitals')
@@ -103,8 +106,10 @@ class Broadband < ApplicationRecord
     hash[:length] = length
     # index = Algolia::Index.new(name)
     json = Broadband.raw_search(q, hash)
-    hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
-    Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
+    json['hits'].map { |hit| Broadband.new(id: hit['objectID'].to_i, address: hit['address'], latitude: hit['_geoloc']['lat'], longitude: hit['_geoloc']['lng']) }
+
+    # hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
+    # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
   end
 
   def _geoloc
