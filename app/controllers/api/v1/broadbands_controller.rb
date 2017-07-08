@@ -54,18 +54,14 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
-  param :q, String, 'Query to search. If blank the results will be purely location-based.', required: false
-  param :offset, Integer, 'Pagination Offset', default: 0
-  param :length, Integer, 'Pagination Length (Limit)', default: 500
+  param :types, String, 'Organization types', required: false
   param :radius, Integer, 'Radius in Meters', required: false
   formats [:json]
   def search_by_location
-    q = params[:q]
-    offset = params[:offset]
-    length = params[:length]
-    location = q.blank? ? request.headers['HTTP_USER_LOCATION'] : nil
+    location = request.headers['HTTP_USER_LOCATION']
     radius = params[:radius]
-    hits = Broadband.search(q, offset, length, location, radius)
+    types = params[:types]
+    hits = Broadband.search_by_location(location, radius, types)
     render json: hits, each_serializer: SimpleBroadbandSerializer
   end
 
