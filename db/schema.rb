@@ -112,4 +112,5 @@ ActiveRecord::Schema.define(version: 20170702204038) do
     t.index ["broadband_id"], name: "index_user_broadbands_on_broadband_id"
     t.index ["user_id"], name: "index_user_broadbands_on_user_id"
   end
+end
 
