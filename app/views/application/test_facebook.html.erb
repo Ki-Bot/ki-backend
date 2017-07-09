@@ -1,0 +1,40 @@
+<iframe src="https://ki-staging.herokuapp.com/social_login">
+</iframe>
+
+<%= "Environment: #{Rails.env.production?}" %>
+
+
+
+<script>
+  $.ajax({
+    url: 'https://ki-staging.herokuapp.com/api/broadbands/1',
+    method: 'PUT',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    headers: { "Authorization": 'GRehuCdWnVSQbV9w4UxdKjTN3PtBBCMh' },
+    data: JSON.stringify({ broadband: { "anchorname": "test 6a",
+        "address": "wrgwrg",
+        "bldgnbr" :"test 6a",
+        "latitude": 23.234,
+        "longitude": 34.325,
+        "opening_hours_attributes": [
+            {
+                "day": 3,
+                "from": "09:00",
+                "to": "19:00",
+                "open": true
+            },
+            {
+                "day": 3,
+                "from": "09:00",
+                "to": "19:00",
+                "open": true
+            }
+        ]
+    } }),
+    success: function(data){
+        alert('success');
+        console.log(data);
+    }
+  });
+</script>

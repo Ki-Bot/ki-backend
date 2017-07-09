@@ -1,4 +1,4 @@
-class CreateBroadbands < ActiveRecord::Migration
+class CreateBroadbands < ActiveRecord::Migration[5.1]
   def change
     create_table :broadbands do |t|
       t.string :anchorname

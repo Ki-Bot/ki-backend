@@ -1,5 +1,5 @@
 /**
- * Created by agonq on 6/21/17.
+ * Created by agonq on 6/24/17.
  */
 
 $(function(){
@@ -19,11 +19,12 @@ $(function(){
                     success: function(data){
                         if(data.url){
                             window.location = data.url;
+                        } else if(data.message){
+                            alert(data.message);
                         }
                     },
                     error: function(err1, err2){
-                        console.log(err1);
-                        console.log(err2);
+                        alert(JSON.stringify(err1) + '\n' + JSON.stringify(err2));
                     }
                 });
                 return false;
@@ -41,11 +42,12 @@ $(function(){
             success: function(data){
                 if(data.url){
                     window.location = data.url;
+                } else if(data.message){
+                    alert(data.message);
                 }
             },
             error: function(err1, err2){
-                console.log(err1);
-                console.log(err2);
+                alert(JSON.stringify(err1) + '\n' + JSON.stringify(err2));
             }
         });
         return false;

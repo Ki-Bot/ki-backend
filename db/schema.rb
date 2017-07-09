@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,91 +10,107 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170621174936) do
+ActiveRecord::Schema.define(version: 20170702204038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: :cascade do |t|
-    t.string   "namespace"
-    t.text     "body"
-    t.integer  "resource_id"
-    t.string   "resource_type"
-    t.integer  "author_id"
-    t.string   "author_type"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string "namespace"
+    t.text "body"
+    t.string "resource_type"
+    t.bigint "resource_id"
+    t.string "author_type"
+    t.bigint "author_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
+    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
+    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
   end
-
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "admin_users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_admin_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
-  add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "broadbands", force: :cascade do |t|
-    t.string   "anchorname"
-    t.string   "address"
-    t.string   "bldgnbr"
-    t.string   "predir"
-    t.string   "streetname"
-    t.string   "streettype"
-    t.string   "suffdir"
-    t.string   "city"
-    t.string   "state_code"
-    t.string   "zip5"
-    t.string   "latitude"
-    t.string   "longitude"
-    t.string   "publicwifi"
-    t.string   "url"
+  create_table "broadband_types", force: :cascade do |t|
+    t.string "name"
+    t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "points", force: :cascade do |t|
-    t.integer  "broadband_id"
-    t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+  create_table "broadbands", id: :serial, force: :cascade do |t|
+    t.string "anchorname"
+    t.string "address"
+    t.string "bldgnbr"
+    t.string "predir"
+    t.string "streetname"
+    t.string "streettype"
+    t.string "suffdir"
+    t.string "city"
+    t.string "state_code"
+    t.string "zip5"
+    t.string "latitude"
+    t.string "longitude"
+    t.string "publicwifi"
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "banner_file_name"
+    t.string "banner_content_type"
+    t.integer "banner_file_size"
+    t.datetime "banner_updated_at"
+    t.string "logo_file_name"
+    t.string "logo_content_type"
+    t.integer "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.bigint "broadband_type_id"
+    t.string "services"
+    t.string "notes"
+    t.index ["broadband_type_id"], name: "index_broadbands_on_broadband_type_id"
   end
 
-  add_index "points", ["broadband_id"], name: "index_points_on_broadband_id", using: :btree
-  add_index "points", ["user_id"], name: "index_points_on_user_id", using: :btree
-
-  create_table "users", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.string   "roles",                  default: [],              array: true
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
+  create_table "opening_hours", force: :cascade do |t|
+    t.bigint "broadband_id"
+    t.integer "day", null: false
+    t.time "from"
+    t.time "to"
+    t.boolean "open", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["broadband_id"], name: "index_opening_hours_on_broadband_id"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  create_table "points", id: :serial, force: :cascade do |t|
+    t.integer "broadband_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["broadband_id"], name: "index_points_on_broadband_id"
+    t.index ["user_id"], name: "index_points_on_user_id"
+  end
 
+  create_table "user_broadbands", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "broadband_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["broadband_id"], name: "index_user_broadbands_on_broadband_id"
+    t.index ["user_id"], name: "index_user_broadbands_on_user_id"
+  end
 end
+

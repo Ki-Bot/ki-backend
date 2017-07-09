@@ -15,15 +15,17 @@ ActiveAdmin.register User do
   menu priority: 3
 
   # permit_params :provider, :uid, :name, roles: []
-
+  permit_params :id, :name, :email
+  
   index do
     id_column
 
     column :name
     column :email
     column :roles
-    # column :provider
-    # column :uid
+    column :auth_token
+    column :provider
+    column :uid
     # column :name
     # column :roles
     # column :oauth_expires_at
@@ -37,14 +39,23 @@ ActiveAdmin.register User do
   filter :id
   filter :name
   filter :email
-  filter :roles, as: :check_boxes, collection: [Role::SUPER_USER_ROLE, Role::USER_ROLE]
+  # filter :roles, as: :check_boxes, collection: [Role::SUPER_USER_ROLE, Role::USER_ROLE]
+
+  # sidebar 'User Favorites', only: [:show, :edit] do
+  #   ul do
+  #     li link_to 'Favorites', admin_user_points_path(resource)
+  #   end
+  # end
+
+
 
   form do |f|
     f.inputs 'New User' do
+      f.input :name
       f.input :email
-      f.input :password
-      f.input :password_confirmation
-      f.input :roles, as: :check_boxes, collection: [Role::SUPER_USER_ROLE]
+      # f.input :password
+      # f.input :password_confirmation
+      # f.input :roles, as: :check_boxes, collection: [Role::SUPER_USER_ROLE]
       # f.collection_select :roles, [Role::SUPER_USER_ROLE, Role::USER_ROLE],:id, :name, include_blank: true
     end
     f.button :Submit
@@ -52,29 +63,47 @@ ActiveAdmin.register User do
 
   controller do
     def create
-      @user = User.new(user_params)
-      if @user.save
+      begin
+        @user = User.new(user_params)
+        generated_password = Devise.friendly_token.first(8)
+        @user.password = generated_password
+        @user.password_confirmation = generated_password
+        @user.save!
+        Thread.new do
+          RegistrationMailer.welcome(@user).deliver
+        end
         redirect_to admin_users_path
+      rescue => e
+        return render text: e.message
       end
+
       # super
     end
 
-    def update
-      @user = User.find(params[:id])
-      if @user.update(user_params)
-        return render json: { url: admin_users_path }
-      end
-    end
-
-    def destroy
-      destroy! do |format|
-        return render json: { url: admin_users_path }
-      end
-    end
+    # def update
+    #   begin
+    #     @user = User.find(params[:id])
+    #     @user.update!(user_params)
+    #     return render json: { url: admin_users_path }
+    #   rescue => e
+    #     return render json: { message: e.message }
+    #   end
+    # end
+    #
+    # def destroy
+    #   begin
+    #     destroy! do
+    #       return render json: { url: admin_users_path }
+    #     end
+    #   rescue => e
+    #     return render json: { message: e.message }
+    #   end
+    # end
 
     private
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation, roles: [])
+      params.require(:user).permit(:name, :email, roles: [])
     end
   end
+
 end

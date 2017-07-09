@@ -13,14 +13,15 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
+/tmp/*
 !/log/.keep
-/tmp
+!/tmp/.keep
 
-# Ignore app secrets
+/node_modules
+/yarn-error.log
+
+.byebug_history
+
 .env
-.env.development
-.idea/
-
-# Ignore rvm versions
-.ruby-gemset
-.ruby-version
+# Ignore application configuration
+/config/application.yml

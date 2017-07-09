@@ -1,4 +1,4 @@
-class AddDeviseToUsers < ActiveRecord::Migration
+class AddDeviseToUsers < ActiveRecord::Migration[5.1]
   def self.up
     change_table :users do |t|
       t.remove :provider, :uid, :oauth_token, :oauth_expires_at

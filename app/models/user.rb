@@ -1,58 +1,63 @@
-# == Schema Information
-#
-# Table name: users
-#
-#  id               :integer          not null, primary key
-#  provider         :string
-#  uid              :string
-#  name             :string
-#  oauth_token      :string
-#  oauth_expires_at :datetime
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  roles            :string           default([]), is an Array
-#
-
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable#, :validatable
+
+  validates :auth_token, uniqueness: true
+  # validates :name, presence: true
 
   has_many :points
   has_many :favorites, through: :points, source: :broadband
 
-  before_save :set_default_role
+  has_many :user_broadbands
+  has_many :broadbands, through: :user_broadbands
 
-  # validates :provider, presence: true
-  # validates :uid, presence: true
-  # validates :name, presence: true
+  before_create :generate_authentication_token!
 
-
-  def role_symbols
-    self[:roles].map(&:to_sym)
+  def generate_authentication_token!
+    begin
+      self.auth_token = Devise.friendly_token 32
+    end while self.class.exists?(auth_token: auth_token)
   end
 
-  def set_favorite_point(point)
+  def set_favorite_point!(point)
     unless self.favorites.include? point
       self.favorites << point
     end
   end
 
   def has_favorite?(point)
-    return true if self.favorites.include? point
-    return false
+    self.favorites.include? point
   end
 
-  def remove_favorite_point(point)
-    self.favorites.delete(point)
+  def remove_favorite_point!(point)
+    self.favorites.delete point
   end
 
-  private ####################
+  def self.custom_oauth(provider, uid, token)
+    where(provider: provider, uid: uid).first_or_create do |user|
+      user.provider = provider
+      user.uid      = uid
+      user.oauth_token = token
+      user.save!
+    end
+  end
 
-  def set_default_role
-    self.roles = roles.delete_if(&:empty?)
-    self.roles = (roles << Role::DEFAULT_ROLE).uniq
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.provider = auth.provider
+      user.uid      = auth.uid
+      user.name     = auth.info.name
+      user.email    = auth.info.email
+      user.oauth_token = auth.credentials.token
+      user.oauth_expires_at = auth.credentials.expires_at.present? ? Time.at(auth.credentials.expires_at) : ''
+      user.save!
+    end
+  end
+
+  def can_edit_broadband(broadband)
+    broadbands.include?(broadband)
   end
 
 end

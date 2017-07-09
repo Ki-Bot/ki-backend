@@ -25,18 +25,4 @@ ActiveAdmin.register AdminUser do
     f.actions
   end
 
-  controller do
-    def update
-      update! do |format|
-        return render json: { url: admin_admin_users_path }
-      end
-    end
-
-    def destroy
-      destroy! do |format|
-        return render json: { url: admin_admin_users_path }
-      end
-    end
-  end
-
 end
