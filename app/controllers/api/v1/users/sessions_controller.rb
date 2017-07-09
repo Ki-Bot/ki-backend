@@ -97,7 +97,7 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     rescue
     end
     if res.present? && res[:id].to_s == uid
-      user = User.custom_oauth('twitter', uid, token)
+      user = User.custom_oauth('twitter', uid, token, nil, nil)
       user.generate_authentication_token!
       user.save
       render json: { auth_token: user.auth_token }
