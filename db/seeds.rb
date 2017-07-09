@@ -1,6 +1,9 @@
-puts AdminUser.first_or_create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
+broadband = BroadbandType.where(name: 'Other').first_or_create!
+puts 'broadband: ' + broadband.inspect
+puts Broadband.where('broadband_type_id IS NULL').update_all(broadband_type_id: broadband.id).to_s
 
 if false
+  puts AdminUser.first_or_create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
   Broadband.without_auto_index do
     # Broadband.destroy_all
     # BroadbandType.destroy_all
