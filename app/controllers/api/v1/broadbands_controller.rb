@@ -161,6 +161,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     render json: { my_broadbands: current_user.broadbands }
   end
 
+
   private
 
   def set_broadband
