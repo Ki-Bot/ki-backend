@@ -62,7 +62,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     radius = params[:radius]
     types = params[:types]
     hits = Broadband.search_by_location(location, radius, types)
-    render json: hits, each_serializer: SimpleBroadbandSerializer
+    render json: hits #, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Filter broadband results by type'

@@ -41,7 +41,7 @@ class Broadband < ApplicationRecord
     end
     hash[:filters] = filter_text unless filter_text.nil?
     json = Broadband.raw_search(nil, hash)
-    json['hits'].map { |hit| Broadband.new(id: hit['objectID'].to_i, address: hit['address'], latitude: hit['_geoloc']['lat'], longitude: hit['_geoloc']['lng']) }
+    json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], _geoloc: hit['_geoloc'], type: hit['type'] } }
     # json = index.search({
     #     filters: '(type:Hospitals)'
     # })
