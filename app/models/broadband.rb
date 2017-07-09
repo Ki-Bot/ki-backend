@@ -28,6 +28,7 @@ class Broadband < ApplicationRecord
 
   def self.search_by_location(location, radius, types)
     # index = Algolia::Index.new(name)
+    return [] if radius == '0'
     hash = {}
     hash[:aroundLatLng] = location unless location.nil?
     hash[:aroundRadius] = radius unless radius.nil?
@@ -50,6 +51,7 @@ class Broadband < ApplicationRecord
   end
 
   def self.search(q, offset, length, location = nil, radius = nil)
+    return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
     # algolia_search(q)
@@ -88,6 +90,7 @@ class Broadband < ApplicationRecord
   end
 
   def self.search_all(q, types, location, offset, length, radius)
+    return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
     filter_text = nil
