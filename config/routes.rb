@@ -5,11 +5,6 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   apipie
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
-
-  root to: 'admin/dashboard#index'
-  post 'auth' => "auth#authenticate_user"
   devise_for :users
 
   root to: 'admin/dashboard#index'
