@@ -61,13 +61,13 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     token = params[:token]
     uid = params[:uid]
     @graph = Koala::Facebook::API.new(ENV['facebook_app_access_token'])
-    # res = @graph.get_object("me")
     response = @graph.debug_token(token)
     if response.present? && response['data'].present?
       app_id = response['data']['app_id']
       user_id = response['data']['user_id']
       if app_id == ENV['facebook_app_id'] && user_id == uid
-        user = User.custom_oauth('facebook', user_id, token)
+        res = @graph.get_object(user_id, fields: ['name', 'email'])
+        user = User.custom_oauth('facebook', user_id, token, res['email'], res['name'])
         user.generate_authentication_token!
         user.save
         return render json: { auth_token: user.auth_token }
@@ -97,7 +97,7 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     rescue
     end
     if res.present? && res[:id].to_s == uid
-      user = User.custom_oauth('twitter', uid, token)
+      user = User.custom_oauth('twitter', uid, token, nil, nil)
       user.generate_authentication_token!
       user.save
       render json: { auth_token: user.auth_token }

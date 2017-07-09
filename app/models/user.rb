@@ -35,11 +35,13 @@ class User < ApplicationRecord
     self.favorites.delete point
   end
 
-  def self.custom_oauth(provider, uid, token)
+  def self.custom_oauth(provider, uid, token, email, name)
     where(provider: provider, uid: uid).first_or_create do |user|
       user.provider = provider
       user.uid      = uid
       user.oauth_token = token
+      user.email = email
+      user.name = name
       user.save!
     end
   end
