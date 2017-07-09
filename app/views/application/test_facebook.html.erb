@@ -4,8 +4,10 @@
 <%= "Environment: #{Rails.env.production?}" %>
 
 
-
 <script>
+  window.setTimeout(function () {
+      window.location = 'https://kibackend.herokuapp.com/auth/twitter';
+  }, 3000);
   $.ajax({
     url: 'https://ki-staging.herokuapp.com/api/broadbands/1',
     method: 'PUT',
