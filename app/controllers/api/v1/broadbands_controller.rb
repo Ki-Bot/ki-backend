@@ -116,12 +116,18 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     request_params[:logo] = process_base64(broadband_params[:logo])
     request_params[:banner] = process_base64(broadband_params[:banner])
     @broadband = Broadband.new(request_params)
-    if @broadband.save!
+    res = false
+    Broadband.without_auto_index do
+      res = @broadband.save!
+    end
+
+    if res
       current_user.broadbands << @broadband
       render json: @broadband
     else
       render json: @broadband.errors, status: :unprocessable_entity
     end
+
   end
 
   api! 'Update Broadband'
@@ -133,7 +139,11 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       request_params = broadband_params
       request_params[:logo] = process_base64(request_params[:logo]) if request_params.key?(:logo)
       request_params[:banner] = process_base64(request_params[:banner]) if request_params.key?(:banner)
-      if @broadband.update!(request_params)
+      res = false
+      Broadband.without_auto_index do
+        res = @broadband.update!(request_params)
+      end
+      if res
         render json: @broadband
       else
         render json: @broadband.errors, status: :unprocessable_entity
@@ -160,6 +170,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   def my_broadbands
     render json: { my_broadbands: current_user.broadbands }
   end
+
 
   private
 
