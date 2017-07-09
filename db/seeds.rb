@@ -1,5 +1,5 @@
-# puts AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
-p Algolia.list_indexes
+puts AdminUser.first_or_create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
+
 if false
   Broadband.without_auto_index do
     # Broadband.destroy_all
