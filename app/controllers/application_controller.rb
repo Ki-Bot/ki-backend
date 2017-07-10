@@ -3,27 +3,10 @@ class ApplicationController < ActionController::Base
   after_action :allow_iframe, only: :social_login
 
   def test_facebook
-    # array = Array(0..370)
-    # array.each do |i|
-    #   broadbands = Broadband.select('anchorname, address, bldgnbr, predir, streetname, streettype, suffdir, city, state_code, zip5, latitude, longitude, publicwifi, url, broadband_type_id').offset(i * 1000).limit(1000)
-    #   File.open('public/broadbands/testt_' + i.to_s + '.txt', "w+") do |f|
-    #     broadbands.each { |broadband| f.puts(broadband.to_json) }
-    #   end
-    #   broadbands = nil
-    # end
-
-    return render json: Broadband.count
-
-    # puts 'here'
-    # Broadband.reindex!
-    # puts 'here 2'
-    # parse_nonprofits
-
     return render json: Algolia.list_indexes
     index = Algolia::Index.new('Broadband')
     settings = index.get_settings
     return render json: settings.to_json
-
     # Thread.start { parse_broadband_types }
     # Thread.start { Broadband.reindex }
     # count = Broadband.where('broadband_type_id IS NULL').count
