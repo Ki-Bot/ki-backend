@@ -179,7 +179,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   def broadband_params
-      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id, logo: [:data, :filename], banner: [:data, :filename], opening_hours_attributes: [:id, :day, :from, :to, :open])
+      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id, :services, logo: [:data, :filename], banner: [:data, :filename], opening_hours_attributes: [:id, :day, :from, :to, :open])
   end
 
   def process_base64(string_info)
