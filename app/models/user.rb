@@ -31,6 +31,10 @@ class User < ApplicationRecord
     self.favorites.include? point
   end
 
+  def has_favorite_id?(id)
+    self.favorites.map(&:id).include? id
+  end
+
   def remove_favorite_point!(point)
     self.favorites.delete point
   end

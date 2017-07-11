@@ -61,7 +61,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     location = request.headers['HTTP_USER_LOCATION']
     radius = params[:radius]
     types = params[:types]
-    hits = Broadband.search_by_location(location, radius, types)
+    hits = Broadband.search_by_location(location, radius, types, current_user)
     render json: hits #, each_serializer: SimpleBroadbandSerializer
   end
 
@@ -97,8 +97,8 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     length = params[:length]
     radius = params[:radius]
     location = request.headers['HTTP_USER_LOCATION']
-    hits = Broadband.search_all(q, types, location, offset, length, radius)
-    render json: hits, each_serializer: SimpleBroadbandSerializer
+    hits = Broadband.search_all(q, types, location, offset, length, radius, current_user)
+    render json: hits#, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Broadband details'

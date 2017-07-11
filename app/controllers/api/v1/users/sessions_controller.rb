@@ -70,7 +70,7 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
         user = User.custom_oauth('facebook', user_id, token, res['email'], res['name'])
         user.generate_authentication_token!
         user.save
-        return render json: { auth_token: user.auth_token }
+        return render json: { id: user.id, auth_token: user.auth_token }
       end
     end
     head :unauthorized
@@ -100,7 +100,7 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
       user = User.custom_oauth('twitter', uid, token, nil, res['name'])
       user.generate_authentication_token!
       user.save
-      render json: { auth_token: user.auth_token }
+      render json: { id: user.id, auth_token: user.auth_token }
     else
       head :unauthorized
     end
