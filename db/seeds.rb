@@ -1,5 +1,6 @@
 broadband = BroadbandType.where(name: 'Nonprofits').first
 puts 'started'
+puts '2'
 puts broadband.id
 puts Broadband.where(broadband_type_id: broadband.id).count
 Broadband.where('broadband_type_id != ?', broadband.id).reindex!
