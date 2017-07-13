@@ -1,4 +1,3 @@
-p Broadband.find(1192006).inspect
 
 # broadband = BroadbandType.where(name: 'Nonprofits').first
 # puts 'started'
