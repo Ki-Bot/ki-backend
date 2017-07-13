@@ -15,7 +15,7 @@ ActiveAdmin.register Broadband do
   menu priority: 2
   config.per_page = 10
 
-  permit_params :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id
+  permit_params :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id, :banner, :logo, :opening_hours_attributes => [:id, :day, :from, :to, :closed]
 
   index do
     id_column
@@ -34,8 +34,43 @@ ActiveAdmin.register Broadband do
     column :publicwifi
     column :url
     column :broadband_type
+    column 'Opening Days Count' do |broadband|
+      broadband.opening_hours.count
+    end
+    # column 'Logo' do |event|
+    #   link_to(image_tag(event.logo.url(:thumb), :height => '100'), admin_broadband_path(event))
+    # end
 
     actions
+  end
+
+  form :html => { :enctype => "multipart/form-data" } do |f|
+    f.inputs "Details" do
+      f.input :anchorname
+      f.input :address
+      f.input :bldgnbr
+      f.input :predir
+      f.input :streetname
+      f.input :streettype
+      f.input :suffdir
+      f.input :city
+      f.input :state_code
+      f.input :zip5
+      f.input :latitude
+      f.input :longitude
+      f.input :publicwifi
+      f.input :url
+      f.input :broadband_type
+      f.input :logo, as: :file
+      f.input :banner, as: :file
+      f.has_many :opening_hours do |item|
+        item.input :day
+        item.input :from, :as => :time_picker
+        item.input :to, :as => :time_picker
+        item.input :closed
+      end
+    end
+    f.actions
   end
 
   filter :anchorname
