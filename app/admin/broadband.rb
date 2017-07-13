@@ -21,11 +21,11 @@ ActiveAdmin.register Broadband do
     id_column
     column :anchorname
     column :address
-    column :bldgnbr
-    column :predir
+    # column :bldgnbr
+    # column :predir
     column :streetname
     column :streettype
-    column :suffdir
+    # column :suffdir
     column :city
     column :state_code
     column :zip5
@@ -34,6 +34,12 @@ ActiveAdmin.register Broadband do
     column :publicwifi
     column :url
     column :broadband_type
+    column 'Logo' do |broadband|
+      broadband.logo_file_name
+    end
+    column 'Banner' do |broadband|
+      broadband.banner_file_name
+    end
     column 'Opening Days Count' do |broadband|
       broadband.opening_hours.count
     end

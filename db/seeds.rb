@@ -1,10 +1,12 @@
-broadband = BroadbandType.where(name: 'Nonprofits').first
-puts 'started'
-puts '2'
-puts broadband.id
-puts Broadband.where(broadband_type_id: broadband.id).count
-Broadband.where('broadband_type_id != ?', broadband.id).reindex!
-puts 'finished'
+p Broadband.find(1192006).inspect
+
+# broadband = BroadbandType.where(name: 'Nonprofits').first
+# puts 'started'
+# puts '2'
+# puts broadband.id
+# puts Broadband.where(broadband_type_id: broadband.id).count
+# Broadband.where('broadband_type_id != ?', broadband.id).reindex!
+# puts 'finished'
 
 # if false
 #   broadband = BroadbandType.where(name: 'Other').first_or_create!
