@@ -27,10 +27,47 @@ ActiveAdmin.register UserBroadband do
   filter :user
   filter :broadband_id
 
+  controller do
+    def create
+      # begin
+        user_id = params['user_broadband']['user_id']
+        arr = []
+        params['broadband_ids'].each do |broadband_id|
+          arr << { user_id: user_id, broadband_id: broadband_id } unless broadband_id == ''
+        end
+        UserBroadband.create!(arr)
+        return redirect_to admin_user_broadbands_path
+      # rescue => e
+      #   return render text: e.message
+      # end
+    end
+
+    def update
+      begin
+        update! do
+          return render json: { url: admin_broadbands_path }
+        end
+      rescue => e
+        return render text: e.message
+      end
+    end
+  end
+
   form do |f|
     f.inputs 'New Broadband-User mapping' do
       f.input :user, placeholder: 'Select user here...'
-      f.input :broadband_id, placeholder: 'Write Broadband Id here...'
+      # f.input :broadband_id, placeholder: 'Write Broadband Id here...'
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+      f.input :broadband_id, input_html: { name: 'broadband_ids[]' }
+
       # f.input :password
       # f.input :password_confirmation
       # f.input :roles, as: :check_boxes, collection: [Role::SUPER_USER_ROLE]

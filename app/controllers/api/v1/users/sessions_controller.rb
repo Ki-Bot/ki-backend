@@ -66,10 +66,15 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
       app_id = response['data']['app_id']
       user_id = response['data']['user_id']
       if app_id == ENV['facebook_app_id'] && user_id == uid
-        res = @graph.get_object(user_id, fields: ['name', 'email'])
-        user = User.custom_oauth('facebook', user_id, token, res['email'], res['name'])
+        res = @graph.get_object(user_id, fields: ['name', 'email', 'picture.type(large)'])
+        picture = nil
+        picture = res['picture']['data']['url'] if res.key?('picture') && res['picture'].key?('data')
+        user = User.custom_oauth('facebook', user_id, token, res['email'], res['name'], picture)
         user.generate_authentication_token!
-        user.save
+        user.email = res['email']
+        user.name = res['name']
+        user.profile_picture = picture
+        user.save!
         return render json: { id: user.id, auth_token: user.auth_token }
       end
     end
@@ -97,9 +102,11 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     rescue
     end
     if res.present? && res[:id].to_s == uid
-      user = User.custom_oauth('twitter', uid, token, nil, res['name'])
+      user = User.custom_oauth('twitter', uid, token, nil, res['name'], res['profile_image_url_https'])
       user.generate_authentication_token!
-      user.save
+      user.name = res['name']
+      user.profile_picture = res['profile_image_url_https']
+      user.save!
       render json: { id: user.id, auth_token: user.auth_token }
     else
       head :unauthorized

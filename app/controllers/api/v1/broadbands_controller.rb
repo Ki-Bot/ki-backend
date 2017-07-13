@@ -28,7 +28,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
         param :day, [1, 2, 3, 4, 5, 6, 7]
         param :from, String, desc: 'Time format: hh:MM:ss'
         param :to, String, desc: 'Time format: hh:MM:ss'
-        param :open, [true, false]
+        param :closed, [true, false]
       end
       param :logo, Hash, required: false do
         param :data, String, desc: 'Image content as Base64 string'
@@ -117,9 +117,9 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     request_params[:banner] = process_base64(broadband_params[:banner])
     @broadband = Broadband.new(request_params)
     res = false
-    Broadband.without_auto_index do
+    # Broadband.without_auto_index do
       res = @broadband.save!
-    end
+    # end
 
     if res
       current_user.broadbands << @broadband
@@ -140,9 +140,9 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       request_params[:logo] = process_base64(request_params[:logo]) if request_params.key?(:logo)
       request_params[:banner] = process_base64(request_params[:banner]) if request_params.key?(:banner)
       res = false
-      Broadband.without_auto_index do
+      # Broadband.without_auto_index do
         res = @broadband.update!(request_params)
-      end
+      # end
       if res
         render json: @broadband
       else
@@ -179,7 +179,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   def broadband_params
-      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id, :services, logo: [:data, :filename], banner: [:data, :filename], opening_hours_attributes: [:id, :day, :from, :to, :open])
+      params.require(:broadband).permit(:anchorname, :address, :bldgnbr, :predir, :suffdir, :streetname, :streettype, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :broadband_type_id, :services, logo: [:data, :filename], banner: [:data, :filename], opening_hours_attributes: [:id, :day, :from, :to, :closed])
   end
 
   def process_base64(string_info)
