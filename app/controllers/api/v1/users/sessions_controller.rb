@@ -45,7 +45,11 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     is_mobile = browser.device.mobile?
     @user = User.from_omniauth(request.env["omniauth.auth"])
     @user.generate_authentication_token!
-    @user.save
+    if request.env["omniauth.auth"].key?('info')
+      @user.name = request.env["omniauth.auth"]['info']['name'] if request.env["omniauth.auth"]['info'].key?('name')
+      @user.profile_picture = request.env["omniauth.auth"]['info']['image'] if request.env["omniauth.auth"]['info'].key?('image')
+    end
+    @user.save!
     if !is_mobile && request.env["omniauth.auth"].provider == 'twitter'
       render 'application/twitter'
     else
