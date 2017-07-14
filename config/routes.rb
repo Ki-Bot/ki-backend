@@ -43,7 +43,7 @@ Rails.application.routes.draw do
           get 'filter', to: 'broadbands#filter'
           get 'search_all', to: 'broadbands#search_all'
           get 'types', to: 'broadbands#types'
-          get 'acquire/:id', to: 'broadbands#acquire'
+          # get 'acquire/:id', to: 'broadbands#acquire'
           get 'my_broadbands', to: 'broadbands#my_broadbands'
         end
       end
