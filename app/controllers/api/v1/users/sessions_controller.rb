@@ -50,7 +50,7 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
       @user.profile_picture = request.env["omniauth.auth"]['info']['image'] if request.env["omniauth.auth"]['info'].key?('image')
     end
     @user.save!
-    if !is_mobile && request.env["omniauth.auth"].provider == 'twitter'
+    if request.env["omniauth.auth"].provider == 'twitter'
       render 'application/twitter'
     else
       render json: { id: @user.id, auth_token: @user.auth_token }
