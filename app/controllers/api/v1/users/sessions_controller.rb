@@ -53,7 +53,7 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     if !is_mobile && request.env["omniauth.auth"].provider == 'twitter'
       render 'application/twitter'
     else
-      render json: user.to_json, status: :ok
+      render json: { id: @user.id, auth_token: @user.auth_token }
     end
   end
 
