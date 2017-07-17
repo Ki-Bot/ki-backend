@@ -1,11 +1,9 @@
-
-# broadband = BroadbandType.where(name: 'Nonprofits').first
-# puts 'started'
-# puts '2'
-# puts broadband.id
-# puts Broadband.where(broadband_type_id: broadband.id).count
+broadband = BroadbandType.where(name: 'Other').first
+puts 'started'
+puts broadband.id
+puts Broadband.where(broadband_type_id: broadband.id).count
 # Broadband.where('broadband_type_id != ?', broadband.id).reindex!
-# puts 'finished'
+puts 'finished'
 
 # if false
 #   broadband = BroadbandType.where(name: 'Other').first_or_create!
