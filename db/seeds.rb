@@ -1,6 +1,6 @@
 broadband = BroadbandType.where(name: 'Other').first
 puts 'started'
-puts Broadband.destroy_all(broadband_type_id: broadband.id)
+puts Broadband.where(broadband_type_id: broadband.id).destroy_all
 # Broadband.where('broadband_type_id != ?', broadband.id).reindex!
 puts 'finished'
 
