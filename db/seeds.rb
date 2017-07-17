@@ -1,11 +1,6 @@
 broadband = BroadbandType.where(name: 'Other').first
 puts 'started'
-idx = 0
-puts Broadband.where(broadband_type_id: broadband.id).each do |broadband|
-  idx += 1
-  broadband.destroy!
-  puts idx.to_s
-end
+puts Broadband.destroy_all(broadband_type_id: broadband.id)
 # Broadband.where('broadband_type_id != ?', broadband.id).reindex!
 puts 'finished'
 
