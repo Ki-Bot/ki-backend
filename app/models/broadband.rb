@@ -67,16 +67,26 @@ class Broadband < ApplicationRecord
     # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
   end
 
-  def self.filter(q, types, offset, length)
+  def self.filter(types, location, offset, length, radius, current_user)
+    return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
-    filters = []
-    types.each do |type|
-      filters << ('type:"' + type + '"')
+    filter_text = nil
+    if types.present?
+      filters = []
+      types.each do |type|
+        filters << ('type:"' + type + '"')
+      end
+      filter_text = filters.join(' OR ')
     end
-    filter_text = filters.join(' OR ')
-    json = Broadband.raw_search(q, filters: filter_text, offset: offset, length: length)
-    json['hits'].map { |hit| Broadband.new(id: hit['objectID'].to_i, address: hit['address'], latitude: hit['_geoloc']['lat'], longitude: hit['_geoloc']['lng']) }
+    hash = {}
+    hash[:aroundLatLng] = location unless location.nil?
+    hash[:aroundRadius] = radius unless radius.nil?
+    hash[:filters] = filter_text unless filter_text.nil?
+    hash[:offset] = offset
+    hash[:length] = length
+    json = Broadband.raw_search('', hash)
+    json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], anchorname: hit['anchorname'], _geoloc: hit['_geoloc'], type: hit['type'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
     # hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
     # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
 

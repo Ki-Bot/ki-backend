@@ -66,21 +66,20 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   api! 'Filter broadband results by type'
-  param :q, String, 'Search query', required: true
   param :types, String, 'Organization types', required: true
   param :offset, Integer, 'Pagination Offset', default: 0
   param :length, Integer, 'Pagination Length (Limit)', default: 500
+  param :radius, Integer, 'Radius in Meters', required: false
   formats [:json]
   def filter
-    q = params[:q]
     types = params[:types]
     offset = params[:offset]
     length = params[:length]
-    if q.blank? || types.blank?
-      return render json: { error: 'No ' + (q.blank? ? 'query' : 'type') + ' was provided!' }, status: :unprocessable_entity
-    end
-    hits = Broadband.filter(q, types, offset, length)
-    render json: hits, each_serializer: SimpleBroadbandSerializer
+    radius = params[:radius]
+    location = request.headers['HTTP_USER_LOCATION']
+    return render json: [] if types.blank? || types.empty?
+    hits = Broadband.filter(types, location, offset, length, radius, current_user)
+    render json: hits#, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Search, filter, or search by location. To search by location add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
