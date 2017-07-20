@@ -67,7 +67,7 @@ class Broadband < ApplicationRecord
     # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
   end
 
-  def self.filter(types, location, offset, length, radius, current_user)
+  def self.filter(q, types, location, offset, length, radius, current_user)
     return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
@@ -85,7 +85,7 @@ class Broadband < ApplicationRecord
     hash[:filters] = filter_text unless filter_text.nil?
     hash[:offset] = offset
     hash[:length] = length
-    json = Broadband.raw_search('', hash)
+    json = Broadband.raw_search(q, hash)
     json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], anchorname: hit['anchorname'], _geoloc: hit['_geoloc'], type: hit['type'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
     # hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
     # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }

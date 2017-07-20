@@ -72,13 +72,15 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param :radius, Integer, 'Radius in Meters', required: false
   formats [:json]
   def filter
+    q = params[:q]
     types = params[:types]
     offset = params[:offset]
     length = params[:length]
+    return render json: { message: 'Length greater than 1000 not allowed!' }, status: :unprocessable_entity if length.to_i > 1000
     radius = params[:radius]
     location = request.headers['HTTP_USER_LOCATION']
     return render json: [] if types.blank? || types.empty?
-    hits = Broadband.filter(types, location, offset, length, radius, current_user)
+    hits = Broadband.filter(q, types, location, offset, length, radius, current_user)
     render json: hits#, each_serializer: SimpleBroadbandSerializer
   end
 
@@ -94,6 +96,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     types = params[:types]
     offset = params[:offset]
     length = params[:length]
+    return render json: { message: 'Length greater than 1000 not allowed!' }, status: :unprocessable_entity if length.to_i > 1000
     radius = params[:radius]
     location = request.headers['HTTP_USER_LOCATION']
     hits = Broadband.search_all(q, types, location, offset, length, radius, current_user)
