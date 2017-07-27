@@ -61,6 +61,10 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     location = request.headers['HTTP_USER_LOCATION']
     radius = params[:radius]
     types = params[:types]
+
+    # return empty if radius and type is blank
+    return render json: [] if radius.blank? && types.blank?
+
     hits = Broadband.search_by_location(location, radius, types, current_user)
     render json: hits #, each_serializer: SimpleBroadbandSerializer
   end
