@@ -59,7 +59,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   formats [:json]
   def search_by_location
     types = params[:types]
-    return render json: [] if types.blank? || types.empty?
+    return render json: [] if types.blank?
     location = request.headers['HTTP_USER_LOCATION']
     radius = params[:radius]
     hits = Broadband.search_by_location(location, radius, types, current_user)
@@ -80,7 +80,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     return render json: { message: 'Length greater than 1000 not allowed!' }, status: :unprocessable_entity if length.to_i > 1000
     radius = params[:radius]
     location = request.headers['HTTP_USER_LOCATION']
-    return render json: [] if types.blank? || types.empty?
+    return render json: [] if types.blank?
     hits = Broadband.filter(q, types, location, offset, length, radius, current_user)
     render json: hits#, each_serializer: SimpleBroadbandSerializer
   end
