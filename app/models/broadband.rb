@@ -32,14 +32,7 @@ class Broadband < ApplicationRecord
     hash = {}
     hash[:aroundLatLng] = location unless location.nil?
     hash[:aroundRadius] = radius unless radius.nil?
-    filter_text = nil
-    if types.present?
-      filters = []
-      types.each do |type|
-        filters << ('type:"' + type + '"')
-      end
-      filter_text = filters.join(' OR ')
-    end
+    filter_text = fetch_filters(types)
     hash[:filters] = filter_text unless filter_text.nil?
     json = Broadband.raw_search(nil, hash)
     json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], anchorname: hit['anchorname'], _geoloc: hit['_geoloc'], type: hit['type'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
@@ -71,14 +64,7 @@ class Broadband < ApplicationRecord
     return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
-    filter_text = nil
-    if types.present?
-      filters = []
-      types.each do |type|
-        filters << ('type:"' + type + '"')
-      end
-      filter_text = filters.join(' OR ')
-    end
+    filter_text = fetch_filters(types)
     hash = {}
     hash[:aroundLatLng] = location unless location.nil?
     hash[:aroundRadius] = radius unless radius.nil?
@@ -103,14 +89,7 @@ class Broadband < ApplicationRecord
     return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
-    filter_text = nil
-    if types.present?
-      filters = []
-      types.each do |type|
-        filters << ('type:"' + type + '"')
-      end
-      filter_text = filters.join(' OR ')
-    end
+    filter_text = fetch_filters(types)
     hash = {}
     hash[:aroundLatLng] = location unless location.nil?
     hash[:aroundRadius] = radius unless radius.nil?
@@ -131,5 +110,17 @@ class Broadband < ApplicationRecord
 
   def s3_credentials
     {:bucket => ENV['s3_bucket_name'], :access_key_id => ENV['aws_access_key_id'], :secret_access_key => ENV['secret_access_key'], s3_region: ENV['aws_region']}
+  end
+
+  private_class_method def self.fetch_filters(types)
+    filter_text = nil
+    if types.present?
+      filters = []
+      types.each do |type|
+        filters << ('type:"' + type + '"') unless type.blank?
+      end
+      filter_text = filters.join(' OR ')
+    end
+    filter_text
   end
 end
