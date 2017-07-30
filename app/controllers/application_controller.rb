@@ -3,6 +3,12 @@ class ApplicationController < ActionController::Base
   after_action :allow_iframe, only: :social_login
 
   def test_facebook
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key        = ENV['twitter_app_id']
+      config.consumer_secret     = ENV['twitter_secret']
+    end
+    res = client.verify_credentials
+    return render json: true
     return render json: Algolia.list_indexes
     index = Algolia::Index.new('Broadband')
     settings = index.get_settings

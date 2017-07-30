@@ -41,14 +41,12 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
   param :signed_request, String, description: 'authResponse.signed_request returned from facebook login'
   formats [:json]
   def create_social
-    browser = Browser.new(request.user_agent)
-    is_mobile = browser.device.mobile?
+    # browser = Browser.new(request.user_agent)
+    # is_mobile = browser.device.mobile?
     @user = User.from_omniauth(request.env["omniauth.auth"])
     @user.generate_authentication_token!
-    if request.env["omniauth.auth"].key?('info')
-      @user.name = request.env["omniauth.auth"]['info']['name'] if request.env["omniauth.auth"]['info'].key?('name')
-      @user.profile_picture = request.env["omniauth.auth"]['info']['image'] if request.env["omniauth.auth"]['info'].key?('image')
-    end
+    @user.name = request.env["omniauth.auth"]['info']['name'] if request.env["omniauth.auth"].key?('info')
+    @user.profile_picture = request.env["omniauth.auth"]['extra']['raw_info']['profile_image_url_https'] if request.env["omniauth.auth"].key?('extra') && request.env["omniauth.auth"]['extra'].key?('raw_info')
     @user.save!
     if request.env["omniauth.auth"].provider == 'twitter'
       render 'application/twitter'
@@ -67,19 +65,23 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     @graph = Koala::Facebook::API.new(ENV['facebook_app_access_token'])
     response = @graph.debug_token(token)
     if response.present? && response['data'].present?
-      app_id = response['data']['app_id']
-      user_id = response['data']['user_id']
-      if app_id == ENV['facebook_app_id'] && user_id == uid
-        res = @graph.get_object(user_id, fields: ['name', 'email', 'picture.type(large)'])
-        picture = nil
-        picture = res['picture']['data']['url'] if res.key?('picture') && res['picture'].key?('data')
-        user = User.custom_oauth('facebook', user_id, token, res['email'], res['name'], picture)
-        user.generate_authentication_token!
-        user.email = res['email']
-        user.name = res['name']
-        user.profile_picture = picture
-        user.save!
-        return render json: { id: user.id, auth_token: user.auth_token }
+      if response['data']['is_valid']
+        app_id = response['data']['app_id']
+        user_id = response['data']['user_id']
+        if app_id == ENV['facebook_app_id'] && user_id == uid
+          res = @graph.get_object(user_id, fields: ['name', 'email', 'picture.type(large)'])
+          picture = nil
+          picture = res['picture']['data']['url'] if res.key?('picture') && res['picture'].key?('data')
+          user = User.custom_oauth('facebook', user_id, token, res['email'], res['name'], picture)
+          user.generate_authentication_token!
+          user.email = res['email']
+          user.name = res['name']
+          user.profile_picture = picture
+          user.save!
+          return render json: { id: user.id, auth_token: user.auth_token }
+        end
+      else
+        return render json: { valid: false, error: response['data']['error'] }
       end
     end
     head :unauthorized

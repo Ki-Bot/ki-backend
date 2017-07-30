@@ -58,9 +58,10 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param :radius, Integer, 'Radius in Meters', required: false
   formats [:json]
   def search_by_location
+    types = params[:types]
+    return render json: [] if types.blank? || types.empty?
     location = request.headers['HTTP_USER_LOCATION']
     radius = params[:radius]
-    types = params[:types]
     hits = Broadband.search_by_location(location, radius, types, current_user)
     render json: hits #, each_serializer: SimpleBroadbandSerializer
   end
