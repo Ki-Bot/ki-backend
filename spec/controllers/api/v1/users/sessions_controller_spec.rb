@@ -14,8 +14,8 @@ RSpec.describe Api::V1::Users::SessionsController, type: :controller do
         expect(json_response).to include :auth_token
       end
 
-      it 'does not contain the users id' do
-        expect(json_response).not_to include :id
+      it 'contains the users id' do
+        expect(json_response).to include :id
       end
 
       it 'returns the users record corresponding to the given credentials' do

@@ -1,3 +1,4 @@
+require 'factory_girl'
 FactoryGirl.define do
   factory :broadband do
     anchorname {FFaker::Company.name}

@@ -17,11 +17,11 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         expect(json_response).not_to include :auth_token
       end
 
-      it 'does not include users id' do
-        expect(json_response).not_to include :id
+      it 'does includes users id' do
+        expect(json_response).to include :id
       end
 
-      it {is_expected.to respond_with :ok}
+      it { is_expected.to respond_with :ok }
     end
 
     context 'user is not authenticated' do

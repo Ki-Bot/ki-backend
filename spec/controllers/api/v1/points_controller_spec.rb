@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::PointsController, type: :controller do
   let (:user) { FactoryGirl.create :user }
-  let (:broadband) { FactoryGirl.create :broadband }
+  let (:broadband_type) { FactoryGirl.create(:broadband_type) }
+  let (:broadband) { FactoryGirl.create :broadband, broadband_type: broadband_type }
   let (:point) { FactoryGirl.create :point, user: user, broadband: broadband }
 
   describe 'GET #index' do
@@ -30,7 +31,7 @@ RSpec.describe Api::V1::PointsController, type: :controller do
         api_authorization_header user.auth_token
       end
       context 'Broadband exists' do
-        let (:new_broadband) { FactoryGirl.create(:broadband) }
+        let (:new_broadband) { FactoryGirl.create(:broadband, broadband_type: broadband_type) }
         before(:each) do
           post :create, params: { id: new_broadband.id }
         end
@@ -40,7 +41,10 @@ RSpec.describe Api::V1::PointsController, type: :controller do
         before(:each) do
           post :create, params: { id: 0 }
         end
-        it { is_expected.to respond_with :not_found }
+        it 'should return error' do
+          expect(json_response).to include(:error)
+        end
+        it { is_expected.to respond_with :ok }
       end
     end
     context 'User is not authenticated' do
@@ -70,7 +74,10 @@ RSpec.describe Api::V1::PointsController, type: :controller do
         before(:each) do
           delete :destroy, params: { id: 0 }
         end
-        it { is_expected.to respond_with :not_found }
+        it 'should return error' do
+          expect(json_response).to include(:error)
+        end
+        it { is_expected.to respond_with :ok }
       end
     end
     context 'User is not authenticated' do

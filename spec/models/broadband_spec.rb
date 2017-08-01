@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Broadband, type: :model do
-  let (:broadband) {FactoryGirl.build(:broadband)}
+  let (:broadband_type) {FactoryGirl.build(:broadband_type)}
+  let (:broadband) {FactoryGirl.build(:broadband, broadband_type: broadband_type)}
 
   subject {broadband}
 

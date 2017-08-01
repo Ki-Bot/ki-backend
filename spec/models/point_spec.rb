@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Point, type: :model do
-  let (:point) {FactoryGirl.build(:point, user: FactoryGirl.create(:user), broadband: FactoryGirl.create(:broadband))}
+  let (:point) {FactoryGirl.build(:point, user: FactoryGirl.create(:user), broadband: FactoryGirl.create(:broadband, broadband_type: FactoryGirl.create(:broadband_type)))}
 
   subject {point}
 
