@@ -47,11 +47,14 @@ class Broadband < ApplicationRecord
     return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
+    radius = 2_000_000 if radius.nil?
     # algolia_search(q)
     # index = Algolia::Index.new(name)
     hash = {}
-    hash[:aroundLatLng] = location unless location.nil?
-    hash[:aroundRadius] = radius unless radius.nil?
+    unless location.nil?
+      hash[:aroundLatLng] = location
+      hash[:aroundRadius] = radius
+    end
     hash[:offset] = offset
     hash[:length] = length
     json = Broadband.raw_search(q, hash)
@@ -64,13 +67,18 @@ class Broadband < ApplicationRecord
     return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
+    radius = 2_000_000 if radius.nil?
     filter_text = fetch_filters(types)
     hash = {}
-    hash[:aroundLatLng] = location unless location.nil?
-    hash[:aroundRadius] = radius unless radius.nil?
-    hash[:filters] = filter_text unless filter_text.nil?
+    unless location.nil?
+      hash[:aroundLatLng] = location
+      hash[:aroundRadius] = radius
+      # hash[:aroundPrecision] = 1
+    end
+    hash[:filters] = filter_text unless filter_text.blank?
     hash[:offset] = offset
     hash[:length] = length
+    # hash[:getRankingInfo] = true
     json = Broadband.raw_search(q, hash)
     json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], anchorname: hit['anchorname'], _geoloc: hit['_geoloc'], type: hit['type'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
     # hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
@@ -89,10 +97,13 @@ class Broadband < ApplicationRecord
     return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
+    radius = 2_000_000 if radius.nil?
     filter_text = fetch_filters(types)
     hash = {}
-    hash[:aroundLatLng] = location unless location.nil?
-    hash[:aroundRadius] = radius unless radius.nil?
+    unless location.nil?
+      hash[:aroundLatLng] = location
+      hash[:aroundRadius] = radius
+    end
     hash[:filters] = filter_text unless filter_text.nil?
     hash[:offset] = offset
     hash[:length] = length
