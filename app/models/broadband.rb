@@ -47,7 +47,7 @@ class Broadband < ApplicationRecord
     return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
-    radius = 2_000_000 if radius.nil?
+    radius = 500_000 if radius.nil?
     # algolia_search(q)
     # index = Algolia::Index.new(name)
     hash = {}
@@ -65,7 +65,7 @@ class Broadband < ApplicationRecord
     return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
-    radius = 2_000_000 if radius.nil?
+    radius = 500_000 if radius.nil?
     filter_text = fetch_filters(types)
     hash = {}
     unless location.nil?
@@ -95,7 +95,7 @@ class Broadband < ApplicationRecord
     return [] if radius == '0'
     offset = 0 if offset.nil?
     length = 500 if length.nil?
-    radius = 2_000_000 if radius.nil?
+    radius = 500_000 if radius.nil?
     filter_text = fetch_filters(types)
     hash = {}
     unless location.nil?
