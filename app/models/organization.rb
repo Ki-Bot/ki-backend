@@ -4,7 +4,7 @@ class Organization < ApplicationRecord
   after_create :generate_access_code
 
   def generate_access_code
-    self.access_code = rand.to_s[2..5]
+    self.access_code = rand.to_s[2..7]
     self.save
   end
 
