@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :user_broadbands, dependent: :delete_all
   has_many :broadbands, through: :user_broadbands
 
+  has_many :organizations, :dependent => :destroy
+
   before_create :generate_authentication_token!
 
   def generate_authentication_token!

@@ -47,6 +47,9 @@ Rails.application.routes.draw do
           get 'my_broadbands', to: 'broadbands#my_broadbands'
         end
       end
+
+      resources :organizations, only: [:create]
+
     end
   end
 

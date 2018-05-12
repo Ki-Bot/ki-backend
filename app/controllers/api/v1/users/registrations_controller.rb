@@ -16,6 +16,8 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
   def_param_group :user_signup do
     param :user, Hash, required: true, action_aware: true do
       param :email, String, required: true
+      param :phone_no, String, required: true
+      param :profile_picture, String, required: true
       param_group :user
     end
   end
@@ -59,7 +61,7 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
   private
 
   def sign_up_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :name)
+    params.require(:user).permit(:email, :password, :password_confirmation, :name, :phone_no, :profile_picture)
   end
 
   def update_params

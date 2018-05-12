@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170712190008) do
+ActiveRecord::Schema.define(version: 20180512121504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,19 @@ ActiveRecord::Schema.define(version: 20170712190008) do
     t.index ["broadband_id"], name: "index_opening_hours_on_broadband_id"
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "manager_name"
+    t.string "phone_no"
+    t.string "address"
+    t.string "password"
+    t.string "user_id"
+    t.boolean "is_approved"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "points", id: :serial, force: :cascade do |t|
     t.integer "broadband_id"
     t.integer "user_id"
@@ -134,6 +147,7 @@ ActiveRecord::Schema.define(version: 20170712190008) do
     t.string "oauth_token"
     t.datetime "oauth_expires_at"
     t.string "profile_picture"
+    t.string "phone_no"
     t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
