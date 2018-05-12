@@ -29,7 +29,7 @@ class Api::V1::OrganizationsController < Api::ApplicationController
     organization.user_id = user.id
     organization.save
     render json: {
-      organization: organization.as_json(:except => [:access_code]),
+      organization: organization.as_json(:except => [:access_code, :password]),
       user: user.as_json
     }, status: :ok
   end
