@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  get 'organizations/:id/activate', to: 'organizations#activate'
+  get 'organizations/:id/approved', to: 'organizations#approved'
+
   root to: 'admin/dashboard#index'
   get 'test_facebook', to: 'application#test_facebook'
   get 'social_login', to: 'application#social_login'

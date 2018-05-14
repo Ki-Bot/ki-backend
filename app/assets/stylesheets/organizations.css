@@ -1,0 +1,60 @@
+.activation-bg {
+	background-image: url(layer.jpg);
+	background-position: center top;
+	background-repeat: repeat-x;
+}
+
+.activate-box {
+    padding-top: 240px;
+}
+.num-code {
+    padding: 0 10px !important;
+}
+.num-code input {
+    height: 60px;
+    border: 1px solid #333 !important;
+    border-radius: 0 !important;
+    font-family: 'Nats' !important;
+    font-size: 2.5rem !important;
+    color: #333;
+    width: 100% !important;
+}
+.num-code input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.num-code input[type=number] {
+    -moz-appearance:textfield;
+}
+.acti-btn {
+    background: #1b67d4 !important;
+    color: #fff !important;
+    border: 1px solid #1b67d4 !important;
+	margin-left: -5px !important;
+}
+.acti-btn:hover,
+.acti-btn:focus {
+    background: #17191f;
+    color: #fff;
+    border: 1px solid #efefef !important;
+}
+.activate-box p a {
+    color: #1b67d4;
+    text-decoration: none;
+}
+.rem-margin {
+    margin: 0;
+    padding: 0px 27px 0 20px !important;
+}
+.rem-margin:nth-child(2):before {
+    content: "-";
+    position: absolute;
+    top: 0px;
+    left: -15px;
+    font-family: monospace;
+    font-size: 40px;
+    color: #333;
+    font-weight: 300;
+}

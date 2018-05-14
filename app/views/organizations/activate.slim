@@ -1,0 +1,51 @@
+html
+  head
+    title Activate Design
+    meta charset="utf-8" /
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+    link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" /
+    script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" 
+    script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    script src="/assets/organizations.js" 
+    /! <link rel="stylesheet" href="stylesheets/organizations.css"
+  body
+    .activation-bg class="#container-fluid"
+      .container.activate-box
+        .row
+          .col-md-4
+          .col-md-4.col-xs-12.col-sm-4.col-lg-4
+            h1 KL
+            h3 Activate your organization
+            form action="/organizations/#{@organization.id}/approved" 
+              p Enter your confirmation code
+              .row
+                .col-md-6.col-xs-6.col-sm-5.rem-margin
+                  .row
+                    .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
+                      .form-group
+                        input.form-control.def-txt-input maxlength="1" name="chars[]" type="text" /
+                    .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
+                      .form-group
+                        input.form-control.def-txt-input maxlength="1" name="chars[]" type="text" /
+                    .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
+                      .form-group
+                        input.form-control.def-txt-input maxlength="1" name="chars[]" type="text" /
+                .col-md-6.col-xs-6.col-sm-5.rem-margin
+                  .row
+                    .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
+                      .form-group
+                        input.form-control.def-txt-input maxlength="1" name="chars[]" type="text" /
+                    .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
+                      .form-group
+                        input.form-control.def-txt-input maxlength="1" name="chars[]" type="text" /
+                    .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
+                      .form-group
+                        input.form-control.def-txt-input maxlength="1" name="chars[]" type="text" /
+              .row
+                .col-md-12
+                  = submit_tag "Submit", class: "btn btn-default acti-btn", id: "active-btn"
+            p
+              | Didn't get the e-mail?
+              span
+                a href="#"  Send it again
+          .col-md-4
