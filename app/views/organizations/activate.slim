@@ -14,36 +14,38 @@ html
         .row
           .col-md-4
           .col-md-4.col-xs-12.col-sm-4.col-lg-4
-            h1 KL
+            h1 KI
             h3 Activate your organization
             form action="/organizations/#{@organization.id}/approved" id="activate_code" 
               p Enter your confirmation code
+              br
               .row
                 .col-md-6.col-xs-6.col-sm-5.rem-margin
                   .row
                     .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
                       .form-group
-                        input.form-control.def-txt-input id="1" maxlength="1" name="chars[]" type="text" /
+                        input.form-control.def-txt-input id="1" maxlength="1" name="chars[]" type="text" pattern="\d*" /
                     .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
                       .form-group
-                        input.form-control.def-txt-input id="2" maxlength="1" name="chars[]" type="text" /
+                        input.form-control.def-txt-input id="2" maxlength="1" name="chars[]" type="text" pattern="\d*" /
                     .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
                       .form-group
-                        input.form-control.def-txt-input id="3" maxlength="1" name="chars[]" type="text" /
+                        input.form-control.def-txt-input id="3" maxlength="1" name="chars[]" type="text" pattern="\d*" /
                 .col-md-6.col-xs-6.col-sm-5.rem-margin
                   .row
                     .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
                       .form-group
-                        input.form-control.def-txt-input id="4" maxlength="1" name="chars[]" type="text" /
+                        input.form-control.def-txt-input id="4" maxlength="1" name="chars[]" type="text" pattern="\d*" /
                     .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
                       .form-group
-                        input.form-control.def-txt-input id="5" maxlength="1" name="chars[]" type="text" /
+                        input.form-control.def-txt-input id="5" maxlength="1" name="chars[]" type="text" pattern="\d*" /
                     .col-md-4.col-xs-4.col-sm-4.col-lg-4.num-code
                       .form-group
-                        input.form-control.def-txt-input id="6" maxlength="1" name="chars[]" type="text" /
+                        input.form-control.def-txt-input id="6" maxlength="1" name="chars[]" type="text" pattern="\d*" /
               .row
                 .col-md-12
                   = submit_tag "Submit", class: "btn btn-default acti-btn", id: "active-btn", onclick:"submit_form();", name:@organization.id
+            br
             p
               | Didn't get the e-mail?
               span

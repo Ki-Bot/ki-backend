@@ -10,12 +10,16 @@ $(function(){
     }
   });
   
-  $("input").keypress(function(){ 
+  $("input").keyup(function(){ 
     // debugger
-    id = parseInt(this.id) + 1; 
-    $("input[id="+id+"]").focus();  
+    if (Number.isInteger(parseInt(this.value))){
+      id = parseInt(this.id) + 1; 
+      $("input[id="+id+"]").focus();
+      if (id == 7){
+        submit_form();
+      }  
+    }
   })
-  
   // var inputs = document.querySelectorAll("#activate_code input[name='chars[]']");
   // inputs.forEach(function(input){
   // })
@@ -28,7 +32,6 @@ $(function(){
   //   //$("input[name='chars[1]'").text(i += 1);
   // });
 });
-
 function submit_form(){
   event.preventDefault();
   var id = $('#active-btn')
