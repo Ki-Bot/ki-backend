@@ -31,7 +31,7 @@ class Api::V1::OrganizationsController < Api::ApplicationController
     render json: {
       organization: organization.as_json(:except => [:password]),
       user: user.as_json,
-      access_url: request.base_url+'/organization/'+organization.id.to_s+'/activate'.as_json
+      access_url: request.base_url+'/organizations/'+organization.id.to_s+'/activate'.as_json
     }, status: :ok
   end
 
