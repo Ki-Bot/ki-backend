@@ -9,7 +9,26 @@ $(function(){
       return false;
     }
   });
+  
+  $("input").keypress(function(){ 
+    // debugger
+    id = parseInt(this.id) + 1; 
+    $("input[id="+id+"]").focus();  
+  })
+  
+  // var inputs = document.querySelectorAll("#activate_code input[name='chars[]']");
+  // inputs.forEach(function(input){
+  // })
+  //   $("input[name='chars[1]'").focus();
+  //   //$("input[name='chars[1]'").text(i += 1);
+  // });
+  
+  // $("input[name='chars[1]'").keypress(function(){
+  //   $("input[name='chars[2]'").focus();
+  //   //$("input[name='chars[1]'").text(i += 1);
+  // });
 });
+
 function submit_form(){
   event.preventDefault();
   var id = $('#active-btn')
