@@ -10,7 +10,7 @@ class OrganizationsController < ApplicationController
       @organization.is_approved = true
       @organization.save
     else
-      render :template => "organizations/error"
+      render :json => { bool: false }
     end
   end
 

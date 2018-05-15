@@ -16,7 +16,7 @@ html
           .col-md-4.col-xs-12.col-sm-4.col-lg-4
             h1 KL
             h3 Activate your organization
-            form action="/organizations/#{@organization.id}/approved" 
+            form action="/organizations/#{@organization.id}/approved" id="activate_code" 
               p Enter your confirmation code
               .row
                 .col-md-6.col-xs-6.col-sm-5.rem-margin
@@ -43,7 +43,7 @@ html
                         input.form-control.def-txt-input maxlength="1" name="chars[]" type="text" /
               .row
                 .col-md-12
-                  = submit_tag "Submit", class: "btn btn-default acti-btn", id: "active-btn"
+                  = submit_tag "Submit", class: "btn btn-default acti-btn", id: "active-btn", onclick:"submit_form();", name:@organization.id
             p
               | Didn't get the e-mail?
               span

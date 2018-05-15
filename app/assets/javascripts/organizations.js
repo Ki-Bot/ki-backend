@@ -10,6 +10,42 @@ $(function(){
     }
   });
 });
+function submit_form(){
+  event.preventDefault();
+  var id = $('#active-btn')
+  var ar = []
+  var inputs = document.querySelectorAll("#activate_code input[name='chars[]']");
+  inputs.forEach(function(input){
+    if (input.value != ""){
+      ar.push(input.value)
+      // your code here
+    }
+  })
+  $.ajax({
+    datatype: "json",
+    type: 'GET',
+    url: $('form').attr("action"),
+    data: {id: id[0].name, chars: ar},
+    success: function(data){
+      if (data.bool == false){
+        alert("Please enter valid access code");
+      }
+      else{
+        $('#activate_code').submit();
+      }
+    }
+  });
+
+  // $.get( $('form').attr("action"), { id: id[0].name, chars: ar } );
+  // $.ajax( "example.php" )
+  // .done(function() {
+  //   alert( "success" );
+  // })
+  // .fail(function() {
+  //   alert( "error" );
+  // })
+}
+
 
 
 // var $inputs = $(".def-txt-input");
