@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180512133535) do
+ActiveRecord::Schema.define(version: 20180517075343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 20180512133535) do
     t.bigint "broadband_type_id"
     t.string "services"
     t.string "notes"
+    t.string "manager_name"
+    t.string "user_id"
     t.index ["broadband_type_id"], name: "index_broadbands_on_broadband_type_id"
   end
 

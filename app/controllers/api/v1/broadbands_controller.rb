@@ -1,6 +1,6 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
-  skip_before_action :authenticate_with_token, only: [:search, :filter, :show, :types, :search_by_location, :search_all]
+  skip_before_action :authenticate_with_token, only: [:claim_organization, :search, :filter, :show, :types, :search_by_location, :search_all]
   before_action :set_broadband, only: [:show, :update, :acquire]
 
   resource_description do
@@ -175,6 +175,19 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
 
+  def claim_organization
+    user = User.new sign_up_params.except(:manager_name, :address)
+    user.save
+    broadband = Broadband.new(anchorname: params[:broadband][:name], address: params[:broadband][:address], manager_name: params[:broadband][:manager_name],broadband_type_id: params[:broadband][:broadband_type])
+    broadband.user_id = user.id
+    broadband.save!
+    render json: {
+      broadband: broadband.as_json(:except => [:password]),
+      user: user.as_json
+      # access_url: request.base_url+'/organizations/'+organization.id.to_s+'/activate'.as_json
+    }, status: :ok
+  end
+
   private
 
   def set_broadband
@@ -200,5 +213,9 @@ class Api::V1::BroadbandsController < Api::ApplicationController
 
   def record_not_found
     render json: { error: 'Record not found!' }, status: :unprocessable_entity
+  end
+
+  def sign_up_params
+    params.require(:broadband).permit(:email, :password, :manager_name, :name, :phone_no, :profile_picture, :address)
   end
 end

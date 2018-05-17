@@ -48,6 +48,7 @@ Rails.application.routes.draw do
           get 'types', to: 'broadbands#types'
           # get 'acquire/:id', to: 'broadbands#acquire'
           get 'my_broadbands', to: 'broadbands#my_broadbands'
+          post 'claim_organizations' , to: 'broadbands#claim_organization'
         end
       end
 
