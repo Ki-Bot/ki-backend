@@ -41,6 +41,22 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     end
   end
 
+  api! 'List broadbands'
+  formats [:json]
+  def index 
+    if params[:broadband_type_id]
+      @broadbands = Broadband.where(broadband_type_id: params[:broadband_type_id])
+    else
+      @broadbands = Broadband.all
+    end
+    if @broadbands.first
+      render json: @broadbands
+    else
+      render json: { error: 'No broadband was found' }
+    end
+
+  end 
+
   api! 'Search broadbands'
   param :q, String, 'Query to search.', required: true
   formats [:json]
@@ -54,11 +70,11 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
-  param :types, String, 'Organization types', required: false
+  param :types, String, 'organization types', required: false
   param :radius, Integer, 'Radius in Meters', required: false
   formats [:json]
   def search_by_location
-    types = params[:types]
+    types = params[:types].split(",")
     return render json: [] if types.blank?
     location = request.headers['HTTP_USER_LOCATION']
     radius = params[:radius]
