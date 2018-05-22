@@ -58,7 +58,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param :radius, Integer, 'Radius in Meters', required: false
   formats [:json]
   def search_by_location
-    types = params[:types]
+    types = params[:types].split(",")
     return render json: [] if types.blank?
     location = request.headers['HTTP_USER_LOCATION']
     radius = params[:radius]
@@ -74,7 +74,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   formats [:json]
   def filter
     q = params[:q]
-    types = params[:types]
+    types = params[:types].split(",")
     offset = params[:offset]
     length = params[:length]
     return render json: { message: 'Length greater than 1000 not allowed!' }, status: :unprocessable_entity if length.to_i > 1000
