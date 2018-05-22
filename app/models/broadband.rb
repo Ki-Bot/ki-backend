@@ -58,7 +58,7 @@ class Broadband < ApplicationRecord
     hash[:offset] = offset
     hash[:length] = length
     json = Broadband.raw_search(q, hash)
-    json['hits'].map { |hit| Broadband.new(id: hit['objectID'].to_i, address: hit['address'], latitude: hit['_geoloc']['lat'], longitude: hit['_geoloc']['lng']) }
+    json['hits'].map { |hit| Broadband.new(id: hit['objectID'].to_i,anchorname: hit['anchorname'], address: hit['address'], latitude: hit['_geoloc']['lat'], longitude: hit['_geoloc']['lng']) }
   end
 
   def self.filter(q, types, location, offset, length, radius, current_user)
