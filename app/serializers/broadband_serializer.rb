@@ -1,5 +1,5 @@
 class BroadbandSerializer < ActiveModel::Serializer
-  attributes :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :services, :_geoloc, :is_editable, :is_favorite, :type, :services, :logo, :banner
+  attributes :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :detail, :services, :_geoloc, :is_editable, :is_favorite, :type, :services, :logo, :banner
 
   has_many :opening_hours
 
