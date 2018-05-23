@@ -66,6 +66,7 @@ ActiveAdmin.register Broadband do
       f.input :longitude
       f.input :publicwifi
       f.input :url
+      f.input :detail
       f.input :broadband_type
       f.input :logo, as: :file
       f.input :banner, as: :file
