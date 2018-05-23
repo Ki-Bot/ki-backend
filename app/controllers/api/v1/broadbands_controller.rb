@@ -1,6 +1,6 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
-  skip_before_action :authenticate_with_token, only: [:claim_organization, :search, :filter, :show, :types, :search_by_location, :search_all]
+  skip_before_action :authenticate_with_token, only: [:index, :claim_organization, :search, :filter, :show, :types, :search_by_location, :search_all]
   before_action :set_broadband, only: [:show, :update, :acquire]
 
   resource_description do
