@@ -66,7 +66,13 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     length = params[:length]
     return render json: { error: 'No query was provided!' }, status: :unprocessable_entity if q.blank?
     hits = Broadband.search(q, offset, length)
-    render json: hits, each_serializer: SimpleBroadbandSerializer
+    # render json: hits, each_serializer: SimpleBroadbandSerializer
+    broadbands = []
+    hits.each do |hit|
+      br = Broadband.find(hit[:id])
+      broadbands.push(br)
+    end
+    render json: broadbands #, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
@@ -79,7 +85,12 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     location = request.headers['HTTP_USER_LOCATION']
     radius = params[:radius]
     hits = Broadband.search_by_location(location, radius, types, current_user)
-    render json: hits #, each_serializer: SimpleBroadbandSerializer
+    broadbands = []
+    hits.each do |hit|
+      br = Broadband.find(hit[:id])
+      broadbands.push(br)
+    end
+    render json: broadbands #, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Filter broadband results by type'
@@ -98,7 +109,12 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     location = request.headers['HTTP_USER_LOCATION']
     return render json: [] if types.blank?
     hits = Broadband.filter(q, types, location, offset, length, radius, current_user)
-    render json: hits#, each_serializer: SimpleBroadbandSerializer
+    broadbands = []
+    hits.each do |hit|
+      br = Broadband.find(hit[:id])
+      broadbands.push(br)
+    end
+    render json: broadbands #, each_serializer: SimpleBroadbandSerializer
   end
 
   api! 'Search, filter, or search by location. To search by location add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'

@@ -17,7 +17,7 @@ class Broadband < ApplicationRecord
   belongs_to :broadband_type
 
   algoliasearch do
-    attribute :anchorname, :address, :city, :state_code, :url, :id, :_geoloc
+    attribute :anchorname, :address, :city, :state_code, :url, :id, :_geoloc, :banner
     attribute :type do
       broadband_type.present? ? broadband_type.name : ''
     end
@@ -35,7 +35,7 @@ class Broadband < ApplicationRecord
     filter_text = fetch_filters(types)
     hash[:filters] = filter_text unless filter_text.nil?
     json = Broadband.raw_search(nil, hash)
-    json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], anchorname: hit['anchorname'], _geoloc: hit['_geoloc'], type: hit['type'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
+    json['hits'].map { |hit| { id: hit['objectID'].to_i, banner: hit['banner'], address: hit['address'], anchorname: hit['anchorname'], _geoloc: hit['_geoloc'], type: hit['type'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
     # json = index.search({
     #     filters: '(type:Hospitals)'
     # })
@@ -78,7 +78,7 @@ class Broadband < ApplicationRecord
     hash[:length] = length
     # hash[:getRankingInfo] = true
     json = Broadband.raw_search(q, hash)
-    json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], anchorname: hit['anchorname'], _geoloc: hit['_geoloc'], type: hit['type'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
+    json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], anchorname: hit['anchorname'], banner: hit['banner'], _geoloc: hit['_geoloc'], type: hit['type'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
     # hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
     # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
 
