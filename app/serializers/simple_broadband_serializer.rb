@@ -1,5 +1,5 @@
 class SimpleBroadbandSerializer < ActiveModel::Serializer
-  attributes :id, :anchorname, :address, :_geoloc, :is_favorite, :type, :detail, :banner
+  attributes :id, :anchorname, :address, :_geoloc, :is_favorite, :type, :detail, :banner, :rating
 
   def is_favorite
     current_user.present? && current_user.has_favorite?(object)

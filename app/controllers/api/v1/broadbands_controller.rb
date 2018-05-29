@@ -72,7 +72,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       br = Broadband.find(hit[:id])
       broadbands.push(br)
     end
-    render json: broadbands #, each_serializer: SimpleBroadbandSerializer
+    render json: broadbands, each_serializer: BroadbandSerializer
   end
 
   api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
@@ -90,7 +90,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       br = Broadband.find(hit[:id])
       broadbands.push(br)
     end
-    render json: broadbands #, each_serializer: SimpleBroadbandSerializer
+    render json: broadbands, each_serializer: BroadbandSerializer
   end
 
   api! 'Filter broadband results by type'
@@ -114,7 +114,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       br = Broadband.find(hit[:id])
       broadbands.push(br)
     end
-    render json: broadbands #, each_serializer: SimpleBroadbandSerializer
+    render json: broadbands, each_serializer: BroadbandSerializer
   end
 
   api! 'Search, filter, or search by location. To search by location add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'

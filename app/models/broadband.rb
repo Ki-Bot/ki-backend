@@ -11,6 +11,8 @@ class Broadband < ApplicationRecord
   # validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png']
   do_not_validate_attachment_file_type :logo
 
+  # ratyrate_rateable "Broadband"
+
   has_many :points
   has_many :reviews
   has_many :opening_hours, :dependent => :destroy
@@ -20,7 +22,7 @@ class Broadband < ApplicationRecord
 
 
   algoliasearch do
-    attribute :anchorname, :address, :city, :state_code, :url, :id, :_geoloc, :banner
+    attribute :anchorname, :address, :city, :state_code, :url, :id, :_geoloc, :banner, :rating
     attribute :type do
       broadband_type.present? ? broadband_type.name : ''
     end
@@ -81,7 +83,7 @@ class Broadband < ApplicationRecord
     hash[:length] = length
     # hash[:getRankingInfo] = true
     json = Broadband.raw_search(q, hash)
-    json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], anchorname: hit['anchorname'], banner: hit['banner'], _geoloc: hit['_geoloc'], type: hit['type'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
+    json['hits'].map { |hit| { id: hit['objectID'].to_i, address: hit['address'], anchorname: hit['anchorname'], banner: hit['banner'], _geoloc: hit['_geoloc'], type: hit['type'], rating: hit['rating'], is_favorite: (current_user.nil? ? false : current_user.has_favorite_id?(hit['objectID'].to_i)) } }
     # hit_ids = json['hits'].map { |hit| hit['objectID'].to_i }
     # Broadband.where('id IN (?)', hit_ids).select(:id, :address, :broadband_type_id, :latitude, :longitude).sort_by { |x| hit_ids.index x.id }
 
