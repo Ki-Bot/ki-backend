@@ -14,4 +14,13 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def notfound
+  
+  end
+
+  def show 
+    @broadband = Broadband.find(params[:id])
+    @user = User.find(@broadband.user_id)
+  end
+
 end

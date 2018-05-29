@@ -55,6 +55,8 @@ gem 'twitter'
 gem 'activerecord-import'
 gem 'pry'
 gem "slim-rails"
+gem "ratyrate"
+gem 'jquery-turbolinks'
 
 
 group :development, :test do

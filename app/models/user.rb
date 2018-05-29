@@ -8,6 +8,7 @@ class User < ApplicationRecord
   # validates :name, presence: true
 
   has_many :points, dependent: :delete_all
+  has_many :reviews, dependent: :delete_all
   has_many :favorites, through: :points, source: :broadband, dependent: :delete_all
 
   has_many :user_broadbands, dependent: :delete_all

@@ -12,9 +12,12 @@ class Broadband < ApplicationRecord
   do_not_validate_attachment_file_type :logo
 
   has_many :points
+  has_many :reviews
   has_many :opening_hours, :dependent => :destroy
   accepts_nested_attributes_for :opening_hours, allow_destroy: true
   belongs_to :broadband_type
+
+
 
   algoliasearch do
     attribute :anchorname, :address, :city, :state_code, :url, :id, :_geoloc, :banner

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   get 'organizations/:id/activate', to: 'organizations#activate'
   get 'organizations/:id/approved', to: 'organizations#approved'
+  get 'organizations/notfound', to: 'organizations#notfound'
+  resources :organizations, only: [:show]
 
   root to: 'admin/dashboard#index'
   get 'test_facebook', to: 'application#test_facebook'
@@ -50,6 +52,8 @@ Rails.application.routes.draw do
           get 'my_broadbands', to: 'broadbands#my_broadbands'
           post 'claim_organizations' , to: 'broadbands#claim_organization'
           get '/', to: 'broadbands#index'
+          post 'review' , to: 'broadbands#review'
+          get 'reviews' , to: 'broadbands#all_reviews'
         end
       end
 
