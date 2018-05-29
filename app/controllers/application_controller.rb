@@ -2,6 +2,21 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   after_action :allow_iframe, only: :social_login
 
+  def after_sign_in_path_for(resource)
+    @admin  = AdminUser.where(id: resource.id, email: resource.email)
+    @user = User.where(id: resource.id, email: resource.email)
+    if @admin.first
+      root_path
+    elsif @user.first
+      @broadband = Broadband.where(user_id: @user.first.id)
+      if @broadband.first
+        organization_path(@broadband.first.id)
+      else
+        organizations_notfound_path
+      end
+    end
+  end
+
   def test_facebook
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['twitter_app_id']
