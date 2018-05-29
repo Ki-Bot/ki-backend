@@ -208,9 +208,9 @@ class Api::V1::BroadbandsController < Api::ApplicationController
 
 
   def claim_organization
-    user = User.new sign_up_params.except(:manager_name, :address)
+    user = User.new sign_up_params.except(:manager_name, :address, :broadband_type_id, :streetname, :city, :state_code, :zip5)
     user.save
-    broadband = Broadband.new(anchorname: params[:broadband][:name], address: params[:broadband][:address], manager_name: params[:broadband][:manager_name],broadband_type_id: params[:broadband][:broadband_type])
+    broadband = Broadband.new(anchorname: params[:broadband][:name], address: params[:broadband][:address], manager_name: params[:broadband][:manager_name],broadband_type_id: params[:broadband][:broadband_type],streetname: params[:broadband][:streetname],city: params[:broadband][:city],state_code: params[:broadband][:state_code],zip5: params[:broadband][:zip5])
     broadband.user_id = user.id
     broadband.save!
     render json: {
@@ -274,6 +274,6 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   def sign_up_params
-    params.require(:broadband).permit(:email, :password, :manager_name, :name, :phone_no, :profile_picture, :address)
+    params.require(:broadband).permit(:email, :password, :manager_name, :name, :phone_no, :profile_picture, :address, :broadband_type_id, :streetname, :city, :state_code, :zip5)
   end
 end
