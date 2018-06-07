@@ -208,8 +208,13 @@ class Api::V1::BroadbandsController < Api::ApplicationController
 
 
   def claim_organization
-    user = User.new sign_up_params.except(:manager_name, :address, :broadband_type_id, :streetname, :city, :state_code, :zip5)
-    if user.save
+    user = User.where(email: params[:broadband][:email]).first
+    if user.nil?
+      user = User.new sign_up_params.except(:manager_name, :address, :broadband_type_id, :streetname, :city, :state_code, :zip5)
+      user.save
+    end
+    broadbands = Broadband.where(user_id: user.id)
+    if broadbands.empty?
       broadband = Broadband.new(anchorname: params[:broadband][:name], manager_name: params[:broadband][:manager_name],broadband_type_id: params[:broadband][:broadband_type],streetname: params[:broadband][:streetname],city: params[:broadband][:city],state_code: params[:broadband][:state_code],zip5: params[:broadband][:zip5])
       broadband.user_id = user.id
       broadband.save!
