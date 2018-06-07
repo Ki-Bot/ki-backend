@@ -1,7 +1,7 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   skip_before_action :authenticate_with_token, only: [:index, :claim_organization, :search, :filter, :show, :types, :search_by_location, :search_all]
-  before_action :set_broadband, only: [:show, :update, :acquire, :review]
+  before_action :set_broadband, only: [:show, :update, :acquire, :review, :faqs]
 
   resource_description do
     short 'Broadbands endpoints'
@@ -243,6 +243,15 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       }, status: :ok
     else
       render json: { error: 'No reviews found' }
+    end
+  end
+
+  def faqs
+    @faqs = Faq.where(broadband_id: @broadband.id)
+    if @faqs.first
+      render json: {
+        faqs: @faqs.as_json
+      }, status: :ok
     end
   end
 

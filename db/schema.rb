@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180517075343) do
+ActiveRecord::Schema.define(version: 20180605090634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,17 @@ ActiveRecord::Schema.define(version: 20180517075343) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "average_caches", force: :cascade do |t|
+    t.bigint "rater_id"
+    t.string "rateable_type"
+    t.bigint "rateable_id"
+    t.float "avg", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rateable_type", "rateable_id"], name: "index_average_caches_on_rateable_type_and_rateable_id"
+    t.index ["rater_id"], name: "index_average_caches_on_rater_id"
   end
 
   create_table "broadband_types", force: :cascade do |t|
@@ -83,7 +94,18 @@ ActiveRecord::Schema.define(version: 20180517075343) do
     t.string "notes"
     t.string "manager_name"
     t.string "user_id"
+    t.string "detail"
+    t.integer "rating", default: 5
     t.index ["broadband_type_id"], name: "index_broadbands_on_broadband_type_id"
+  end
+
+  create_table "faqs", force: :cascade do |t|
+    t.bigint "broadband_id"
+    t.string "question"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["broadband_id"], name: "index_faqs_on_broadband_id"
   end
 
   create_table "opening_hours", force: :cascade do |t|
@@ -111,6 +133,15 @@ ActiveRecord::Schema.define(version: 20180517075343) do
     t.string "access_code"
   end
 
+  create_table "overall_averages", force: :cascade do |t|
+    t.string "rateable_type"
+    t.bigint "rateable_id"
+    t.float "overall_avg", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rateable_type", "rateable_id"], name: "index_overall_averages_on_rateable_type_and_rateable_id"
+  end
+
   create_table "points", id: :serial, force: :cascade do |t|
     t.integer "broadband_id"
     t.integer "user_id"
@@ -118,6 +149,41 @@ ActiveRecord::Schema.define(version: 20180517075343) do
     t.datetime "updated_at", null: false
     t.index ["broadband_id"], name: "index_points_on_broadband_id"
     t.index ["user_id"], name: "index_points_on_user_id"
+  end
+
+  create_table "rates", force: :cascade do |t|
+    t.bigint "rater_id"
+    t.string "rateable_type"
+    t.bigint "rateable_id"
+    t.float "stars", null: false
+    t.string "dimension"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rateable_id", "rateable_type"], name: "index_rates_on_rateable_id_and_rateable_type"
+    t.index ["rateable_type", "rateable_id"], name: "index_rates_on_rateable_type_and_rateable_id"
+    t.index ["rater_id"], name: "index_rates_on_rater_id"
+  end
+
+  create_table "rating_caches", force: :cascade do |t|
+    t.string "cacheable_type"
+    t.bigint "cacheable_id"
+    t.float "avg", null: false
+    t.integer "qty", null: false
+    t.string "dimension"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cacheable_id", "cacheable_type"], name: "index_rating_caches_on_cacheable_id_and_cacheable_type"
+    t.index ["cacheable_type", "cacheable_id"], name: "index_rating_caches_on_cacheable_type_and_cacheable_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "broadband_id"
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["broadband_id"], name: "index_reviews_on_broadband_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "user_broadbands", force: :cascade do |t|
@@ -151,6 +217,7 @@ ActiveRecord::Schema.define(version: 20180517075343) do
     t.datetime "oauth_expires_at"
     t.string "profile_picture"
     t.string "phone_no"
+    t.string "address"
     t.index ["auth_token"], name: "index_users_on_auth_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"

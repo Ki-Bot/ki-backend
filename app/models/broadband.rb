@@ -14,6 +14,7 @@ class Broadband < ApplicationRecord
   # ratyrate_rateable "Broadband"
 
   has_many :points
+  has_many :faqs
   has_many :reviews
   has_many :opening_hours, :dependent => :destroy
   accepts_nested_attributes_for :opening_hours, allow_destroy: true
