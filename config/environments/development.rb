@@ -86,4 +86,7 @@ Rails.application.configure do
   #         s3_region: ENV['aws_region']
   #     }
   # }
+  Paperclip.options[:image_magick_path] = "/opt/ImageMagick/bin"
+  Paperclip.options[:command_path] = "/opt/ImageMagick/bin"
+
 end
