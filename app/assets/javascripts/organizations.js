@@ -57,62 +57,52 @@ function submit_form(){
       }
     }
   });
+}
+function create_faq(){
+  event.preventDefault();
+  var que = $('#create_faq_question')
+  var ans = $('#create_faq_answer')
+  if (que.val() && ans.val()){
+    $.ajax({
+      datatype: "json",
+      type: 'POST',
+      url: $('#faq_create').attr("action"),
+      data: {que: que.val(), ans: ans.val(), broadband_id: $('#faq_create').attr("name") }
+    });
+  }
+  else{
+    alert("Please fill the fields");
+  }
+}
+function delete_faq(id, broadband_id){
 
-  // $.get( $('form').attr("action"), { id: id[0].name, chars: ar } );
-  // $.ajax( "example.php" )
-  // .done(function() {
-  //   alert( "success" );
-  // })
-  // .fail(function() {
-  //   alert( "error" );
-  // })
+  $.ajax({
+    datatype: "json",
+    type: 'DELETE',
+    url: '/organizations/faq/'+id,
+    data: {id: id, broadband_id: broadband_id},
+    success: function(data){
+      if (data.bool){
+        $('#accordion'+data.bool).remove()
+        alert("Faq has been deleted")
+      }
+    }
+  });
 }
 
+function update_faq(id, broadband_id){
 
-
-// var $inputs = $(".def-txt-input");
-// var intRegex = /^\d+$/;
-
-// // Prevents user from manually entering non-digits.
-// $inputs.on("input.fromManual", function(){
-//     if(!intRegex.test($(this).val())){
-//         $(this).val("");
-//     }
-// });
-
-
-// // Prevents pasting non-digits and if value is 6 characters long will parse each character into an individual box.
-// $inputs.on("paste", function() {
-//     var $this = $(this);
-//     var originalValue = $this.val();
-    
-//     $this.val("");
-
-//     $this.one("input.fromPaste", function(){
-//         $currentInputBox = $(this);
-        
-//         var pastedValue = $currentInputBox.val();
-        
-//         if (pastedValue.length == 6 && intRegex.test(pastedValue)) {
-//             pasteValues(pastedValue);
-//         }
-//         else {
-//             $this.val(originalValue);
-//         }
-
-//         $inputs.attr("maxlength", 1);
-//     });
-    
-//     $inputs.attr("maxlength", 6);
-// });
-
-
-// // Parses the individual digits into the individual boxes.
-// function pasteValues(element) {
-//     var values = element.split("");
-
-//     $(values).each(function(index) {
-//         var $inputBox = $('.def-txt-input[name="chars[' + (index + 1) + ']"]');
-//         $inputBox.val(values[index])
-//     });
-// };
+  que = $('#update_question_'+id).val()
+  ans = $('#update_answer_'+id).val()
+  $.ajax({
+    datatype: "json",
+    type: 'PUT',
+    url: '/organizations/faq/'+id,
+    data: {id: id, broadband_id: broadband_id, que: que, ans: ans},
+    success: function(data){
+      if (data){
+        alert("Faq has been updated")
+      }
+    }
+  });
+}

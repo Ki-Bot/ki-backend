@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   get 'organizations/:id/activate', to: 'organizations#activate'
   get 'organizations/:id/approved', to: 'organizations#approved'
   get 'organizations/notfound', to: 'organizations#notfound'
+  post 'organizations/faq', to: 'organizations#create_faq'
+  delete 'organizations/faq/:id', to: 'organizations#destroy_faq'
+  put 'organizations/faq/:id', to: 'organizations#update_faq'
   resources :organizations, only: [:show]
 
   root to: 'admin/dashboard#index'
@@ -54,6 +57,7 @@ Rails.application.routes.draw do
           get '/', to: 'broadbands#index'
           post 'review' , to: 'broadbands#review'
           get 'reviews' , to: 'broadbands#all_reviews'
+          get 'faqs' , to: 'broadbands#faqs'
         end
       end
 

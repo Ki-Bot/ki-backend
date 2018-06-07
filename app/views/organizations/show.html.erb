@@ -20,16 +20,16 @@
   </head>
   <body>
    
-   <div class="container-fluid">
+   <div class="container-fluid" style="background-color: #fff;">
    <div class="row">
    <div class="col-md-3 bg">
-   <img src="../assets/msg.png" class="img-responsive pull-right icc" height="30px" width="30px">
+   <!-- <img src="../assets/msg.png" class="img-responsive pull-right icc" height="30px" width="30px"> -->
    <div class="hospital">
    <h3 style="
     margin:  0px 0px 0px 0px;
     padding:  0px 0px 0px 0px;"> 
       <%= @broadband.broadband_type.name %>
-     <span class="pull-right"><img src="../assets/pencil-icon.png" height="25px" width="25px"></span></h3>
+     <!-- <span class="pull-right"><img src="../assets/pencil-icon.png" height="25px" width="25px"></span></h3> --></h3>  
     &nbsp;
    &nbsp;
    <p style="
@@ -74,7 +74,7 @@
    <div class="col-md-9 bg-right">
 <h3><span style="
     color:  #fff;
-"><img src="../assets/back.png" height="20px" width="20px">&nbsp;&nbsp;Questions/Answers<%= link_to 'Sign out', destroy_user_session_path, :method=>'delete', class:"btn btn-danger pull-right" %></span></h3>
+"><!-- <img src="../assets/back.png" height="20px" width="20px"> -->&nbsp;&nbsp;Questions/Answers<%= link_to 'Sign out', destroy_user_session_path, :method=>'delete', class:"btn btn-danger pull-right" %></span></h3>
 
 
 
@@ -82,19 +82,19 @@
 
 <div class="containers">
 <h3><b>Add Questions & Answers for your users </h3></b>
-  <form>
+  <form name=<%= @broadband.id %> id="faq_create" action="/organizations/faq">
     <div class="form-group">
-      <input type="text" class="form-control" id="usr" placeholder="Add user expression.">
+      <input id="create_faq_question" type="text" class="form-control" placeholder="Add user expression.">
     </div>
     <div class="form-group">
-      <textarea class="form-control" rows="5" id="comment"  placeholder="Add your response."></textarea>
+      <textarea id="create_faq_answer" class="form-control" rows="5" id="comment"  placeholder="Add your response."></textarea>
     </div>
   </form>
   <p style="
     text-align:  right;
 ">0 / 300 Characters</p>
-<button type="button" class="btn btn-default pull-right" aria-haspopup="true" aria-expanded="false">Add</button>&nbsp;
-<button type="button" class="btn btn-default pull-right" aria-haspopup="true" aria-expanded="false">Cancel</button>
+<button onclick="create_faq();" id="faq_create_button" type="button" class="btn btn-default pull-right" aria-haspopup="true" aria-expanded="false">Add</button>&nbsp;
+<!-- <button type="button" class="btn btn-default pull-right" aria-haspopup="true" aria-expanded="false">Cancel</button> -->
 </div>
 
 
@@ -103,35 +103,36 @@
    
   </div>
   <div class="clearfix"></div>
-  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-default">
-      <div class="panel-heading" role="tab" id="headingOne">
-        <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-         <b><span><img src="../assets/toggle.png" height="10px" width="20px"></span>
-         &nbsp;&nbsp;it wheelchair entrance available ?</b>
-        </a>
-      </h4>
-      </div>
-      <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+  <% @faqs.each do |faq| %>
+    <div class="panel-group" id="accordion<%= faq.id %>" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id=<%= faq.id %>>
+          <h4 class="panel-title">
+            <a role="button">
+             <b><span><img src="../assets/toggle.png" height="10px" width="20px"></span>&nbsp;&nbsp; <%= faq.question %></b>
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
         <div class="panel-body">
           <form>
-    <div class="form-group">
-      <input type="text" class="form-control" id="usr" placeholder="Add user expression.">
-    </div>
-    <div class="form-group">
-      <textarea class="form-control" rows="5" id="comment"  placeholder="Add your response."></textarea>
-    </div>
-  </form>
-  <p style="
-    text-align:  right;
-">0 / 300 Characters</p>
-<span class="del"><a href="#">Delete</span></a><button type="button" class="btn btn-default pull-right" aria-haspopup="true" aria-expanded="false">Add</button>
-&nbsp;&nbsp;<button type="button" class="btn btn-default pull-right" aria-haspopup="true" aria-expanded="false">Cancel</button>
+            <div class="form-group">
+              <input id="update_question_<%= faq.id %>" value="<%= faq.question %>" type="text" class="form-control" placeholder="Add user expression.">
+            </div>
+            <div class="form-group">
+              <textarea id="update_answer_<%= faq.id %>" class="form-control" rows="5" placeholder="Add your response."><%= faq.answer %></textarea>
+            </div>
+          </form>
+    <p style="
+      text-align:  right;
+  ">0 / 300 Characters</p>
+      <span class="del"><button onclick="delete_faq(<%= faq.id %>, <%= @broadband.id %>);" class="btn btn-danger">Delete</span></button>
+      <button onclick="update_faq(<%= faq.id %>, <%= @broadband.id %>);" type="button" class="btn btn-default pull-right" aria-haspopup="true" aria-expanded="false">Update</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>
 
 
@@ -142,9 +143,10 @@
    </div>
    <script>
    
-   $(document).ready(function() {
+  $(document).ready(function() {
 
   $(".toggle-accordion").on("click", function() {
+    debugger
     var accordionId = $(this).attr("accordion-id"),
       numPanelOpen = $(accordionId + ' .collapse.in').length;
     
