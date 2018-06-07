@@ -15,7 +15,9 @@ Rails.application.routes.draw do
   put 'organizations/faq/:id', to: 'organizations#update_faq'
   resources :organizations, only: [:show]
 
-  root to: 'admin/dashboard#index'
+  devise_scope :user do
+    root to: "devise/sessions#new"
+  end
   get 'test_facebook', to: 'application#test_facebook'
   get 'social_login', to: 'application#social_login'
 
