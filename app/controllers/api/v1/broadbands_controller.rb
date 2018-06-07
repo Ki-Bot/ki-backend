@@ -209,23 +209,30 @@ class Api::V1::BroadbandsController < Api::ApplicationController
 
   def claim_organization
     user = User.new sign_up_params.except(:manager_name, :address, :broadband_type_id, :streetname, :city, :state_code, :zip5)
-    user.save
-    broadband = Broadband.new(anchorname: params[:broadband][:name], manager_name: params[:broadband][:manager_name],broadband_type_id: params[:broadband][:broadband_type],streetname: params[:broadband][:streetname],city: params[:broadband][:city],state_code: params[:broadband][:state_code],zip5: params[:broadband][:zip5])
-    broadband.user_id = user.id
-    broadband.save!
-    render json: {
-      broadband: broadband.as_json(:except => [:password]),
-      user: user.as_json
-      # access_url: request.base_url+'/organizations/'+organization.id.to_s+'/activate'.as_json
-    }, status: :ok
+    if user.save
+      broadband = Broadband.new(anchorname: params[:broadband][:name], manager_name: params[:broadband][:manager_name],broadband_type_id: params[:broadband][:broadband_type],streetname: params[:broadband][:streetname],city: params[:broadband][:city],state_code: params[:broadband][:state_code],zip5: params[:broadband][:zip5])
+      broadband.user_id = user.id
+      broadband.save!
+      render json: {
+        broadband: broadband.as_json(:except => [:password]),
+        user: user.as_json
+        # access_url: request.base_url+'/organizations/'+organization.id.to_s+'/activate'.as_json
+      }, status: :ok
+    else
+      render json: { error: 'Email has already been taken' }
+    end
   end
 
   def review
     @review = Review.new(comment: params[:comment], user_id: current_user.id, broadband_id: @broadband.id)
-    @review.save
-    render json: {
-      review: @review.as_json
-    }, status: :ok
+    if @review.comment
+      @review.save
+      render json: {
+        review: @review.as_json
+      }, status: :ok
+    else
+      render json: { error: 'Please provide comment to create review' }
+    end
   end
 
   def all_reviews
@@ -252,6 +259,8 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       render json: {
         faqs: @faqs.as_json
       }, status: :ok
+    else
+      render json: { error: 'No faqs found' }
     end
   end
 
