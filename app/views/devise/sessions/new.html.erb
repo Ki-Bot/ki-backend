@@ -1,37 +1,25 @@
-<div class="container">
+<div class="content-bg">
   <div class="row">
     <div class="col-md-12">
       <div id="content_wrapper">
         <div id="active_admin_content">
           <div id="login">
-            <h2>Ki Project Api Login</h2>
+            <h2 align="center">KI Web</h2>
             <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "formtastic admin_user"}) do |f| %>
-              <fieldset class="inputs">           
-                <ol>
-                  <li class="email input required autofocus stringish">
-                    <%= f.label :email %>
-                    <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email Address" %>
-                  </li>
-                  <br />
-                  <li class="password input required stringish">
-                    <%= f.label :password %>
-                    <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password" %>
-                  </li>
-
-                  <% if devise_mapping.rememberable? -%>
-                    <li class="boolean input optional" id="admin_user_remember_me_input">
-                    <input name="admin_user[remember_me]" value="0" type="hidden">
-                    
-                    <label for="admin_user_remember_me" class="">
-                      <input name="admin_user[remember_me]" id="admin_user_remember_me" value="1" type="checkbox">Remember me
-                    </label>
-                  </li>
-                  <% end -%>
-                </ol>
-              </fieldset>
+              <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email Address", style: "margin-left: 60px" %>
+              <br />
+              <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password", style: "margin-left: 60px" %>
+              <br />
+              <% if devise_mapping.rememberable? -%>
+                <input name="admin_user[remember_me]" value="0" type="hidden">
+                
+                <label for="admin_user_remember_me" class="", style= "margin-left: 60px">
+                  <input name="admin_user[remember_me]" id="admin_user_remember_me" value="1" type="checkbox">    Remember me
+                </label>
+              <% end -%>
 
               <div class="actions">
-                <%= f.button "Log in", type:"submit", class: "action input_action"%>
+                <%= f.button "Log in", class: "btn btn-lg btn-primary", type:"submit", style: "margin-left: 60px; width:76%"%>
               </div>
               <br />
             <% end %>
