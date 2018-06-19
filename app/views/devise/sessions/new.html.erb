@@ -4,22 +4,21 @@
       <div id="content_wrapper">
         <div id="active_admin_content">
           <div id="login">
-            <h2 align="center">KI Web</h2>
+            <h2 align="center">Log in</h2>
+            <br />
             <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "formtastic admin_user"}) do |f| %>
-              <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email Address", style: "margin-left: 60px" %>
+              <label class="control-label" style="margin-left: 60px; color:#4885dc"> EMAIL ADDRESS </label>
+              <%= f.email_field :email, autofocus: true, class: "form-control", style: "margin-left: 60px" %>
               <br />
-              <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password", style: "margin-left: 60px" %>
+              <label class="control-label" style="margin-left: 60px; color:#4885dc"> PASSWORD </label>
+              <%= f.password_field :password, autocomplete: "off", class: "form-control", style: "margin-left: 60px" %>
               <br />
-              <% if devise_mapping.rememberable? -%>
-                <input name="admin_user[remember_me]" value="0" type="hidden">
-                
-                <label for="admin_user_remember_me" class="", style= "margin-left: 60px">
-                  <input name="admin_user[remember_me]" id="admin_user_remember_me" value="1" type="checkbox">    Remember me
-                </label>
-              <% end -%>
-
               <div class="actions">
-                <%= f.button "Log in", class: "btn btn-lg btn-primary", type:"submit", style: "margin-left: 60px; width:76%"%>
+                <%- if devise_mapping.recoverable? %>
+                  <br />
+                  <%= link_to "Forgot your password", new_password_path(resource_name), class: "pull-left", style: "margin-left: 60px; color:grey; text-decoration: underline;"%>
+                <% end -%>
+                <%= f.button "Log in", class: "btn btn-primary pull-right", type:"submit", style: "margin-right: 50px;"%>
               </div>
               <br />
             <% end %>
