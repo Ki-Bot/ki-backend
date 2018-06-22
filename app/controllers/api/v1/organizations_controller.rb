@@ -23,7 +23,7 @@ class Api::V1::OrganizationsController < Api::ApplicationController
   formats [:json]
   # POST /resource
   def create
-    user = User.new sign_up_params.except(:manager_name)
+    user = User.new sign_up_params.except(:manager_name, :summary)
     if user.save
       organization = Organization.new sign_up_params.except(:profile_picture)
       organization.user_id = user.id
@@ -42,7 +42,7 @@ class Api::V1::OrganizationsController < Api::ApplicationController
   private
 
   def sign_up_params
-    params.require(:organization).permit(:email, :password, :manager_name, :name, :phone_no, :profile_picture, :address)
+    params.require(:organization).permit(:email, :password, :manager_name, :name, :phone_no, :profile_picture, :address, :summary)
   end
 
 end
