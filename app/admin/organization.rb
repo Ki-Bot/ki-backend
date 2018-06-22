@@ -28,6 +28,11 @@ ActiveAdmin.register Organization do
     column :address
     column :user_id
     column :access_code
+    column :summary
+    column :streetname
+    column :state_code
+    column :zip5
+    column :broadband_type
     # column :name
     # column :roles
     # column :oauth_expires_at

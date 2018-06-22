@@ -35,7 +35,6 @@ a, a:link, a:visited {
 }
 
 a.button:not(.disabled):hover, a:link.button:not(.disabled):hover, a:visited.button:not(.disabled):hover, input[type=submit]:not(.disabled):hover, input[type=button]:not(.disabled):hover, button:not(.disabled):hover {
-  color: #fff;
   background-color: #1b67d4;
   background-image: linear-gradient(180deg, #1b67d4, #1b67d4);
 }
