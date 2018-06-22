@@ -127,6 +127,15 @@ class Broadband < ApplicationRecord
     {:bucket => ENV['s3_bucket_name'], :access_key_id => ENV['aws_access_key_id'], :secret_access_key => ENV['secret_access_key'], s3_region: ENV['aws_region']}
   end
 
+  def review
+    review = Review.where(broadband_id: self.id).last
+    # {id: review.id, comment: review.comment}
+  end
+
+  def total_reviews
+    total_reviews = Review.where(broadband_id: self.id).count
+  end  
+
   private_class_method def self.fetch_filters(types)
     filter_text = nil
     if types.present?

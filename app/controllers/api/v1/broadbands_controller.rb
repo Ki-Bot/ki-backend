@@ -140,7 +140,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param :id, Integer, 'Broadband id', required: true
   formats [:json]
   def show
-    render json: @broadband
+    render json: @broadband.as_json(:methods => [:total_reviews, :review])
   end
 
   api! 'Create Broadband'
@@ -215,11 +215,11 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     end
     broadbands = Broadband.where(user_id: user.id)
     if broadbands.empty?
-      broadband = Broadband.new(anchorname: params[:broadband][:name], manager_name: params[:broadband][:manager_name],broadband_type_id: params[:broadband][:broadband_type],streetname: params[:broadband][:streetname],city: params[:broadband][:city],state_code: params[:broadband][:state_code],zip5: params[:broadband][:zip5])
+      broadband = Broadband.new(anchorname: params[:broadband][:name], manager_name: params[:broadband][:manager_name],broadband_type_id: params[:broadband][:broadband_type],streetname: params[:broadband][:streetname],city: params[:broadband][:city],state_code: params[:broadband][:state_code],zip5: params[:broadband][:zip5],detail: params[:broadband][:detail])
       broadband.user_id = user.id
       broadband.save!
       render json: {
-        broadband: broadband.as_json(:except => [:password]),
+        broadband: broadband.as_json(:except => [:password]), 
         user: user.as_json
         # access_url: request.base_url+'/organizations/'+organization.id.to_s+'/activate'.as_json
       }, status: :ok
