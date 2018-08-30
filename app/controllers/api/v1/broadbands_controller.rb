@@ -1,6 +1,6 @@
 class Api::V1::BroadbandsController < Api::ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
-  skip_before_action :authenticate_with_token, only: [:index, :claim_organization, :search, :filter, :show, :types, :search_by_location, :search_all]
+  skip_before_action :authenticate_with_token, only: [:index, :claim_organization, :search, :filter, :show, :types, :search_by_location, :search_all, :all_reviews]
   before_action :set_broadband, only: [:show, :update, :acquire, :review, :faqs]
 
   resource_description do
@@ -229,29 +229,41 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   def review
-    @review = Review.new(comment: params[:comment], user_id: current_user.id, broadband_id: @broadband.id)
-    if @review.comment
+    @review = Review.new(rating: params[:rating], comment: params[:comment], user_id: current_user.id, broadband_id: @broadband.id)
+    if @review.comment && @review.rating
       @review.save
       render json: {
         review: @review.as_json
       }, status: :ok
     else
-      render json: { error: 'Please provide comment to create review' }
+      render json: { error: 'Please provide comment/rating to create review' }
     end
   end
 
   def all_reviews
     if current_user && params[:id]
       @reviews = Review.where(user_id: current_user.id, broadband_id: params[:id])
+      @broadband = Broadband.find(params[:id])
     elsif current_user
       @reviews = Review.where(user_id: current_user.id)
+      @b = []
+      @reviews.each do |review|
+        broadband = Broadband.find(review.broadband_id)
+        h = Hash.new("banner" => broadband.banner, "title" => broadband.anchorname, "city" => broadband.city, "state_code" => broadband.state_code, "streetname" => broadband.streetname, "review" => review)
+        @b.push(h[''])
+      end
     else
-      @reviews = Review.where(broadband_id: @broadband.id)
+      @reviews = Review.where(broadband_id: params[:id])
+      @broadband = Broadband.find(params[:id])
     end
 
-    if @reviews.first
+    if @reviews.first && @broadband
       render json: {
         reviews: @reviews.as_json
+      }, status: :ok
+    elsif @reviews.first
+      render json: {
+        my_reviews: @b.as_json
       }, status: :ok
     else
       render json: { error: 'No reviews found' }
