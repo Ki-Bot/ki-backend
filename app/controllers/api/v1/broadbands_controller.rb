@@ -140,7 +140,15 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   param :id, Integer, 'Broadband id', required: true
   formats [:json]
   def show
-    render json: @broadband.as_json(:methods => [:total_reviews, :review])
+    render json: @broadband.as_json(:methods => [:total_reviews, :review, :logo, :banner], :except => [:logo_file_name, :banner_file_name, :banner_content_type, :banner_file_size, :banner_updated_at, :logo_content_type, :logo_file_size, :logo_updated_at])
+  end
+
+  def logo
+    @broadband.logo.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com' if @broadband.logo.exists?
+  end
+  
+  def banner
+    @broadband.banner.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com' if @broadband.banner.exists?
   end
 
   api! 'Create Broadband'
