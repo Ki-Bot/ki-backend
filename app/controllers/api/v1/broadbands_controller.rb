@@ -257,7 +257,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       @b = []
       @reviews.each do |review|
         broadband = Broadband.find(review.broadband_id)
-        h = Hash.new("banner" => broadband.banner, "title" => broadband.anchorname, "city" => broadband.city, "state_code" => broadband.state_code, "streetname" => broadband.streetname, "review" => review)
+        h = Hash.new("banner" => (broadband.logo.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com' if broadband.logo.exists?), "title" => broadband.anchorname, "city" => broadband.city, "state_code" => broadband.state_code, "streetname" => broadband.streetname, "review" => review)
         @b.push(h[''])
       end
     else
