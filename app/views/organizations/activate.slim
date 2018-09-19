@@ -15,8 +15,8 @@ html
           .col-md-4
           .col-md-4.col-xs-12.col-sm-4.col-lg-4
             h1 KI
-            h3 Activate your organization
-            form action="/organizations/#{@organization.id}/approved" id="activate_code" 
+            h3 Activate your Broadband
+            form action="/organizations/#{@broadband.id}/approved" id="activate_code" 
               p Enter your confirmation code
               br
               .row
@@ -44,7 +44,7 @@ html
                         input.form-control.def-txt-input id="6" maxlength="1" name="chars[]" type="text" pattern="\d*" /
               .row
                 .col-md-12
-                  = submit_tag "Submit", class: "btn btn-default acti-btn", id: "active-btn", onclick:"submit_form();", name:@organization.id
+                  = submit_tag "Submit", class: "btn btn-default acti-btn", id: "active-btn", onclick:"submit_form();", name:@broadband.id
             br
             p
               | Didn't get the e-mail?
