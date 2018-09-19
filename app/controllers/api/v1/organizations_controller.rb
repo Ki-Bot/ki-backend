@@ -25,14 +25,17 @@ class Api::V1::OrganizationsController < Api::ApplicationController
   def create
     user = User.new sign_up_params.except(:manager_name, :summary, :state_code, :city, :streetname, :zip5, :broadband_type_id)
     if user.save
-      organization = Organization.new sign_up_params.except(:profile_picture)
-      organization.user_id = user.id
-      organization.save
-      render json: {
-        organization: organization.as_json(:except => [:password]),
-        user: user.as_json,
-        access_url: request.base_url+'/organizations/'+organization.id.to_s+'/activate'.as_json
-      }, status: :ok
+      broadband = Broadband.new(phone_no: sign_up_params[:phone_no],email: sign_up_params[:email], anchorname: sign_up_params[:name], password: sign_up_params[:password], manager_name: sign_up_params[:manager_name],broadband_type_id: sign_up_params[:broadband_type_id],streetname: sign_up_params[:streetname],city: sign_up_params[:city],state_code: sign_up_params[:state_code],zip5: sign_up_params[:zip5],detail: sign_up_params[:summary], banner: sign_up_params[:profile_picture])
+      broadband.user_id = user.id
+      if broadband.save
+        render json: {
+          broadband: broadband.as_json(:except => [:password]),
+          user: user.as_json,
+          access_url: request.base_url+'/organizations/'+broadband.id.to_s+'/activate'.as_json
+        }, status: :ok
+      else
+        user.destroy
+      end
     else
       render json: { error: 'Email has already been taken' }
     end

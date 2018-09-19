@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180605090634) do
+ActiveRecord::Schema.define(version: 20180919161917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,17 +46,6 @@ ActiveRecord::Schema.define(version: 20180605090634) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "average_caches", force: :cascade do |t|
-    t.bigint "rater_id"
-    t.string "rateable_type"
-    t.bigint "rateable_id"
-    t.float "avg", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["rateable_type", "rateable_id"], name: "index_average_caches_on_rateable_type_and_rateable_id"
-    t.index ["rater_id"], name: "index_average_caches_on_rater_id"
-  end
-
   create_table "broadband_types", force: :cascade do |t|
     t.string "name"
     t.string "color"
@@ -64,7 +53,7 @@ ActiveRecord::Schema.define(version: 20180605090634) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "broadbands", id: :serial, force: :cascade do |t|
+  create_table "broadbands", force: :cascade do |t|
     t.string "anchorname"
     t.string "address"
     t.string "bldgnbr"
@@ -96,6 +85,11 @@ ActiveRecord::Schema.define(version: 20180605090634) do
     t.string "user_id"
     t.string "detail"
     t.integer "rating", default: 5
+    t.string "access_code"
+    t.string "email"
+    t.string "phone_no"
+    t.string "password"
+    t.boolean "is_approved"
     t.index ["broadband_type_id"], name: "index_broadbands_on_broadband_type_id"
   end
 
@@ -131,49 +125,22 @@ ActiveRecord::Schema.define(version: 20180605090634) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "access_code"
+    t.string "summary"
+    t.string "streetname"
+    t.string "city"
+    t.string "state_code"
+    t.string "zip5"
+    t.bigint "broadband_type_id"
+    t.index ["broadband_type_id"], name: "index_organizations_on_broadband_type_id"
   end
 
-  create_table "overall_averages", force: :cascade do |t|
-    t.string "rateable_type"
-    t.bigint "rateable_id"
-    t.float "overall_avg", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["rateable_type", "rateable_id"], name: "index_overall_averages_on_rateable_type_and_rateable_id"
-  end
-
-  create_table "points", id: :serial, force: :cascade do |t|
-    t.integer "broadband_id"
-    t.integer "user_id"
+  create_table "points", force: :cascade do |t|
+    t.bigint "broadband_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["broadband_id"], name: "index_points_on_broadband_id"
     t.index ["user_id"], name: "index_points_on_user_id"
-  end
-
-  create_table "rates", force: :cascade do |t|
-    t.bigint "rater_id"
-    t.string "rateable_type"
-    t.bigint "rateable_id"
-    t.float "stars", null: false
-    t.string "dimension"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["rateable_id", "rateable_type"], name: "index_rates_on_rateable_id_and_rateable_type"
-    t.index ["rateable_type", "rateable_id"], name: "index_rates_on_rateable_type_and_rateable_id"
-    t.index ["rater_id"], name: "index_rates_on_rater_id"
-  end
-
-  create_table "rating_caches", force: :cascade do |t|
-    t.string "cacheable_type"
-    t.bigint "cacheable_id"
-    t.float "avg", null: false
-    t.integer "qty", null: false
-    t.string "dimension"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cacheable_id", "cacheable_type"], name: "index_rating_caches_on_cacheable_id_and_cacheable_type"
-    t.index ["cacheable_type", "cacheable_id"], name: "index_rating_caches_on_cacheable_type_and_cacheable_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -182,6 +149,7 @@ ActiveRecord::Schema.define(version: 20180605090634) do
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "rating", default: 5
     t.index ["broadband_id"], name: "index_reviews_on_broadband_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
@@ -195,7 +163,7 @@ ActiveRecord::Schema.define(version: 20180605090634) do
     t.index ["user_id"], name: "index_user_broadbands_on_user_id"
   end
 
-  create_table "users", id: :serial, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -225,6 +193,7 @@ ActiveRecord::Schema.define(version: 20180605090634) do
 
   add_foreign_key "broadbands", "broadband_types"
   add_foreign_key "opening_hours", "broadbands"
+  add_foreign_key "organizations", "broadband_types"
   add_foreign_key "user_broadbands", "broadbands"
   add_foreign_key "user_broadbands", "users"
 end

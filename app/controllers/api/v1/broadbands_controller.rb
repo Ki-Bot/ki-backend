@@ -159,6 +159,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     request_params[:logo] = process_base64(broadband_params[:logo])
     request_params[:banner] = process_base64(broadband_params[:banner])
     @broadband = Broadband.new(request_params)
+    binding.pry
     res = false
     # Broadband.without_auto_index do
       res = @broadband.save!

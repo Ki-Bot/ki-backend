@@ -3,14 +3,14 @@ class OrganizationsController < ApplicationController
 
 
   def activate
-    @organization = Organization.find(params[:id])
+    @broadband = Broadband.find(params[:id])
   end
 
   def approved
-    @organization = Organization.find(params[:id])
-    if params["chars"].join == @organization.access_code
-      @organization.is_approved = true
-      @organization.save
+    @broadband = Broadband.find(params[:id])
+    if params["chars"].join == @broadband.access_code
+      @broadband.is_approved = true
+      @broadband.save
     else
       render :json => { bool: false }
     end

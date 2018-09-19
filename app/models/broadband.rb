@@ -19,7 +19,12 @@ class Broadband < ApplicationRecord
   has_many :opening_hours, :dependent => :destroy
   accepts_nested_attributes_for :opening_hours, allow_destroy: true
   belongs_to :broadband_type
+  after_create :generate_access_code
 
+  def generate_access_code
+    self.access_code = rand.to_s[2..7]
+    self.save
+  end
 
 
   algoliasearch do
