@@ -58,3 +58,11 @@ input[type=number]::-webkit-inner-spin-button {
     color: #333;
     font-weight: 300;
 }
+.review-cont {
+    background-color: #fff;
+    text-decoration: none;
+    width: 600px
+}
+.rating-circle {
+    height: 20px;
+}

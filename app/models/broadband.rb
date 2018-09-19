@@ -1,12 +1,12 @@
 class Broadband < ApplicationRecord
   include AlgoliaSearch
 
-  has_attached_file :banner, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing_banner.png', validate_media_type: false, :storage => :s3,
+  has_attached_file :banner, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: 'assets/top-md.jpg', validate_media_type: false, :storage => :s3,
                     :s3_credentials => Proc.new{|a| a.instance.s3_credentials }
   # validates_attachment_content_type :banner, :content_type => ['image/jpeg', 'image/png']
   do_not_validate_attachment_file_type :banner
 
-  has_attached_file :logo, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: '/images/:style/missing_logo.png', validate_media_type: false, :storage => :s3,
+  has_attached_file :logo, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: 'assets/top-md.jpg', validate_media_type: false, :storage => :s3,
                     :s3_credentials => Proc.new{|a| a.instance.s3_credentials }
   # validates_attachment_content_type :logo, :content_type => ['image/jpeg', 'image/png']
   do_not_validate_attachment_file_type :logo

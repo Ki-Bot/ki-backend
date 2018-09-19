@@ -51,4 +51,9 @@ class OrganizationsController < ApplicationController
     end
   end
 
+  def rating_review
+    @broadband = Broadband.find(params[:id])
+    @reviews = @broadband.reviews
+    @user = User.find(@broadband.user_id)
+  end
 end

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   post 'organizations/faq', to: 'organizations#create_faq'
   delete 'organizations/faq/:id', to: 'organizations#destroy_faq'
   put 'organizations/faq/:id', to: 'organizations#update_faq'
+  get 'organizations/:id/rating_review', to: 'organizations#rating_review'
   resources :organizations, only: [:show]
 
   devise_scope :user do
