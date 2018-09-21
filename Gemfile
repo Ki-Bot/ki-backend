@@ -35,7 +35,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'devise'
-gem 'active_model_serializers'
+gem 'active_model_serializers', '0.9.3'
 gem 'apipie-rails'
 gem 'algoliasearch-rails'
 gem 'figaro'

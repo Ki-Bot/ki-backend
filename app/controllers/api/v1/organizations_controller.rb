@@ -23,7 +23,7 @@ class Api::V1::OrganizationsController < Api::ApplicationController
   formats [:json]
   # POST /resource
   def create
-    user = User.new sign_up_params.except(:manager_name, :summary, :state_code, :city, :streetname, :zip5, :broadband_type_id)
+    user = User.new(phone_no: sign_up_params[:phone_no],email: sign_up_params[:email], name: sign_up_params[:name], password: sign_up_params[:password], address: sign_up_params[:streetname], profile_picture: sign_up_params[:profile_picture])
     if user.save
       broadband = Broadband.new(phone_no: sign_up_params[:phone_no],email: sign_up_params[:email], anchorname: sign_up_params[:name], password: sign_up_params[:password], manager_name: sign_up_params[:manager_name],broadband_type_id: sign_up_params[:broadband_type_id],streetname: sign_up_params[:streetname],city: sign_up_params[:city],state_code: sign_up_params[:state_code],zip5: sign_up_params[:zip5],detail: sign_up_params[:summary], banner: sign_up_params[:profile_picture])
       broadband.user_id = user.id
@@ -35,6 +35,7 @@ class Api::V1::OrganizationsController < Api::ApplicationController
         }, status: :ok
       else
         user.destroy
+        render json: { error: 'Broadband could not be created' }
       end
     else
       render json: { error: 'Email has already been taken' }
