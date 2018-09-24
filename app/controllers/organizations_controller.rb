@@ -23,7 +23,11 @@ class OrganizationsController < ApplicationController
   def show 
     @faq = Faq.new
     @broadband = Broadband.find(params[:id])
-    @banner = @broadband.banner.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com' if @broadband.banner.exists?
+    if @broadband.banner.exists?
+      @banner = @broadband.banner.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com'
+    else
+      @banner = '../assets/top-md.jpg'
+    end
     @faqs = @broadband.faqs
     @user = User.find(@broadband.user_id)
   end
@@ -54,7 +58,11 @@ class OrganizationsController < ApplicationController
 
   def rating_review
     @broadband = Broadband.find(params[:id])
-    @banner = @broadband.banner.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com' if @broadband.banner.exists?
+    if @broadband.banner.exists?
+      @banner = @broadband.banner.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com'
+    else
+      @banner = '/assets/top-md.jpg'
+    end
     @reviews = @broadband.reviews
     @user = User.find(@broadband.user_id)
   end

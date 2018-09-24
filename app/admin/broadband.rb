@@ -21,6 +21,12 @@ ActiveAdmin.register Broadband do
     id_column
     column :anchorname
     column :address
+    column :email
+    column :manager_name
+    column :phone_no
+    column :user_id
+    column :access_code
+    column :detail
     # column :bldgnbr
     # column :predir
     column :streetname
@@ -54,6 +60,12 @@ ActiveAdmin.register Broadband do
     f.inputs "Details" do
       f.input :anchorname
       f.input :address
+      f.input :email
+      f.input :manager_name
+      f.input :phone_no
+      f.input :user_id
+      f.input :access_code
+      f.input :detail
       f.input :bldgnbr
       f.input :predir
       f.input :streetname
@@ -66,7 +78,6 @@ ActiveAdmin.register Broadband do
       f.input :longitude
       f.input :publicwifi
       f.input :url
-      f.input :detail
       f.input :broadband_type
       f.input :logo, as: :file
       f.input :banner, as: :file
@@ -82,6 +93,12 @@ ActiveAdmin.register Broadband do
 
   filter :anchorname
   filter :address
+  filter :email
+  filter :manager_name
+  filter :phone_no
+  filter :user_id
+  filter :access_code
+  filter :detail
   filter :bldgnbr
   filter :predir
   filter :streetname
