@@ -239,10 +239,14 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   def review
     @review = Review.new(rating: params[:rating], comment: params[:comment], user_id: current_user.id, broadband_id: @broadband.id)
     if @review.comment && @review.rating
-      @review.save
-      render json: {
-        review: @review.as_json
-      }, status: :ok
+      if @reviews.rating <= 0 || @review.rating >= 5
+        @review.save
+        render json: {
+          review: @review.as_json
+        }, status: :ok
+      else
+        render json: { error: 'Please provide correct rating to create review' }
+      end
     else
       render json: { error: 'Please provide comment/rating to create review' }
     end
