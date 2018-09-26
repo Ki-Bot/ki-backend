@@ -1,15 +1,15 @@
 class BroadbandSerializer < ActiveModel::Serializer
-  attributes :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :detail, :services, :_geoloc, :is_editable, :is_favorite, :type, :services, :logo, :banner, :rating
+  attributes :id, :email, :manager_name, :phone_no, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :publicwifi, :url, :detail, :services, :_geoloc, :type, :services, :logo, :banner, :rating, :broadband_type_id
 
   has_many :opening_hours
 
-  def is_editable
-    current_user.present? && current_user.can_edit_broadband(object)
-  end
+  # def is_editable
+  #   current_user.present? && current_user.can_edit_broadband(object)
+  # end
 
-  def is_favorite
-    current_user.present? && current_user.has_favorite?(object)
-  end
+  # def is_favorite
+  #   current_user.present? && current_user.has_favorite?(object)
+  # end
 
   def logo
     object.logo.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com' if object.logo.exists?
