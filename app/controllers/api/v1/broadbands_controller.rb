@@ -72,7 +72,11 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       br = Broadband.find(hit[:id])
       broadbands.push(br)
     end
-    render json: broadbands, each_serializer: BroadbandSerializer
+    if broadbands.first
+      render json: broadbands, each_serializer: BroadbandSerializer
+    else
+      render json: broadbands
+    end
   end
 
   api! 'Sort by distance to a central location. Add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
@@ -90,7 +94,11 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       br = Broadband.find(hit[:id])
       broadbands.push(br)
     end
-    render json: broadbands, each_serializer: BroadbandSerializer
+    if broadbands.first
+      render json: broadbands, each_serializer: BroadbandSerializer
+    else
+      render json: broadbands
+    end
   end
 
   api! 'Filter broadband results by type'
@@ -114,7 +122,11 @@ class Api::V1::BroadbandsController < Api::ApplicationController
       br = Broadband.find(hit[:id])
       broadbands.push(br)
     end
-    render json: broadbands, each_serializer: BroadbandSerializer
+    if broadbands.first
+      render json: broadbands, each_serializer: BroadbandSerializer
+    else
+      render json: broadbands
+    end
   end
 
   api! 'Search, filter, or search by location. To search by location add the location to a custom HTTP header called "user_location". Location format: "{latitude},{longitude}".'
@@ -133,7 +145,11 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     radius = params[:radius]
     location = request.headers['HTTP_USER_LOCATION']
     hits = Broadband.search_all(q, types, location, offset, length, radius, current_user)
-    render json: hits#, each_serializer: SimpleBroadbandSerializer
+    if hits.first
+      render json: hits
+    else
+      render json: hits
+    end
   end
 
   api! 'Broadband details'
@@ -211,7 +227,11 @@ class Api::V1::BroadbandsController < Api::ApplicationController
   end
 
   def my_broadbands
-    render json: { my_broadbands: current_user.broadbands }
+    if current_user.broadbands.first
+      render json: { my_broadbands: current_user.broadbands }
+    else
+      render json: current_user.broadbands
+    end
   end
 
 
