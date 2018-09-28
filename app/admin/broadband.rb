@@ -15,7 +15,7 @@ ActiveAdmin.register Broadband do
   menu priority: 2
   config.per_page = 10
 
-  permit_params :id, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :detail, :broadband_type_id, :banner, :logo, :opening_hours_attributes => [:id, :day, :from, :to, :closed]
+  permit_params :id, :manager_name, :email, :phone_no, :anchorname, :address, :bldgnbr, :predir, :streetname, :streettype, :suffdir, :city, :state_code, :zip5, :latitude, :longitude, :publicwifi, :url, :detail, :broadband_type_id, :banner, :logo, :opening_hours_attributes => [:id, :day, :from, :to, :closed]
 
   index do
     id_column
