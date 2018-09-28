@@ -9,7 +9,7 @@ class Api::V1::PointsController < Api::ApplicationController
   api! 'Show logged-in user\'s favorite points'
   formats [:json]
   def index
-    render json: current_user.favorites, each_serializer: SimpleBroadbandSerializer
+    render json: current_user.favorites
   end
 
   api! 'Add new favorite point for the logged-in user'
