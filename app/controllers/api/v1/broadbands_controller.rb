@@ -52,7 +52,7 @@ class Api::V1::BroadbandsController < Api::ApplicationController
     if @broadbands.first
       render json: @broadbands
     else
-      render json: { error: 'No broadband was found' }
+      render json: @broadbands
     end
 
   end 
