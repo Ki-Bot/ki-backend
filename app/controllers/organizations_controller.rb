@@ -1,6 +1,8 @@
 class OrganizationsController < ApplicationController
-  skip_before_action :verify_authenticity_token, :only => [:create_faq, :destroy_faq, :update_faq  ]
+  layout 'organization', only: [:profile]
 
+  skip_before_action :verify_authenticity_token, :only => [:create_faq, :destroy_faq, :update_faq  ]
+  before_action :get_broadband, only: [:profile]
 
   def activate
     @broadband = Broadband.find(params[:id])
@@ -66,4 +68,21 @@ class OrganizationsController < ApplicationController
     @reviews = @broadband.reviews
     @user = User.find(@broadband.user_id)
   end
+
+  def profile
+
+  end
+
+  private
+    def get_broadband
+      @broadband = Broadband.find_by(id: params[:id])
+      @user = User.find_by(id: @broadband.user_id)
+      
+      if @broadband.banner.exists?
+        @banner = @broadband.banner.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com'
+      else
+        @banner = '../../assets/top-md.jpg'
+      end
+    end
+    
 end

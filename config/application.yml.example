@@ -1,0 +1,24 @@
+algolia_admin_api_key: ""
+algolia_app_id: ""
+algolia_default_radius: "100000"
+algolia_search_api_key: ""
+
+aws_access_key_id: ""
+aws_region: ""
+s3_bucket_name: ""
+s3_host_name: ""
+secret_access_key: ""
+
+SECRET_KEY_BASE: ""
+
+facebook_app_access_token: ""
+facebook_app_id: ""
+facebook_secret: ""
+
+gmail_email: "@."
+gmail_password: ""
+host: ""
+
+twitter_app_id: ""
+twitter_endpoint: ""
+twitter_secret: ""

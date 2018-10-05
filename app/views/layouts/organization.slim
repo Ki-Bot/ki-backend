@@ -1,0 +1,17 @@
+doctype html
+html xmlns="http://www.w3.org/1999/xhtml" 
+  head
+    meta content=("text/html; charset = iso-8859-1") http-equiv="Content-Type" /
+    meta content="en-us" http-equiv="Content-Language" /
+    title Ki Web
+    = csrf_meta_tags     
+    = stylesheet_link_tag    'organization', media: 'all', 'data-turbolinks-track': 'reload' 
+    = javascript_include_tag 'organization', 'data-turbolinks-track': 'reload' 
+  body#library
+    #container
+      #header
+        = render 'layouts/organization/header'
+      #sidebar
+        = render 'layouts/organization/sidebar'
+      #content
+        = yield

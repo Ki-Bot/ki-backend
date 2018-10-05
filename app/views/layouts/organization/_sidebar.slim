@@ -1,0 +1,33 @@
+.container-fluid style=("background-color: #e2e2e2;") 
+  .row
+    .col-md-3.bg style=("background-size: cover; background-image: url(#{@banner})") 
+      .hospital
+        h3 style=("\n    margin:  0px 0px 0px 0px;\n    padding:  0px 0px 0px 0px;") 
+          = @broadband.try(:broadband_type).try(:name)
+        | &nbsp;
+        | &nbsp;
+        p style=("\n    font-size:  16px;\n") 
+          b Organization Email
+        p style=("\n    color:  #c9c9c9;\n    font-size: 16px;\n")  #{@user.email}
+        | &nbsp;
+        | &nbsp;
+        p style=("\n    font-size:  16px;\n") 
+          b Phone Number
+        p style=("\n    color:  #c9c9c9;\n    font-size: 16px;\n")  #{@user.phone_no}
+        | &nbsp;
+        | &nbsp;
+        p style=("\n    font-size:  16px;\n") 
+          b Address
+        p style=("\n    color:  #c9c9c9;\n    font-size: 16px;\n")  #{@broadband.streetname}
+        | &nbsp;
+        | &nbsp;
+        p style=("\n    font-size:  16px;\n") 
+          b
+            a href=("#{rating_review_organization_path(@broadband.id)}") style=("\n    color: #ffff; text-decoration: none;")  Ratings
+        | &nbsp;
+        | &nbsp;
+        p style=("\n    font-size:  16px;\n") 
+          b
+            a href="#{organization_path(@broadband.id)}" style=("\n    color: #ffff; text-decoration: none;")  Questions/Answers
+            span
+              img height="40px" src="/assets/arrow.png" width="50px" /
