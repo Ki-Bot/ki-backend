@@ -21,19 +21,17 @@ var organization_id = window.location.href.split('/')[4];
 
 var chatRoomsRef = defaultDatabase.ref('/chat-room')
     .orderByChild('organisation_id')
-    .startAt(Date.now());
-    // .equalTo(organization_id);
+    .equalTo(organization_id);
 
-chatRoomsRef.on("child_added", function(snapshot) {  
+chatRoomsRef.on("value", function(snapshot) { 
+    console.log(snapshot.val()); 
     roomHashes = snapshot.val();
     rooms = [];
     for (var room in roomHashes) {
         roomKeys.push(room);
         rooms.push(roomHashes[room]);
     }
-    console.log(roomHashes);
     roomLinks();
-
 });
 
 // function chatRooms(organization_id) {
@@ -53,21 +51,23 @@ chatRoomsRef.on("child_added", function(snapshot) {
 // }
 
 function roomLinks() {
+  $(".ongoing_chats").html("");
+  
   rooms.forEach(function(room, roomNumber) {
-    message = returnLastMessage(room);
+    sender_id = room.sender_id;
+    message = returnLastMessage(room.messages);
     $.ajax({
       datatype: "json",
       type: 'GET',
       url: '/organizations/'+ organization_id +'/ongoing_chat',
-      data: { message_obj: message, organization_id: organization_id },
+      data: { message_obj: message, sender_id: sender_id },
       success: function(data){
         $(".ongoing_chats").append(data)
       }
     });
-    if (roomNumber == 0) {
-      sender_id = message.senderId;
-      chatRoom(organization_id, sender_id);
-    }
+    // if (roomNumber == 0) {
+    //   chatRoom(organization_id, sender_id);
+    // }
   });
 }
 
@@ -88,7 +88,7 @@ function printMessages() {
     datatype: "json",
     type: 'GET',
     url: '/organizations/'+ organization_id +'/chat',
-    data: { chat_messages: chatMessages, organization_id: organization_id },
+    data: { chat_messages: chatMessages, organization_id: organization_id, sender_id: sender_id },
     success: function(data){
       $(".users-chat-box").html("");
       $(".users-chat-box").html(data);

@@ -75,16 +75,17 @@ class OrganizationsController < ApplicationController
   end
 
   def ongoing_chat
-    @user            = User.find_by(id: params["message_obj"]["senderId"])
+    @sender          = User.find_by(id: params["sender_id"])
     @message         = params["message_obj"]["message"]
-    @organization_id = params["organization_id"]
+    @organization_id = params["id"]
 
     render partial: 'ongoing_chat'
   end
 
   def chat
+    @sender          = User.find_by(id: params["sender_id"])
     @chat_messages   = params["chat_messages"].values
-    @organization_id = params["organization_id"]
+    @organization_id = params["id"]
     
     render partial: 'chat'
   end
