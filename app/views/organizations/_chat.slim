@@ -1,0 +1,23 @@
+/ .users-chat-box
+- @chat_messages.each do |chat_message|
+    - if (chat_message["senderType"] == "o")
+        .row.other-user
+            .col-lg-12.col-md-12.col-sm-12.col-xs-12.other-chet
+                img.other-chat-img[src="images/user.jpg"]
+                .msg-area
+                    p
+                        highlight
+                            | #{chat_message["message"]}
+    - else
+        .row.admin-user
+            .col-lg-12.col-md-12.col-sm-12.col-xs-12.admin-chet
+                img.admin-chat-img[src="images/user.jpg"]
+                .msg-area
+                    p
+                        highlight
+                            | #{chat_message["message"]}
+/ .msg-send-area
+    textarea.text-area[rows="4" cols="50"]
+        |  At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
+    button.btn.btn-info.btn-text-area[type="button"]
+        | Button
