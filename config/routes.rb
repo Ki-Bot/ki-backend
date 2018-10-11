@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     member do
       get :rating_review
       get :profile
+      get :ongoing_chat
+      get :chat
     end
   end
 

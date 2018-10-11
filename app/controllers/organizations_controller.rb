@@ -3,6 +3,7 @@ class OrganizationsController < ApplicationController
 
   skip_before_action :verify_authenticity_token, :only => [:create_faq, :destroy_faq, :update_faq  ]
   before_action :get_broadband, only: [:profile]
+  before_action :set_env_vars, only: [:profile]
 
   def activate
     @broadband = Broadband.find(params[:id])
@@ -73,6 +74,21 @@ class OrganizationsController < ApplicationController
 
   end
 
+  def ongoing_chat
+    @user            = User.find_by(id: params["message_obj"]["senderId"])
+    @message         = params["message_obj"]["message"]
+    @organization_id = params["organization_id"]
+
+    render partial: 'ongoing_chat'
+  end
+
+  def chat
+    @chat_messages   = params["chat_messages"].values
+    @organization_id = params["organization_id"]
+    
+    render partial: 'chat'
+  end
+
   private
     def get_broadband
       @broadband = Broadband.find_by(id: params[:id])
@@ -83,6 +99,17 @@ class OrganizationsController < ApplicationController
       else
         @banner = '../../assets/top-md.jpg'
       end
+    end
+
+    def set_env_vars
+        gon.FIREBASE = {
+          "API_KEY"               => ENV["FIREBASE_API_KEY"],
+          "AUTH_DOMAIN"           => ENV["FIREBASE_AUTH_DOMAIN"],
+          "DATABASE_URL"          => ENV["FIREBASE_DATABASE_URL"],
+          "PROJECT_ID"            => ENV["FIREBASE_PROJECT_ID"],
+          "STORAGE_BUCKET"        => ENV["FIREBASE_STORAGE_BUCKET"],
+          "MESSAGING_SENDER_ID"   => ENV["FIREBASE_MESSAGING_SENDER_ID"]
+        }
     end
     
 end

@@ -3,15 +3,43 @@ html xmlns="http://www.w3.org/1999/xhtml"
   head
     meta content=("text/html; charset = iso-8859-1") http-equiv="Content-Type" /
     meta content="en-us" http-equiv="Content-Language" /
+
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+
+    <!-- Bootstrap -->
+    link href="/assets/bootstrap.min.css" rel="stylesheet"
+    link href="/assets/custom.css" rel="stylesheet"
+
+    
     title Ki Web
+    = Gon::Base.render_data
+
     = csrf_meta_tags     
     = stylesheet_link_tag    'organization', media: 'all', 'data-turbolinks-track': 'reload' 
+    
+    /! Firebase App is always required and must be first
+    script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js" 
+    /! Add additional services that you want to use
+    / script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-auth.js" 
+    script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-database.js" 
+    / script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-firestore.js" 
+    script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-messaging.js" 
+    script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-functions.js" 
+
+    /! Comment out (or don't include) services that you don't want to use
+    script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-storage.js"
+    
     = javascript_include_tag 'organization', 'data-turbolinks-track': 'reload' 
+
   body#library
     #container
-      #header
-        = render 'layouts/organization/header'
+      / #header
+
       #sidebar
-        = render 'layouts/organization/sidebar'
-      #content
-        = yield
+        .container-fluid style=("background-color: #e2e2e2;") 
+          .row
+            = render 'layouts/organization/sidebar'
+            = render 'layouts/organization/side_header'
+

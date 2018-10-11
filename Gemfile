@@ -57,6 +57,7 @@ gem 'pry'
 gem "slim-rails"
 gem "ratyrate"
 gem 'jquery-turbolinks'
+gem 'gon'
 
 
 group :development, :test do
