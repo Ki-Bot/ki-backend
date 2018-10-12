@@ -1,10 +1,2 @@
 .user-add-chat data-organization-id="#{@organization_id}" data-sender-id="#{@sender.id}"
-    .row
-        .col-lg-3.col-md-3.col-xs-3.col-sm-3
-            .users-image-circle
-                img[src="#{@sender.profile_picture}"]
-        .col-lg-9.col-md-9.col-xs-9.col-sm-9
-            h3
-                | #{@sender.name}
-            p
-                | #{@message}
+    = render partial: 'single_chat', locals: {message: @message, sender: @sender, organization_id: @organization_id}

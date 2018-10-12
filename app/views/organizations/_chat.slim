@@ -1,22 +1,9 @@
 - @chat_messages.each do |chat_message|
-    - if (chat_message["senderType"] == "o")
-        .row.other-user
-            .col-lg-12.col-md-12.col-sm-12.col-xs-12.other-chet
-                img.other-chat-img[src="images/user.jpg"]
-                .msg-area
-                    p
-                        highlight
-                            | #{chat_message["message"]}
-    - else
-        .row.admin-user
-            .col-lg-12.col-md-12.col-sm-12.col-xs-12.admin-chet
-                img.admin-chat-img[src="#{@sender.profile_picture}"]
-                .msg-area
-                    p
-                        highlight
-                            | #{chat_message["message"]}
-/ .msg-send-area
-    textarea.text-area[rows="4" cols="50"]
-        |  At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
-    button.btn.btn-info.btn-text-area[type="button"]
-        | Button
+    div.chat-class data-sender-id="#{@sender.id}"
+        = render partial: 'update_chat', locals: {chat_message: chat_message, sender: @sender}
+.msg-send-area id="messanger_#{@organization_id}_#{@sender.id}"
+    textarea.text-area data-sender-id="#{@sender.id}" data-organization-id="#{@organization_id}"
+        
+    button.btn.btn-info.btn-text-area.send-data.btn-lg id="ta-btn-#{@sender.id}_#{@organization_id}" type="button" data-sender-id="#{@sender.id}" data-organization-id="#{@organization_id}" data-organization-name="#{@broadband_name}"
+         span class="glyphicon glyphicon-send"
+         

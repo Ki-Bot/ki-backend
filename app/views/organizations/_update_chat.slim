@@ -1,0 +1,26 @@
+- if (chat_message["senderType"] == "U")
+    .row.user
+        .col-lg-12.col-md-12.col-sm-12.col-xs-12.user-chet
+            img.user-chat-img[src="#{sender.profile_picture}"]
+            .msg-area
+                p
+                    | #{chat_message["message"]}
+- else
+    .row.admin-user
+        .col-lg-12.col-md-12.col-sm-12.col-xs-12.admin-chet
+            img.admin-chat-img[src="#{sender.profile_picture}"]
+            .msg-area
+                p
+                    highlight
+                        | #{chat_message["message"]}
+
+
+
+/ .row.other-user
+    .col-lg-12.col-md-12.col-sm-12.col-xs-12.other-chet
+        img.other-chat-img[src="#{sender.profile_picture}"]
+        .msg-area
+            p
+                highlight
+                    | #{chat_message["message"]}
+

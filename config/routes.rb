@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get :profile
       get :ongoing_chat
       get :chat
+      get :single_chat
     end
   end
 

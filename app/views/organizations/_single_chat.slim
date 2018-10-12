@@ -1,0 +1,10 @@
+.row
+    .col-lg-3.col-md-3.col-xs-3.col-sm-3
+        .users-image-circle
+            img[src="#{sender.profile_picture}"]
+    .col-lg-9.col-md-9.col-xs-9.col-sm-9
+        h3
+            | #{sender.name}
+        p
+            div id="cr-#{organization_id}-#{sender.id}" 
+                | #{message}

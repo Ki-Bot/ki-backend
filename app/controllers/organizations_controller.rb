@@ -82,11 +82,20 @@ class OrganizationsController < ApplicationController
     render partial: 'ongoing_chat'
   end
 
+  def single_chat
+    @sender          = User.find_by(id: params["sender_id"])
+    @message         = params["message_obj"]["message"]
+    @organization_id = params["id"]
+    # @broadband_name  = Broadband.find_by(id: @organization_id).try(:broadband_type).try(:name)
+    render partial: 'single_chat', locals: {message: @message, sender: @sender } # , organization_name: @broadband_name }
+  end
+
   def chat
     @sender          = User.find_by(id: params["sender_id"])
     @chat_messages   = params["chat_messages"].values
     @organization_id = params["id"]
-    
+    @broadband_name  = Broadband.find_by(id: @organization_id).try(:broadband_type).try(:name)
+
     render partial: 'chat'
   end
 

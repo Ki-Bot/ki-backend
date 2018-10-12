@@ -23,37 +23,21 @@ var chatRoomsRef = defaultDatabase.ref('/chat-room')
     .orderByChild('organisation_id')
     .equalTo(organization_id);
 
-chatRoomsRef.on("value", function(snapshot) { 
-    console.log(snapshot.val()); 
+chatRoomsRef.on("child_added", function(snapshot) { 
     roomHashes = snapshot.val();
-    rooms = [];
-    for (var room in roomHashes) {
-        roomKeys.push(room);
-        rooms.push(roomHashes[room]);
-    }
-    roomLinks();
+
+    addRoom(roomHashes);
+    chatRoom(organization_id, roomHashes.sender_id)
 });
 
-// function chatRooms(organization_id) {
-//   return defaultDatabase.ref('/chat-room')
-//     .orderByChild('organisation_id')
-//     .equalTo(organization_id)
-//     .once('value')
-//     .then(function (snapshot) {
+chatRoomsRef.on("child_changed", function(snapshot) { 
+    
+    roomHashes = snapshot.val();
 
-//     roomHashes = snapshot.val();
+    updateRoom(roomHashes);
+});
 
-//     for (var room in roomHashes) {
-//         roomKeys.push(room);
-//         rooms.push(roomHashes[room]);
-//     }
-//   }).then(roomLinks);
-// }
-
-function roomLinks() {
-  $(".ongoing_chats").html("");
-  
-  rooms.forEach(function(room, roomNumber) {
+function addRoom(room) {
     sender_id = room.sender_id;
     message = returnLastMessage(room.messages);
     $.ajax({
@@ -65,10 +49,33 @@ function roomLinks() {
         $(".ongoing_chats").append(data)
       }
     });
-    // if (roomNumber == 0) {
-    //   chatRoom(organization_id, sender_id);
-    // }
-  });
+}
+
+function updateRoom(room) {
+  sender_id = room.sender_id;
+  message = returnLastMessage(room.messages);
+
+  $("#cr-" + organization_id + '-' + sender_id).html('');
+  $("#cr-" + organization_id + '-' + sender_id).html(message.message);
+  
+  if ($(".chat-class").attr('data-sender-id') === sender_id) {
+    chatRoom(organization_id, sender_id);
+  }
+  // userMessageView.each(function (index) {
+  //     if(sender_id == $(this).attr('data-sender-id')){
+  //         $(this).html('');
+  //         $.ajax({
+  //           datatype: "json",
+  //           type: 'GET',
+  //           url: '/organizations/'+ organization_id +'/single_chat',
+  //           data: { message_obj: message, sender_id: sender_id },
+  //           success: function(data){
+  //             debugger;
+  //             $(this).append(data);
+  //           }
+  //         });
+  //     }
+  // });
 }
 
 function chatRoom(organization_id, sender_id) {
@@ -113,11 +120,31 @@ function returnLastMessage(roomMessages) {
   return messages[messages.length - 1];
 }
 
-// $(document).ready(function() {
-//   var chat_sec = $('.chat-sec');
-//   organization_id = chat_sec.attr('data-organization-id');
-//   chatRooms(organization_id);
-// });
+$(document).on("click",".send-data", function() {
+  organization_id   = $(this).attr('data-organization-id');
+  organization_name = $(this).attr('data-organization-name');
+  sender_id         = $(this).attr('data-sender-id');
+  textarea          = $("#messanger_" + organization_id + "_" + sender_id).find( "textarea" );
+  message           = textarea.val();
+
+  var newPostRef = defaultDatabase.ref('/chat-room/cr-' + organization_id + '-' + sender_id + '/messages/').push();
+  if (message !== '') {
+    newPostRef.set({
+        "message": message,
+        "senderName": organization_name,
+        "senderType": "O",
+        "timeStamp": new Date().getTime()
+    });
+    textarea.val('');
+  }
+});
+
+$(document).on("keyup", ".text-area", function(event) {
+    if (event.keyCode === 13 && !event.shiftKey) {
+        send_button = $('#ta-btn-' + $(this).attr("data-sender-id") + '_' +$(this).attr("data-organization-id"))
+        send_button.click();
+    }
+});
 
 $(document).on("click",".user-add-chat",function() {
   organization_id = $(this).attr('data-organization-id');
