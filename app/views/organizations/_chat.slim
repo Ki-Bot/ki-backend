@@ -1,6 +1,6 @@
 - @chat_messages.each do |chat_message|
     div.chat-class data-sender-id="#{@sender.id}"
-        = render partial: 'update_chat', locals: {chat_message: chat_message, sender: @sender}
+        = render partial: 'update_chat', locals: {chat_message: chat_message, sender: @sender, banner: @banner}
 .msg-send-area id="messanger_#{@organization_id}_#{@sender.id}"
     textarea.text-area data-sender-id="#{@sender.id}" data-organization-id="#{@organization_id}"
         

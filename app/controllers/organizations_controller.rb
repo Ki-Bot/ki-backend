@@ -94,7 +94,15 @@ class OrganizationsController < ApplicationController
     @sender          = User.find_by(id: params["sender_id"])
     @chat_messages   = params["chat_messages"].values
     @organization_id = params["id"]
-    @broadband_name  = Broadband.find_by(id: @organization_id).try(:broadband_type).try(:name)
+    @broadband       = Broadband.find_by(id: @organization_id) #.try(:broadband_type).try(:name)
+    @broadband_name  = @broadband.try(:broadband_type).try(:name)
+    
+      
+    if @broadband.banner.exists?
+      @banner = @broadband.banner.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com'
+    else
+      @banner = '../../assets/top-md.jpg'
+    end
 
     render partial: 'chat'
   end
