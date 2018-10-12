@@ -102,7 +102,8 @@ class OrganizationsController < ApplicationController
   private
     def get_broadband
       @broadband = Broadband.find_by(id: params[:id])
-      @user = User.find_by(id: @broadband.user_id)
+      # @user = User.find_by(id: @broadband.user_id)
+      @user      = current_user
       
       if @broadband.banner.exists?
         @banner = @broadband.banner.url.gsub '//s3.amazonaws.com', 'https://s3.us-east-2.amazonaws.com'

@@ -72,7 +72,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 .users-list{
     width:100%;
-    height:75vh;
+    height:70vh;
     background:#e0f1f7;
     overflow: scroll;
     overflow-x:hidden;
@@ -80,7 +80,7 @@ input[type=number]::-webkit-inner-spin-button {
 .users-chat-box{
     background:#fff;
     width:109%;
-    height:75vh;
+    height:61vh;
     overflow: scroll;
     overflow-x:hidden;
     position: relative; 
@@ -190,9 +190,8 @@ input[type=number]::-webkit-inner-spin-button {
     margin-left: 0px;
     position: fixed;
     bottom: 0;
-    width: 50%;
+    width: 52%;
     background: #fff;
-    border-radius: 10px 10px 10px 10px;
 }
 .text-area {
     width: 85%;
