@@ -61,24 +61,14 @@ function updateRoom(room) {
   if ($(".chat-class").attr('data-sender-id') === sender_id) {
     chatRoom(organization_id, sender_id);
   }
-  // userMessageView.each(function (index) {
-  //     if(sender_id == $(this).attr('data-sender-id')){
-  //         $(this).html('');
-  //         $.ajax({
-  //           datatype: "json",
-  //           type: 'GET',
-  //           url: '/organizations/'+ organization_id +'/single_chat',
-  //           data: { message_obj: message, sender_id: sender_id },
-  //           success: function(data){
-  //             debugger;
-  //             $(this).append(data);
-  //           }
-  //         });
-  //     }
-  // });
 }
 
-function chatRoom(organization_id, sender_id) {
+function chatRoom(organization_id, sender_id) {  
+  $('.select-chat-text').removeClass('select-chat-user');
+  $('#select-user-chat_' + sender_id).addClass('select-chat-user');
+  $('.updated-chat').removeClass('select-user-chat-p');
+  $("#cr-" + organization_id + '-' + sender_id).addClass('select-user-chat-p')
+  
   return defaultDatabase.ref('/chat-room/cr-' + organization_id + '-' + sender_id + '/messages/').once('value').then(function(snapshot) {
 
     chatRoomMessages = snapshot.val();
@@ -102,6 +92,8 @@ function printMessages() {
     }
   });
 }
+
+
 
 function trackMessages(roomMessages) {
   roomMessageKeys = [];
@@ -145,10 +137,19 @@ $(document).on("keyup", ".text-area", function(event) {
         send_button.click();
     }
 });
+ 
+// $(document).on("scroll", ".users-chat-box", function() {
+//     // debugger;
+//     console.log('hedfklsdj');
+//     // if($('.right-side-chat').scrollTop() == $(document).height() - $('.users-chat-box').height()) {
+//     //        debugger;
+//     // }
+// });
 
 $(document).on("click",".user-add-chat",function() {
   organization_id = $(this).attr('data-organization-id');
   sender_id       = $(this).attr('data-sender-id');
+
   chatRoom(organization_id, sender_id);
 });
 

@@ -4,7 +4,8 @@
             img.user-chat-img[src="#{ sender.profile_picture }"]
             .msg-area
                 p
-                    | #{chat_message["message"]}
+                    highlight
+                        | #{chat_message["message"]}
 - else
     .row.admin-user
         .col-lg-12.col-md-12.col-sm-12.col-xs-12.admin-chet

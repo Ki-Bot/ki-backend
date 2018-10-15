@@ -2,9 +2,9 @@
     .col-lg-3.col-md-3.col-xs-3.col-sm-3
         .users-image-circle
             img[src="#{sender.profile_picture}"]
-    .col-lg-9.col-md-9.col-xs-9.col-sm-9
+    .col-lg-9.col-md-9.col-xs-9.col-sm-9.select-chat-text id="select-user-chat_#{sender.id}"
         h3
             | #{sender.name}
         p
-            div id="cr-#{organization_id}-#{sender.id}" 
+            div.updated-chat id="cr-#{organization_id}-#{sender.id}" 
                 | #{message}

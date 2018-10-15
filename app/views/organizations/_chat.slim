@@ -2,8 +2,8 @@
     div.chat-class data-sender-id="#{@sender.id}"
         = render partial: 'update_chat', locals: {chat_message: chat_message, sender: @sender, banner: @banner}
 .msg-send-area id="messanger_#{@organization_id}_#{@sender.id}"
-    textarea.text-area data-sender-id="#{@sender.id}" data-organization-id="#{@organization_id}"
+    textarea.text-area data-sender-id="#{@sender.id}" placeholder="type message here..." data-organization-id="#{@organization_id}"
         
     button.btn.btn-info.btn-text-area.send-data.btn-lg id="ta-btn-#{@sender.id}_#{@organization_id}" type="button" data-sender-id="#{@sender.id}" data-organization-id="#{@organization_id}" data-organization-name="#{@broadband_name}"
-         span class="glyphicon glyphicon-send"
+         img src="../../assets/paper-plane.png"
          
