@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   apipie
 
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
+
 
   get 'organizations/:id/activate', to: 'organizations#activate'
   get 'organizations/:id/approved', to: 'organizations#approved'

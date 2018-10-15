@@ -69,8 +69,15 @@
    <p style="
     font-size:  16px;
 "><b><a style="
-    color: #ffff; text-decoration: none;" href="/organizations/<%= @broadband.id %>">Questions/Answers</a><span><img src="/assets/arrow.png" height="40px" width="50px"></p></b></span>
-   
+    color: #ffff; text-decoration: none;" href="/organizations/<%= @broadband.id %>">Questions/Answers</a><span><img src="/assets/arrow.png" height="40px" width="50px"></p></b>
+   &nbsp;
+   &nbsp;
+   <p style="
+    font-size:  16px;">
+    <b>
+      <%= link_to 'Profile', profile_organization_path(@broadband), style:"color: #ffff; text-decoration: none;" %>
+    
+    </b></p></span>
    </div>
    </div>
    <div class="col-md-9 bg-right">
