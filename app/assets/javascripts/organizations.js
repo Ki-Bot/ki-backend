@@ -77,7 +77,8 @@ function chatRoom(organization_id, sender_id) {
         chatKeys.push(message);
         chatMessages.push(chatRoomMessages[message]);
     }
-  }).then(printMessages);
+  }).then(printMessages)
+    // .then(scrollTopChat);
 }
 
 function printMessages() {
@@ -89,11 +90,15 @@ function printMessages() {
     success: function(data){
       $(".users-chat-box").html("");
       $(".users-chat-box").html(data);
+      scrollTopChat();
     }
   });
 }
 
-
+function scrollTopChat() {
+  const chatClass = $(".chat-class");
+  $(".users-chat-box").animate({ scrollTop: chatClass[chatClass.length - 1].offsetTop }, 'slow');
+}
 
 function trackMessages(roomMessages) {
   roomMessageKeys = [];
@@ -138,9 +143,18 @@ $(document).on("keyup", ".text-area", function(event) {
     }
 });
  
-// $(document).on("scroll", ".users-chat-box", function() {
-//     // debugger;
-//     console.log('hedfklsdj');
+
+document.addEventListener('scroll', function (event) {
+    if ($(event.target).hasClass('users-chat-box')) {    
+      if($(event.currentTarget).scrollTop() == $(document).height() - $(event.currentTarget).height()) {
+          //  debugger;
+      }
+    }
+}, true);
+
+// $(".users-chat-box").on('scroll', function() {
+//     debugger;
+//     // console.log('hedfklsdj');
 //     // if($('.right-side-chat').scrollTop() == $(document).height() - $('.users-chat-box').height()) {
 //     //        debugger;
 //     // }
