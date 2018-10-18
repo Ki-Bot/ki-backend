@@ -20,8 +20,8 @@ class User < ApplicationRecord
 
   def generate_authentication_token!
     begin
-      self.auth_token = Devise.friendly_token 32
-    end while self.class.exists?(auth_token: auth_token)
+      self.auth_token = [1,1,1,1,1,1].map!{|x| (0..9).to_a.sample}.join
+    end while self.class.exists?(auth_token: self.auth_token)
   end
 
   def set_favorite_point!(point)

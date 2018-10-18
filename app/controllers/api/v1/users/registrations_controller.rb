@@ -33,10 +33,27 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
   formats [:json]
   # POST /resource
   def create
-    user = User.create sign_up_params
+    user = User.new sign_up_params
 
-    render_updated_resource user do |u|
-      sign_in u, store: false
+    respond_with do |format|
+      format.json { 
+        begin
+          user.save!
+          render :json => user.to_json(only: 
+            [
+              :id, 
+              :name, 
+              :email, 
+              :address, 
+              :phone_no, 
+              :profile_picture
+            ]
+          ), 
+            status: 200 # , serializer: nil
+        rescue => e 
+          render :json => { errors: [message: e]}, status: 400
+        end
+      }
     end
   end
 
