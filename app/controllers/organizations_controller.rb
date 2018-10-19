@@ -15,7 +15,8 @@ class OrganizationsController < ApplicationController
       @broadband.is_approved = true
       @broadband.save
       user = @broadband.user
-      Devise::Mailer.confirmation_instructions(user, user.confirmation_token).deliver
+      user.confirm
+      user.send_reset_password_instructions
     else
       render :json => { bool: false }
     end
