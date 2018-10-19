@@ -17,7 +17,6 @@ class User < ApplicationRecord
   has_many :organizations, :dependent => :destroy
 
   before_create :generate_authentication_token!
-  after_create  :welcome_email
 
   def generate_authentication_token!
     begin

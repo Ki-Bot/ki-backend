@@ -40,6 +40,7 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
         begin
           user.skip_confirmation_notification!
           user.save!
+          user.welcome_email
           render :json => user.to_json(only: 
             [
               :id, 
@@ -81,7 +82,7 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
 
     if !user.nil?
       user.generate_authentication_token!
-      RegistrationMailer.welcome_email(user).deliver
+      user.welcome_email
       render :json => { message: 'Please check your email inbox to find the code.' }, status: 200
     else
       render :json => { message: 'Unable to find email adddress.' }, status: 400
