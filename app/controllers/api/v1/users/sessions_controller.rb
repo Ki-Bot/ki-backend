@@ -1,6 +1,6 @@
 require 'browser'
 class Api::V1::Users::SessionsController < Api::ApplicationController
-  skip_before_action :authenticate_with_token, only: [:create, :create_social, :create_fb_mobile, :create_twitter_mobile]
+  skip_before_action :authenticate_with_token, only: [:create, :create_social, :create_fb_mobile, :create_twitter_mobile, :verify_code]
 
   resource_description do
     resource_id 'authentication'
@@ -130,4 +130,20 @@ class Api::V1::Users::SessionsController < Api::ApplicationController
     user.save
     head :no_content
   end
+
+  def verify_code
+    user = User.find_by(email: params[:user][:email])
+
+    if !user.nil?
+      if user.auth_token == params[:user][:code]
+        user.confirm
+        render :json => { message: 'Token successfully matched.' }, status: 200 
+      else
+        render :json => { message: 'Failure' }, status: 400
+      end
+    else
+        render :json => { message: 'Unable to find email adddress' }, status: 400
+    end
+  end
+  
 end

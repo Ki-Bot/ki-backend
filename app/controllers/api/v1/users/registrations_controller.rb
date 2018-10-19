@@ -1,5 +1,5 @@
 class Api::V1::Users::RegistrationsController < Api::ApplicationController
-  skip_before_action :authenticate_with_token, only: :create
+  skip_before_action :authenticate_with_token, only: [:create, :resend_code]
 
   resource_description do
     name 'Registration'
@@ -38,6 +38,7 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
     respond_with do |format|
       format.json { 
         begin
+          user.skip_confirmation_notification!
           user.save!
           render :json => user.to_json(only: 
             [
@@ -51,7 +52,7 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
           ), 
             status: 200 # , serializer: nil
         rescue => e 
-          render :json => { errors: [message: e]}, status: 400
+          render :json => { message: e }, status: 400
         end
       }
     end
@@ -75,10 +76,22 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
     end
   end
 
+  def resend_code
+    user = User.find_by(email: params[:email])
+
+    if !user.nil?
+      user.generate_authentication_token!
+      RegistrationMailer.welcome_email(user).deliver
+      render :json => { message: 'Please check your email inbox to find the code.' }, status: 200
+    else
+      render :json => { message: 'Unable to find email adddress.' }, status: 400
+    end
+  end
+  
   private
 
   def sign_up_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :name, :phone_no, :profile_picture)
+    params.require(:user).permit(:email, :password, :password_confirmation, :name, :phone_no, :profile_picture, :address)
   end
 
   def update_params

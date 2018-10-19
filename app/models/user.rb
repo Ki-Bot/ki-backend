@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   validates :auth_token, uniqueness: true
   # validates :name, presence: true
@@ -17,6 +17,7 @@ class User < ApplicationRecord
   has_many :organizations, :dependent => :destroy
 
   before_create :generate_authentication_token!
+  after_create  :welcome_email
 
   def generate_authentication_token!
     begin
@@ -71,4 +72,8 @@ class User < ApplicationRecord
     broadbands.include?(broadband)
   end
 
+  def welcome_email
+    RegistrationMailer.welcome_email(self).deliver
+  end
+  
 end

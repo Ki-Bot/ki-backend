@@ -45,12 +45,14 @@ Rails.application.routes.draw do
 
         post '/', to: 'registrations#create'
         match '/', to: 'registrations#update', via: [:patch, :put]
+        put  '/resend_code', to: 'registrations#resend_code'
 
         post 'password', to: 'passwords#create'
         match 'password', to: 'passwords#update', via: [:patch, :put]
 
         post 'login', to: 'sessions#create'
         delete 'logout', to: 'sessions#destroy'
+        post '/verify_code', to: 'sessions#verify_code'
       end
 
       get 'users/me', to: 'users#me'
