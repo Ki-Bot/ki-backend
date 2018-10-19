@@ -16,7 +16,7 @@ class User < ApplicationRecord
 
   has_many :organizations, :dependent => :destroy
 
-  before_create :generate_authentication_token!
+  before_create :generate_authentication_token!, :skip_confirmation_notification
 
   def generate_authentication_token!
     begin
@@ -73,6 +73,10 @@ class User < ApplicationRecord
 
   def welcome_email
     RegistrationMailer.welcome_email(self).deliver
+  end
+  
+  def skip_confirmation_notification
+    self.skip_confirmation_notification!
   end
   
 end

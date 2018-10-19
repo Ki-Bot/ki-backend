@@ -19,6 +19,7 @@ class Broadband < ApplicationRecord
   has_many :opening_hours, :dependent => :destroy
   accepts_nested_attributes_for :opening_hours, allow_destroy: true
   belongs_to :broadband_type
+  belongs_to :user
   after_create :generate_access_code
 
   def generate_access_code

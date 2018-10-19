@@ -38,7 +38,6 @@ class Api::V1::Users::RegistrationsController < Api::ApplicationController
     respond_with do |format|
       format.json { 
         begin
-          user.skip_confirmation_notification!
           user.save!
           user.welcome_email
           render :json => user.to_json(only: 
